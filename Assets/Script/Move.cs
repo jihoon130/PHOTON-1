@@ -47,14 +47,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if(PV.IsMine)
         {
             CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
-            // CameraFind._instance.CameraFollowObj = GameObject.FindGameObjectWithTag("Follow");
-            //   cam = Camera.main.transform;
-              this.GetComponent<Renderer>().material = _material[0];
 
+            this.GetComponent<Renderer>().material = _material[0];
         }
         else
         {
-             this.GetComponent<Renderer>().material = _material[1];
+            this.GetComponent<Renderer>().material = _material[1];
         }
     }
 

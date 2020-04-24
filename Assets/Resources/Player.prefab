@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 258534589761774925}
   - component: {fileID: 819101309300671459}
   - component: {fileID: 8542896572719479247}
+  - component: {fileID: -4368929496568420550}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -395,6 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b974d60c4869b648bf267331c1c0be6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _BulletMake: 1
   PV: {fileID: 0}
   StartTf: {fileID: 2749958022203368956}
 --- !u!114 &8542896572719479247
@@ -411,6 +413,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   rb: {fileID: 0}
+--- !u!114 &-4368929496568420550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5578132296551152962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b31b0eac87b70624f9d3252f87b2e00a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BulletMode: 0
+  MinText: {fileID: 0}
+  MaxText: {fileID: 0}
+  NameText: {fileID: 0}
+  ModeText: {fileID: 0}
 --- !u!1 &8673186899565709349
 GameObject:
   m_ObjectHideFlags: 0

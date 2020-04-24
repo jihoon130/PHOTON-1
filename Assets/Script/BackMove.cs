@@ -49,7 +49,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         if (b >= 0.1f && collision.gameObject.CompareTag("Wall"))
         {
             ObjMoveback2(collision);
-            collision.gameObject.GetComponent<DestoryWall>().Pv.RPC("DestroyRPC", RpcTarget.AllBuffered);
         }
     }
     private void ObjMoveback(Collision collision, float speed = 15.0f)

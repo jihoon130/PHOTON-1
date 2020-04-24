@@ -8,8 +8,6 @@ public class DestoryWall : MonoBehaviourPunCallbacks
     public PhotonView Pv;
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.collider.tag);
-
         if(collision.collider.tag == "Player")
         {
             if (collision.gameObject.GetComponent<Move>().isGround)
