@@ -23,7 +23,7 @@ public class MapSuburb : MonoBehaviourPunCallbacks
         {
             collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
         }
-        else if (collision.collider.tag == "Player1")
+        else if (collision.collider.tag == "Player")
         {
             collision.gameObject.GetComponent<Move>().PV.RPC("ResetPos", RpcTarget.AllBuffered);
         }

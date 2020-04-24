@@ -5,11 +5,21 @@ using Photon.Pun;
 
 public class BackMove : MonoBehaviourPunCallbacks
 {
-    public GameObject Not;
+    private Move _Move;
+
     public PhotonView PV;
     public Rigidbody rb;
     float b = 0f;
+
     // Start is called before the first frame update
+
+
+    private void Start()
+    {
+        PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
+        _Move = GetComponent<Move>();
+    }
 
     private void Update()
     {
@@ -24,52 +34,40 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
     }
 
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            ObjMoveback(other);
+            ObjMoveback(collision);
         }
 
-        if (b >= 0.1f && other.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("SpeedBullet"))
         {
-            ObjMoveback2(other);
-            other.gameObject.GetComponent<DestoryWall>().Pv.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            SpeedObjMoveback(collision);
         }
 
-        if (other.gameObject.CompareTag("Wall2"))
+        if (b >= 0.1f && collision.gameObject.CompareTag("Wall"))
         {
-            ObjMoveback3(other);
-        }
-
-        if (other.gameObject != Not &&  other.gameObject.CompareTag("Head"))
-        {
-            ObjMoveback4(other);
+            ObjMoveback2(collision);
+            collision.gameObject.GetComponent<DestoryWall>().Pv.RPC("DestroyRPC", RpcTarget.AllBuffered);
         }
     }
-    private void ObjMoveback(Collider collision, float speed = 15.0f)
+    private void ObjMoveback(Collision collision, float speed = 15.0f)
     {
         b = 2.0f;
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
         collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
     }
-
-    private void ObjMoveback2(Collider collision, float speed = 15.0f)
-    {
-        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
-    }
-
-    private void ObjMoveback3(Collider collision, float speed = 100.0f)
-    {
-        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
-    }
-
-    private void ObjMoveback4(Collider collision, float speed = 20.0f)
+    private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
     {
         b = 2.0f;
-        Vector3 pushdi = collision.transform.position - transform.position;
-        pushdi =- pushdi.normalized;
-        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+        collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        _Move.PV.RPC("SpeedSetting", RpcTarget.AllBuffered);
+    }
+
+    private void ObjMoveback2(Collision collision, float speed = 15.0f)
+    {
+        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
     }
 }

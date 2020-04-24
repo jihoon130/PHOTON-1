@@ -11,8 +11,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float MoveSpeed = 10.0f;
     public float AngleSpeed = 0.1f;
 
-   public SkinnedMeshRenderer line;
-    public MeshCollider meco1;
     private Vector3 currPos;
     private Rigidbody rb;
     private Quaternion currRot;
@@ -23,17 +21,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float fVertical;
     public float h;
     public float v;
-    public BoxCollider box;
-    private float angle;
-    private Transform cam;
+
     // jump
-    private bool isGround;
+    public bool isGround;
     public int score;
     public Material[] _material;
-    public GameObject oo;
+
+    public bool isAttack;
+    
     private void Awake()
     {
-
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
@@ -41,70 +38,44 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if(PV.IsMine)
         {
             NickName = PlayerPrefs.GetString("NickName");
-
         }
     }
     void Start()
     {
         score = 5;
-
+        
         if(PV.IsMine)
         {
-
-            PV.RPC("GGRPC", RpcTarget.AllBuffered);
-                Camera.main.GetComponent<SmoothFollow>().target = tr;
-           // CameraFind._instance.CameraFollowObj = GameObject.FindGameObjectWithTag("Follow");
-           //   cam = Camera.main.transform;
-          //  this.GetComponent<Renderer>().material = _material[0];
+            CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
+            // CameraFind._instance.CameraFollowObj = GameObject.FindGameObjectWithTag("Follow");
+            //   cam = Camera.main.transform;
+              this.GetComponent<Renderer>().material = _material[0];
 
         }
         else
         {
-         //   this.GetComponent<Renderer>().material = _material[1];
+             this.GetComponent<Renderer>().material = _material[1];
         }
     }
 
-    private void Update()
-    {
-        if (PV.IsMine)
-        {
-            Rotate();
-            PV.RPC("GetNickRPC", RpcTarget.AllBuffered);
-            if (Input.GetMouseButtonDown(0))
-            {
-                GetComponent<Animator>().SetBool("Attack", true);
-            }
-
-            if (Input.GetMouseButtonUp(0))
-            {
-                GetComponent<Animator>().SetBool("Attack",false);
-            }
-
-            if (h > 0.1f || v > 0.1f)
-            {
-                GetComponent<Animator>().SetBool("Run", true);
-            }
-            else
-            {
-                GetComponent<Animator>().SetBool("Run", false);
-            }
-        }
-        }
-
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
         if (PV.IsMine)
         {
+            float h = Input.GetAxisRaw("Horizontal");
+            float v = Input.GetAxisRaw("Vertical");
+
+            Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+            tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
+
             gameObject.GetComponentInChildren<TextMesh>().text = NickName;
-            //float MouseX = Input.GetAxis("Mouse X");
-            //transform.Rotate(Vector3.up * 30.0f * MouseX);
 
             if (Input.GetKeyDown(KeyCode.RightShift))
             {
                 PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
             }
-            
+
             this.GetComponentInChildren<TextMesh>().text = NickName;
 
             if (Input.GetKeyDown(KeyCode.G))
@@ -112,19 +83,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 PV.RPC("PlusScore", RpcTarget.AllBuffered);
             }
             Jump();
-
-            //fHorizontal = Input.GetAxisRaw("Horizontal");
-            //fVertical = Input.GetAxisRaw("Vertical");
-
-            //if (Mathf.Abs(fHorizontal) < 1 && Mathf.Abs(fVertical) < 1)
-            //{
-
-            //}
-            //else
-            //{
-            //    tr.transform.position += tr.transform.forward * MoveSpeed * Time.deltaTime;
-            //    CalculateDirection();
-            //}
         }
         else
         {
@@ -133,43 +91,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
-    private void CalculateDirection()
-    {
-        //// 현재 방향 각도를 구해서 카메라 각도랑 더해줌
-        //angle = Mathf.Atan2(fHorizontal, fVertical);
-        //angle = Mathf.Rad2Deg * angle;
-        //angle += cam.eulerAngles.y;
-        //Rotate();
-    }
-    private void Rotate()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        h = Input.GetAxis("Horizontal");
-
-        v = Input.GetAxis("Vertical");
-
-
-
-
-        Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
-
-
-        tr.Translate(moveDir.normalized * 5.0f * Time.deltaTime, Space.Self);
-
-
-        tr.Rotate(Vector3.up * 5.0f * Input.GetAxis("Mouse X"));
-        //targetRotation = Quaternion.Euler(0, angle, 0);
-        //tr.transform.rotation = Quaternion.Slerp(tr.transform.rotation, targetRotation, AngleSpeed * Time.deltaTime);
-    }
-
     private void Jump()
     {
         if(isGround)
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
+                //CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
 
                 rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
 
@@ -182,7 +110,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(collision.gameObject.tag == "Ground")
         {
-            CameraCol.instance.CameraJoom(CameraCol.instance.SaveDistance);
+            //CameraCol.instance.CameraJoom(CameraCol.instance.SaveDistance);
             isGround = true;
         }
     }
@@ -201,14 +129,15 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
-           EnemyNickName = (string)stream.ReceiveNext();
+            EnemyNickName = (string)stream.ReceiveNext();
         }
     }
 
     [PunRPC]
     public void ResetPos()
     {
-        transform.localPosition = new Vector3(Random.Range(0f, 15f), 5f, Random.Range(0f, 15f));
+        rb.velocity = Vector3.zero;
+        transform.localPosition = new Vector3(Random.Range(27, -27), 5f, Random.Range(4, 5));
     }
 
     [PunRPC]
@@ -218,42 +147,19 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void GetNickRPC()
+    public void SpeedSetting()
     {
-        Mesh mesh = new Mesh();
-        line.BakeMesh(mesh);
-        meco1.sharedMesh = mesh;
-        meco1.convex = true;
-        meco1.isTrigger = true;
-    }
-    [PunRPC]
-    public void GGRPC()
-    {
-        line = GetComponentInChildren<SkinnedMeshRenderer>();
-
+        if(PV.IsMine)
+        {
+            MoveSpeed = 5;
+            StartCoroutine("SpeedTimer");
+        }
     }
 
-    public void OpenCo()
+    IEnumerator SpeedTimer()
     {
+        yield return new WaitForSeconds(5f);
         if (PV.IsMine)
-            PV.RPC("OpenCoRPC", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void OpenCoRPC()
-    {
-        box.enabled = !box.enabled;
-    }
-
-    public void CloseCo()
-    {
-        if (PV.IsMine)
-            PV.RPC("CloseCoRPC", RpcTarget.AllBuffered);
-    }
-
-    [PunRPC]
-    public void CloseCoRPC()
-    {
-        box.enabled = !box.enabled;
+            MoveSpeed = 10;
     }
 }

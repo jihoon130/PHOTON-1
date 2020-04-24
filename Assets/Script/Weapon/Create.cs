@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+public enum BulletMake
+{
+    None,
+    Attack,
+    Speed
+}
 public class Create : MonoBehaviourPunCallbacks
 {
+    private BulletMake _BulletMake = BulletMake.Attack;
+
     public PhotonView PV;
     public Transform StartTf;
 
@@ -19,9 +27,20 @@ public class Create : MonoBehaviourPunCallbacks
         if (!PV.IsMine)
             return;
 
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+            _BulletMake = BulletMake.Attack;
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+            _BulletMake = BulletMake.Speed;
+
+
+
+
+        if (Input.GetMouseButtonDown(0))
         {
-            InstantiateObject("CastObj_1", StartTf.transform.position, RotVector());
+            if (_BulletMake == BulletMake.Attack)
+                InstantiateObject("CastObj_1", StartTf.transform.position, RotVector());
+            else if (_BulletMake == BulletMake.Speed)
+                InstantiateObject("CastObj_2", StartTf.transform.position, RotVector());
         }
     }
 
