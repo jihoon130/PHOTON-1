@@ -65,7 +65,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.CompareTag("Water"))
         {
-            ObjMoveback4(other);
+            ObjMoveback4(other, 1f);
         }
     }
     private void ObjMoveback(Collision collision, float speed = 15.0f)

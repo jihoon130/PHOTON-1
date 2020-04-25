@@ -11,16 +11,20 @@ public enum BulletMake
 }
 public class Create : MonoBehaviourPunCallbacks
 {
+    
     public BulletMake _BulletMake = BulletMake.Attack;
 
     public PhotonView PV;
     public Transform StartTf;
+
+    private PlayerAni _Ani;
 
     private float fTime;
 
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        _Ani = GetComponent<PlayerAni>();
     }
 
     // Update is called once per frame
@@ -60,19 +64,24 @@ public class Create : MonoBehaviourPunCallbacks
                     BulletCreate();
                     fTime = 0.0f;
                 }
-
             }
             else
             {
                 if (Input.GetMouseButtonDown(0))
                 {
                     BulletCreate();
+                    _Ani._State = State.Attack;
+                    
+                }
+                else if(Input.GetMouseButtonUp(0))
+                {
+                    _Ani._State = State.IdleRun;
                 }
             }
         }
     }
 
-    private void BulletCreate()
+    public void BulletCreate()
     {
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)

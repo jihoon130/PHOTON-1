@@ -6,11 +6,18 @@ using UnityStandardAssets.Utility;
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
+
+    public bool isMove;
+
+
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 10.0f;
     public float AngleSpeed = 0.1f;
+    public float daepoT = 0.0f;
+    // Water
     public GameObject Boonsoo;
+
     private Vector3 currPos;
     private Rigidbody rb;
     private Quaternion currRot;
@@ -19,16 +26,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Transform tr;
     public float fHorizontal;
     public float fVertical;
-    public float h;
-    public float v;
+
     public float StopT=0.0f;
     // jump
     public bool isGround;
     public int score;
-    public Material[] _material;
+    //public Material[] _material;
 
-    public bool isAttack;
-    
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -43,19 +47,21 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     void Start()
     {
         score = 5;
-        
-        if(PV.IsMine)
+        isMove = true;
+        if (PV.IsMine)
         {
             CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
 
-            this.GetComponent<Renderer>().material = _material[0];
+            //this.GetComponent<Renderer>().material = _material[0];
         }
         else
         {
-            this.GetComponent<Renderer>().material = _material[1];
+            //this.GetComponent<Renderer>().material = _material[1];
         }
     }
 
+
+   
     private void FixedUpdate()
     {
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
@@ -63,31 +69,18 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f)
             {
-                if(Input.GetKeyDown(KeyCode.V))
-                {
-                    PV.RPC("OpenWaterRPC", RpcTarget.AllBuffered);
-                }
+                if (!isMove)
+                    return;
 
-                float h = Input.GetAxisRaw("Horizontal");
-                float v = Input.GetAxisRaw("Vertical");
+                fHorizontal = Input.GetAxisRaw("Horizontal");
+                fVertical = Input.GetAxisRaw("Vertical");
 
-                Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+                Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
 
                 gameObject.GetComponentInChildren<TextMesh>().text = NickName;
 
-                if (Input.GetKeyDown(KeyCode.RightShift))
-                {
-                    PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
-                }
-
                 this.GetComponentInChildren<TextMesh>().text = NickName;
-
-                if (Input.GetKeyDown(KeyCode.G))
-                {
-                    PV.RPC("PlusScore", RpcTarget.AllBuffered);
-                }
-                Jump();
             }
             else
             {
@@ -101,19 +94,52 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
-    private void Jump()
+
+    private void Update()
     {
-        if(isGround)
+        if (PV.IsMine)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(daepoT<=20.0f)
             {
-                //CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
+                daepoT += Time.deltaTime;
+            }
 
-                rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            if (StopT <= 0.0f)
+            {
+                if (!isMove)
+                    return;
 
-                isGround = false;
+                if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
+                {
+                    daepoT = 0.0f;
+                    PV.RPC("OpenWaterRPC", RpcTarget.AllBuffered);
+                }
+
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    PV.RPC("PlusScore", RpcTarget.AllBuffered);
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Jump();
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightShift))
+                {
+                    PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
+                }
             }
         }
+    }
+    private void Jump()
+    {
+        if (!isGround)
+            return;
+        //CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
+
+        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+
+        isGround = false;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -176,6 +202,21 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void OpenWaterRPC()
     {
+        isMove = false;
         Boonsoo.SetActive(true);
     }
+
+    [PunRPC]
+    public void MoveTrue()
+    {
+        isMove = true;
+    }
+
+    [PunRPC]
+    public void MoveFalse()
+    {
+        isMove = false;
+    }
+
+
 }

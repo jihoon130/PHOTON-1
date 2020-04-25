@@ -44,7 +44,7 @@ public class PokManager : MonoBehaviourPunCallbacks
             if(PV.IsMine && Input.GetKeyDown(KeyCode.C) && OK)
             {
                 ReSetOK();
-                PhotonNetwork.Instantiate("Pok", new Vector3(transform.position.x,transform.position.y-0.7f,transform.position.z), Quaternion.identity);
+                PhotonNetwork.Instantiate("Pok", new Vector3(transform.position.x,transform.position.y - 0.25f ,transform.position.z), Quaternion.identity);
             }
         }
     }
