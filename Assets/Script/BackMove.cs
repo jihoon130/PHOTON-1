@@ -50,6 +50,13 @@ public class BackMove : MonoBehaviourPunCallbacks
         {
             ObjMoveback2(collision);
         }
+
+        if(collision.gameObject.CompareTag("Pok") && collision.gameObject.GetComponent<DestoryPok>().OK)
+        {
+            if (GetComponent<Move>().PV.IsMine)
+                GetComponent<Move>().StopT += 5.0f; 
+            collision.gameObject.GetComponent<DestoryPok>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        }
     }
     private void ObjMoveback(Collision collision, float speed = 15.0f)
     {
@@ -68,5 +75,13 @@ public class BackMove : MonoBehaviourPunCallbacks
     private void ObjMoveback2(Collision collision, float speed = 15.0f)
     {
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+    }
+
+    private void ObjMoveback3(Collision collision, float speed = 30.0f)
+    {
+      
+        Vector3 pushdi = collision.transform.position - transform.position;
+        pushdi =- pushdi.normalized;
+        rb.AddForce(pushdi * speed, ForceMode.Impulse);
     }
 }

@@ -26,38 +26,48 @@ public class Create : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            _BulletMake = BulletMake.Attack;
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            _BulletMake = BulletMake.Speed;
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            int type = (int)_BulletMake - 1;
-
-            BulletManager.I.BulletAdd(type);
-        }
-
-        if (!PV.IsMine)
+        if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        fTime += Time.deltaTime;
-        if (fTime > 0.2f) fTime = 0;
 
-        if (BulletManager.I._BulletMode == BulletManager.BulletMode.Speaker)
+        if (GetComponent<Move>().StopT <= 0.0f)
         {
-            if (Input.GetMouseButton(0) && fTime > 0.1f)
+            //if(Input.GetKeyDown(KeyCode.G))
+            //{
+            //    Debug.Log(BulletManager.I._BulletMode);
+            //}
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                _BulletMake = BulletMake.Attack;
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                _BulletMake = BulletMake.Speed;
+
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                BulletCreate();
-                fTime = 0.0f;
+                int type = (int)_BulletMake - 1;
+
+                GetComponent<BulletManager>().BulletAdd(type);
             }
-                
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
+
+            fTime += Time.deltaTime;
+            if (fTime > 0.2f) fTime = 0;
+
+            if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
             {
-                BulletCreate();
+                if (Input.GetMouseButton(0) && fTime > 0.1f)
+                {
+                    BulletCreate();
+                    fTime = 0.0f;
+                }
+
+            }
+            else
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    BulletCreate();
+                }
             }
         }
     }
@@ -65,8 +75,7 @@ public class Create : MonoBehaviourPunCallbacks
     private void BulletCreate()
     {
         int type = (int)_BulletMake - 1;
-        
-        if (BulletManager.I.BulletList[type].isBullet)
+        if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             if (_BulletMake == BulletMake.Attack)
                 InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
@@ -77,7 +86,7 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
-        BulletManager.I.BulletUse(type);
+        GetComponent<BulletManager>().BulletUse(type);
         PhotonNetwork.Instantiate(objname, vStartPos, Quaternion.Euler(vStartRot));
     }
 

@@ -21,7 +21,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float fVertical;
     public float h;
     public float v;
-
+    public float StopT=0.0f;
     // jump
     public bool isGround;
     public int score;
@@ -61,26 +61,33 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
         if (PV.IsMine)
         {
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
-
-            Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
-            tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
-
-            gameObject.GetComponentInChildren<TextMesh>().text = NickName;
-
-            if (Input.GetKeyDown(KeyCode.RightShift))
+            if (StopT <= 0.0f)
             {
-                PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
+                float h = Input.GetAxisRaw("Horizontal");
+                float v = Input.GetAxisRaw("Vertical");
+
+                Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
+                tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
+
+                gameObject.GetComponentInChildren<TextMesh>().text = NickName;
+
+                if (Input.GetKeyDown(KeyCode.RightShift))
+                {
+                    PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
+                }
+
+                this.GetComponentInChildren<TextMesh>().text = NickName;
+
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    PV.RPC("PlusScore", RpcTarget.AllBuffered);
+                }
+                Jump();
             }
-
-            this.GetComponentInChildren<TextMesh>().text = NickName;
-
-            if (Input.GetKeyDown(KeyCode.G))
+            else
             {
-                PV.RPC("PlusScore", RpcTarget.AllBuffered);
+                StopT -= Time.deltaTime;
             }
-            Jump();
         }
         else
         {

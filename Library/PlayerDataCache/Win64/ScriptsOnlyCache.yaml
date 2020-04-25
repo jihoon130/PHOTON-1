@@ -7,10 +7,12 @@ ScriptsOnlyBuild:
     - CameraPlayer
     - CastMove
     - Create
+    - DestoryPok
     - DestoryWall
     - MapSuburb
     - Move
     - NetworkManager
+    - PokManager
     - ScoreManager
     - UnityStandardAssets.Utility.SmoothFollow
     PhotonUnityNetworking.Demos.dll:
@@ -24,6 +26,7 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
     PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PhotonViewInspector
     - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
@@ -107,83 +110,87 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 11240}
+      Script: {instanceID: 11218}
     - Class: 114
-      Script: {instanceID: 11300}
+      Script: {instanceID: 11242}
     - Class: 114
-      Script: {instanceID: 11378}
+      Script: {instanceID: 11302}
     - Class: 114
-      Script: {instanceID: 11458}
+      Script: {instanceID: 11380}
     - Class: 114
-      Script: {instanceID: 11484}
+      Script: {instanceID: 11460}
     - Class: 114
-      Script: {instanceID: 11528}
+      Script: {instanceID: 11486}
     - Class: 114
-      Script: {instanceID: 11584}
+      Script: {instanceID: 11530}
     - Class: 114
-      Script: {instanceID: 12118}
+      Script: {instanceID: 11586}
     - Class: 114
-      Script: {instanceID: 12244}
+      Script: {instanceID: 11788}
     - Class: 114
-      Script: {instanceID: 12340}
+      Script: {instanceID: 12122}
     - Class: 114
-      Script: {instanceID: 12422}
+      Script: {instanceID: 12248}
     - Class: 114
-      Script: {instanceID: 12650}
+      Script: {instanceID: 12344}
     - Class: 114
-      Script: {instanceID: 12738}
+      Script: {instanceID: 12426}
     - Class: 114
-      Script: {instanceID: 12902}
+      Script: {instanceID: 12654}
     - Class: 114
-      Script: {instanceID: 12972}
+      Script: {instanceID: 12742}
     - Class: 114
-      Script: {instanceID: 13052}
+      Script: {instanceID: 12906}
     - Class: 114
-      Script: {instanceID: 13080}
+      Script: {instanceID: 12976}
     - Class: 114
-      Script: {instanceID: 13188}
+      Script: {instanceID: 13056}
     - Class: 114
-      Script: {instanceID: 13204}
+      Script: {instanceID: 13084}
     - Class: 114
-      Script: {instanceID: 13218}
+      Script: {instanceID: 13192}
     - Class: 114
-      Script: {instanceID: 13404}
+      Script: {instanceID: 13208}
     - Class: 114
-      Script: {instanceID: 13488}
+      Script: {instanceID: 13222}
     - Class: 114
-      Script: {instanceID: 13514}
+      Script: {instanceID: 13408}
     - Class: 114
-      Script: {instanceID: 13526}
+      Script: {instanceID: 13492}
     - Class: 114
-      Script: {instanceID: 13554}
+      Script: {instanceID: 13518}
     - Class: 114
-      Script: {instanceID: 13678}
+      Script: {instanceID: 13530}
     - Class: 114
-      Script: {instanceID: 13706}
+      Script: {instanceID: 13558}
     - Class: 114
-      Script: {instanceID: 13758}
+      Script: {instanceID: 13682}
     - Class: 114
-      Script: {instanceID: 13782}
+      Script: {instanceID: 13710}
     - Class: 114
-      Script: {instanceID: 13954}
+      Script: {instanceID: 13762}
     - Class: 114
-      Script: {instanceID: 14178}
+      Script: {instanceID: 13786}
     - Class: 114
-      Script: {instanceID: 14216}
+      Script: {instanceID: 13958}
     - Class: 114
-      Script: {instanceID: 14316}
+      Script: {instanceID: 14182}
     - Class: 114
-      Script: {instanceID: 14330}
+      Script: {instanceID: 14220}
     - Class: 114
-      Script: {instanceID: 14374}
+      Script: {instanceID: 14320}
     - Class: 114
-      Script: {instanceID: 14384}
+      Script: {instanceID: 14334}
     - Class: 114
-      Script: {instanceID: 16290}
+      Script: {instanceID: 14378}
     - Class: 114
-      Script: {instanceID: 16294}
+      Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 16296}
+      Script: {instanceID: 16310}
+    - Class: 114
+      Script: {instanceID: 16314}
+    - Class: 114
+      Script: {instanceID: 16316}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -219,6 +226,12 @@ ScriptsOnlyBuild:
     - Class: 258
       Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 529bdcbab93ad1140760c6a8d13e18d1
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PokManager
   - hash:
       serializedVersion: 2
       Hash: 80d2851602cb4bcb6f559596c5eb955b
@@ -531,6 +544,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: PhysicsRaycaster
+  - hash:
+      serializedVersion: 2
+      Hash: 2a709c24398b643b1d27cf947725cd84
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: DestoryPok
   - hash:
       serializedVersion: 2
       Hash: 72f0e262cec16c9f4520dc3bf2b81796
@@ -1325,7 +1344,7 @@ ScriptsOnlyBuild:
     className: DestoryWall
   - hash:
       serializedVersion: 2
-      Hash: 8c6784c28df7600c9f6e203426ac7086
+      Hash: 78f4d2b437fdbaa5dc636c97ccf21bdf
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BulletManager
@@ -1385,7 +1404,7 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
-      Hash: 2bec5b0a64252faf00b6d0462692e5e1
+      Hash: 6fd739510f88e7a6142d0ac14d1f3c11
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Move
@@ -1674,4 +1693,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "C:/Users/tjsn0/Desktop/CowCowGit/\uBE4C\uB4DC/PhotonTest.exe"
+  playerPath: "C:/Users/jihoon/Desktop/\uC0C8 \uD3F4\uB354 (2)/PhotonTest.exe"
