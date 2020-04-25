@@ -3,6 +3,7 @@ ScriptsOnlyBuild:
     Assembly-CSharp.dll:
     - AddNickName
     - BackMove
+    - Bubble
     - BulletManager
     - CameraPlayer
     - CastMove
@@ -25,9 +26,6 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
-    PhotonUnityNetworking.Editor.dll:
-    - Photon.Pun.PhotonViewInspector
-    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -45,8 +43,10 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
+    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -186,11 +186,13 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14388}
     - Class: 114
-      Script: {instanceID: 16310}
-    - Class: 114
-      Script: {instanceID: 16314}
-    - Class: 114
       Script: {instanceID: 16316}
+    - Class: 114
+      Script: {instanceID: 16320}
+    - Class: 114
+      Script: {instanceID: 16322}
+    - Class: 114
+      Script: {instanceID: 18256}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1404,7 +1406,7 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
-      Hash: 6fd739510f88e7a6142d0ac14d1f3c11
+      Hash: af05cf50b8e30a77c7111bd08c182fe7
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Move
@@ -1690,6 +1692,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Bubble
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity

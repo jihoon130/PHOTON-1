@@ -10,7 +10,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public string EnemyNickName;
     public float MoveSpeed = 10.0f;
     public float AngleSpeed = 0.1f;
-
+    public GameObject Boonsoo;
     private Vector3 currPos;
     private Rigidbody rb;
     private Quaternion currRot;
@@ -63,6 +63,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f)
             {
+                if(Input.GetKeyDown(KeyCode.V))
+                {
+                    PV.RPC("OpenWaterRPC", RpcTarget.AllBuffered);
+                }
+
                 float h = Input.GetAxisRaw("Horizontal");
                 float v = Input.GetAxisRaw("Vertical");
 
@@ -166,5 +171,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(5f);
         if (PV.IsMine)
             MoveSpeed = 10;
+    }
+
+    [PunRPC]
+    public void OpenWaterRPC()
+    {
+        Boonsoo.SetActive(true);
     }
 }

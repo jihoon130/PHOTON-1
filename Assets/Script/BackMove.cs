@@ -41,6 +41,8 @@ public class BackMove : MonoBehaviourPunCallbacks
             ObjMoveback(collision);
         }
 
+
+
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
             SpeedObjMoveback(collision);
@@ -56,6 +58,14 @@ public class BackMove : MonoBehaviourPunCallbacks
             if (GetComponent<Move>().PV.IsMine)
                 GetComponent<Move>().StopT += 5.0f; 
             collision.gameObject.GetComponent<DestoryPok>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Water"))
+        {
+            ObjMoveback4(other);
         }
     }
     private void ObjMoveback(Collision collision, float speed = 15.0f)
@@ -82,6 +92,14 @@ public class BackMove : MonoBehaviourPunCallbacks
       
         Vector3 pushdi = collision.transform.position - transform.position;
         pushdi =- pushdi.normalized;
+        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+    }
+
+    private void ObjMoveback4(Collider collision, float speed = 30.0f)
+    {
+
+        Vector3 pushdi = collision.transform.position - transform.position;
+        pushdi = -pushdi.normalized;
         rb.AddForce(pushdi * speed, ForceMode.Impulse);
     }
 }

@@ -376,6 +376,7 @@ MonoBehaviour:
   EnemyNickName: 
   MoveSpeed: 10
   AngleSpeed: 15
+  Boonsoo: {fileID: 3142006682894190104}
   fHorizontal: 0
   fVertical: 0
   h: 0
@@ -449,6 +450,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   CooltimeT: {fileID: 0}
+--- !u!64 &927771026491638633
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6393787074842904963}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3264120637979389646, guid: 14b0d02cc82c04645855f381a74d3539, type: 3}
+--- !u!114 &4419354426455408161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3142006682894190104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e00953bcaf5c16744aa6a0a5e0272b58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &7167451728786426607
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6393787075696382126}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3264120637979389646, guid: 14b0d02cc82c04645855f381a74d3539, type: 3}
 --- !u!1 &8673186899565709349
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +590,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5291187595995409506}
     m_Modifications:
+    - target: {fileID: 4038321621188005680, guid: 357f7916fd029774090cd1289fba00a0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 4038321621504874013, guid: 357f7916fd029774090cd1289fba00a0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Water
+      objectReference: {fileID: 0}
     - target: {fileID: 5416402120565964971, guid: 357f7916fd029774090cd1289fba00a0,
         type: 3}
       propertyPath: m_Name
@@ -624,11 +675,39 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5416402120736383553, guid: 357f7916fd029774090cd1289fba00a0,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5416402121512377595, guid: 357f7916fd029774090cd1289fba00a0,
+        type: 3}
+      propertyPath: CollisionModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 357f7916fd029774090cd1289fba00a0, type: 3}
+--- !u!1 &3142006682894190104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5416402120565964971, guid: 357f7916fd029774090cd1289fba00a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6967151526390138547}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3142006682894190109 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5416402120565964974, guid: 357f7916fd029774090cd1289fba00a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6967151526390138547}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6393787074842904963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4038321621188005680, guid: 357f7916fd029774090cd1289fba00a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 6967151526390138547}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6393787075696382126 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4038321621504874013, guid: 357f7916fd029774090cd1289fba00a0,
     type: 3}
   m_PrefabInstance: {fileID: 6967151526390138547}
   m_PrefabAsset: {fileID: 0}
