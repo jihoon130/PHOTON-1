@@ -6,13 +6,18 @@ using UnityStandardAssets.Utility;
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
+
+    public bool isMove;
+
+
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 10.0f;
     public float AngleSpeed = 0.1f;
-
-   public SkinnedMeshRenderer line;
-    public MeshCollider meco1;
+    public float daepoT = 0.0f;
+    // Water
+    public GameObject Boonsoo;
+    public GameObject bye;
     private Vector3 currPos;
     private Rigidbody rb;
     private Quaternion currRot;
@@ -21,19 +26,15 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Transform tr;
     public float fHorizontal;
     public float fVertical;
-    public float h;
-    public float v;
-    public BoxCollider box;
-    private float angle;
-    private Transform cam;
+    public GameObject shield;
+    public float StopT=0.0f;
     // jump
-    private bool isGround;
+    public bool isGround;
     public int score;
-    public Material[] _material;
-    public GameObject oo;
+    //public Material[] _material;
+
     private void Awake()
     {
-
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
@@ -41,26 +42,68 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if(PV.IsMine)
         {
             NickName = PlayerPrefs.GetString("NickName");
-
         }
     }
     void Start()
     {
         score = 5;
-
-        if(PV.IsMine)
+        isMove = true;
+        if (PV.IsMine)
         {
+            CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
 
-            PV.RPC("GGRPC", RpcTarget.AllBuffered);
-                Camera.main.GetComponent<SmoothFollow>().target = tr;
-           // CameraFind._instance.CameraFollowObj = GameObject.FindGameObjectWithTag("Follow");
-           //   cam = Camera.main.transform;
-          //  this.GetComponent<Renderer>().material = _material[0];
-
+            //this.GetComponent<Renderer>().material = _material[0];
         }
         else
         {
-         //   this.GetComponent<Renderer>().material = _material[1];
+            //this.GetComponent<Renderer>().material = _material[1];
+        }
+    }
+
+
+   
+    private void FixedUpdate()
+    {
+        //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
+        if (PV.IsMine)
+        {
+            if (StopT <= 0.0f)
+            {
+                if (!isMove)
+                    return;
+
+                fHorizontal = Input.GetAxisRaw("Horizontal");
+                fVertical = Input.GetAxisRaw("Vertical");
+
+                Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
+                tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
+
+                gameObject.GetComponentInChildren<TextMesh>().text = NickName;
+
+                this.GetComponentInChildren<TextMesh>().text = NickName;
+            }
+            else
+            {
+                StopT -= Time.deltaTime;
+            }
+        }
+        else
+        {
+
+            if ((tr.position - currPos).sqrMagnitude >= 10.0f * 10.0f)
+            {
+                tr.position = currPos;
+                tr.rotation = currRot;
+            }
+            else
+            {
+                tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10.0f);
+                tr.rotation = Quaternion.Slerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
+            }
+
+          //  tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10.0f);
+           // tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
+            gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
 
@@ -68,121 +111,70 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            Rotate();
-            PV.RPC("GetNickRPC", RpcTarget.AllBuffered);
-            if (Input.GetMouseButtonDown(0))
+            if(daepoT<=20.0f)
             {
-                GetComponent<Animator>().SetBool("Attack", true);
+                daepoT += Time.deltaTime;
             }
 
-            if (Input.GetMouseButtonUp(0))
+            if(Input.GetKey(KeyCode.LeftShift))
             {
-                GetComponent<Animator>().SetBool("Attack",false);
+                MoveSpeed = 5;
+                PV.RPC("ShieldActiveRPC", RpcTarget.AllBuffered);
+            }
+            else if(Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                MoveSpeed = 10;
+                PV.RPC("ShieldNonActiveRPC", RpcTarget.AllBuffered);
             }
 
-            if (h > 0.1f || v > 0.1f)
+            if (Input.GetKey(KeyCode.LeftControl) && Input.GetKey(KeyCode.Z) && Input.GetKey(KeyCode.A))
             {
-                GetComponent<Animator>().SetBool("Run", true);
+                PhotonNetwork.Instantiate("ByeBye", transform.position, Quaternion.identity);
             }
-            else
+
+            if (StopT <= 0.0f)
             {
-                GetComponent<Animator>().SetBool("Run", false);
+                if (!isMove)
+                    return;
+
+                if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
+                {
+                    daepoT = 0.0f;
+                    PV.RPC("OpenWaterRPC", RpcTarget.AllBuffered);
+                }
+
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                    PV.RPC("PlusScore", RpcTarget.AllBuffered);
+                }
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    Jump();
+                }
+
+                if (Input.GetKeyDown(KeyCode.RightShift))
+                {
+                    PhotonNetwork.Instantiate("333", new Vector3(transform.position.x,transform.position.y+1.5f,transform.position.z), Quaternion.identity);
+                }
             }
-        }
-        }
-
-    void FixedUpdate()
-    {
-        //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
-        if (PV.IsMine)
-        {
-            gameObject.GetComponentInChildren<TextMesh>().text = NickName;
-            //float MouseX = Input.GetAxis("Mouse X");
-            //transform.Rotate(Vector3.up * 30.0f * MouseX);
-
-            if (Input.GetKeyDown(KeyCode.RightShift))
-            {
-                PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
-            }
-            
-            this.GetComponentInChildren<TextMesh>().text = NickName;
-
-            if (Input.GetKeyDown(KeyCode.G))
-            {
-                PV.RPC("PlusScore", RpcTarget.AllBuffered);
-            }
-            Jump();
-
-            //fHorizontal = Input.GetAxisRaw("Horizontal");
-            //fVertical = Input.GetAxisRaw("Vertical");
-
-            //if (Mathf.Abs(fHorizontal) < 1 && Mathf.Abs(fVertical) < 1)
-            //{
-
-            //}
-            //else
-            //{
-            //    tr.transform.position += tr.transform.forward * MoveSpeed * Time.deltaTime;
-            //    CalculateDirection();
-            //}
-        }
-        else
-        {
-            tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10.0f);
-            tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
-            gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
-    private void CalculateDirection()
-    {
-        //// 현재 방향 각도를 구해서 카메라 각도랑 더해줌
-        //angle = Mathf.Atan2(fHorizontal, fVertical);
-        //angle = Mathf.Rad2Deg * angle;
-        //angle += cam.eulerAngles.y;
-        //Rotate();
-    }
-    private void Rotate()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-
-        h = Input.GetAxis("Horizontal");
-
-        v = Input.GetAxis("Vertical");
-
-
-
-
-        Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
-
-
-        tr.Translate(moveDir.normalized * 5.0f * Time.deltaTime, Space.Self);
-
-
-        tr.Rotate(Vector3.up * 5.0f * Input.GetAxis("Mouse X"));
-        //targetRotation = Quaternion.Euler(0, angle, 0);
-        //tr.transform.rotation = Quaternion.Slerp(tr.transform.rotation, targetRotation, AngleSpeed * Time.deltaTime);
-    }
-
     private void Jump()
     {
-        if(isGround)
-        {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
+        if (!isGround)
+            return;
+        //CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
 
-                rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
 
-                isGround = false;
-            }
-        }
+        isGround = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "Ground")
         {
-            CameraCol.instance.CameraJoom(CameraCol.instance.SaveDistance);
+            //CameraCol.instance.CameraJoom(CameraCol.instance.SaveDistance);
             isGround = true;
         }
     }
@@ -201,14 +193,15 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
-           EnemyNickName = (string)stream.ReceiveNext();
+            EnemyNickName = (string)stream.ReceiveNext();
         }
     }
 
     [PunRPC]
     public void ResetPos()
     {
-        transform.localPosition = new Vector3(Random.Range(0f, 15f), 5f, Random.Range(0f, 15f));
+        rb.velocity = Vector3.zero;
+        transform.localPosition = new Vector3(Random.Range(27, -27), 5f, Random.Range(4, 5));
     }
 
     [PunRPC]
@@ -218,42 +211,51 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     [PunRPC]
-    public void GetNickRPC()
+    public void SpeedSetting()
     {
-        Mesh mesh = new Mesh();
-        line.BakeMesh(mesh);
-        meco1.sharedMesh = mesh;
-        meco1.convex = true;
-        meco1.isTrigger = true;
-    }
-    [PunRPC]
-    public void GGRPC()
-    {
-        line = GetComponentInChildren<SkinnedMeshRenderer>();
-
+        if(PV.IsMine)
+        {
+            MoveSpeed = 5;
+            StartCoroutine("SpeedTimer");
+        }
     }
 
-    public void OpenCo()
+    IEnumerator SpeedTimer()
     {
+        yield return new WaitForSeconds(5f);
         if (PV.IsMine)
-            PV.RPC("OpenCoRPC", RpcTarget.AllBuffered);
+            MoveSpeed = 10;
     }
 
     [PunRPC]
-    public void OpenCoRPC()
+    public void OpenWaterRPC()
     {
-        box.enabled = !box.enabled;
-    }
-
-    public void CloseCo()
-    {
-        if (PV.IsMine)
-            PV.RPC("CloseCoRPC", RpcTarget.AllBuffered);
+        isMove = false;
+        Boonsoo.SetActive(true);
     }
 
     [PunRPC]
-    public void CloseCoRPC()
+    public void MoveTrue()
     {
-        box.enabled = !box.enabled;
+        isMove = true;
     }
+
+    [PunRPC]
+    public void MoveFalse()
+    {
+        isMove = false;
+    }
+
+    [PunRPC]
+    public void ShieldActiveRPC()
+    {
+        shield.SetActive(true);
+    }
+
+    [PunRPC]
+    public void ShieldNonActiveRPC()
+    {
+        shield.SetActive(false);
+    }
+
 }

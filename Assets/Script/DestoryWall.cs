@@ -8,7 +8,12 @@ public class DestoryWall : MonoBehaviourPunCallbacks
     public PhotonView Pv;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Bullet")
+        if(collision.collider.tag == "Player")
+        {
+            if (collision.gameObject.GetComponent<Move>().isGround)
+                collision.gameObject.GetComponent<Move>().isGround = false;
+        }
+        if (collision.collider.tag == "Bullet" || collision.collider.tag == "SpeedBullet")
         {
             collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
         }
