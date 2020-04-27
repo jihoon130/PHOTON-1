@@ -16,6 +16,10 @@ public class Create : MonoBehaviourPunCallbacks
 
     public PhotonView PV;
     public Transform StartTf;
+    public GameObject _GunEffect;
+    private int GunEffectType;
+    private bool isGunTime;
+    private float fGunTimer;
 
     private PlayerAni _Ani;
 
@@ -57,25 +61,56 @@ public class Create : MonoBehaviourPunCallbacks
             fTime += Time.deltaTime;
             if (fTime > 0.2f) fTime = 0;
 
-            if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
+
+            if (GetComponent<Move>().isMove)
             {
-                if (Input.GetMouseButton(0) && fTime > 0.1f)
+                if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
                 {
-                    BulletCreate();
-                    fTime = 0.0f;
+                    
+                    if (Input.GetMouseButton(0) && fTime > 0.1f)
+                    {
+                        GunEffectType = 1;
+                        BulletCreate();
+                        fTime = 0.0f;
+                    }
                 }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        GunEffectType = 2;
+                        BulletCreate();
+                    }
+                }
+
+                if (Input.GetMouseButtonUp(0))
+                    GunEffectType = 0;
+            }
+
+
+
+            if (GunEffectType != 0)
+            {
+                PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, true);
+
+                if (GunEffectType == 2)
+                    isGunTime = true;
+                else
+                    GunEffectType = 3;
             }
             else
+                PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, false);
+
+
+            if (isGunTime)
             {
-                if (Input.GetMouseButtonDown(0))
+                fGunTimer += Time.deltaTime;
+                if(fGunTimer > 1.0f)
                 {
-                    BulletCreate();
-                    _Ani._State = State.Attack;
-                    
-                }
-                else if(Input.GetMouseButtonUp(0))
-                {
-                    _Ani._State = State.IdleRun;
+                    PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, false);
+                    fGunTimer = 0.0f;
+                    isGunTime = false;
+                    GunEffectType = 0;
                 }
             }
         }
@@ -83,6 +118,10 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void BulletCreate()
     {
+        if (GetComponent<Move>().isJumping)
+            return;
+
+        _Ani._State = State.Attack;
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
@@ -91,6 +130,7 @@ public class Create : MonoBehaviourPunCallbacks
             else if (_BulletMake == BulletMake.Speed)
                 InstantiateObject("CastObj_2", StartTf.transform.position, RotVector(), type);
         }
+        
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
@@ -108,4 +148,14 @@ public class Create : MonoBehaviourPunCallbacks
 
         return Rot;
     }
+
+   
+    [PunRPC]
+    public void GunEffectTypeObj(bool type)
+    {
+        _GunEffect.SetActive(type);
+    }
+
+
+
 }

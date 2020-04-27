@@ -13,7 +13,7 @@ public class CastMove : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
     }

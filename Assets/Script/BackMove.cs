@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using UnityEngine.UI;
 public class BackMove : MonoBehaviourPunCallbacks
 {
     private Move _Move;
+    private PlayerAni _PlayerAni;
 
     public PhotonView PV;
     public Rigidbody rb;
     float b = 0f;
-
+    bool d;
     // Start is called before the first frame update
 
 
@@ -19,18 +20,14 @@ public class BackMove : MonoBehaviourPunCallbacks
         PV = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
         _Move = GetComponent<Move>();
+        _PlayerAni = GetComponent<PlayerAni>();
     }
 
     private void Update()
     {
-        if(b>=0.1f)
+        if (b >= 0.1f)
         {
             b -= Time.deltaTime;
-        }
-
-        if(Input.GetKeyDown(KeyCode.X))
-        {
-            rb.AddForce(new Vector3(100.0f,100.0f,100.0f));
         }
     }
 
@@ -38,7 +35,16 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            ObjMoveback(collision);
+            string e = collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString();
+            string r = gameObject.GetComponent<Move>().PV.ViewID.ToString();
+
+            if (e[0] == r[0])
+                return;
+
+            
+            PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            //  ObjMoveback(collision);
         }
 
 
@@ -53,10 +59,10 @@ public class BackMove : MonoBehaviourPunCallbacks
             ObjMoveback2(collision);
         }
 
-        if(collision.gameObject.CompareTag("Pok") && collision.gameObject.GetComponent<DestoryPok>().OK)
+        if (collision.gameObject.CompareTag("Pok") && collision.gameObject.GetComponent<DestoryPok>().OK)
         {
             if (GetComponent<Move>().PV.IsMine)
-                GetComponent<Move>().StopT += 5.0f; 
+                GetComponent<Move>().StopT += 5.0f;
             collision.gameObject.GetComponent<DestoryPok>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
         }
     }
@@ -65,19 +71,21 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.CompareTag("Water"))
         {
-            ObjMoveback4(other, 1f);
+            ObjMoveback4(other, 3f);
         }
     }
     private void ObjMoveback(Collision collision, float speed = 15.0f)
     {
-        b = 2.0f;
-        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+        Vector3 pushdi = collision.transform.position - transform.position;
+        pushdi = pushdi.normalized;
+        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+
+        //rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
         collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+
     }
     private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
     {
-        b = 2.0f;
-        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
         collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
         _Move.PV.RPC("SpeedSetting", RpcTarget.AllBuffered);
     }
@@ -89,17 +97,29 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void ObjMoveback3(Collision collision, float speed = 30.0f)
     {
-      
         Vector3 pushdi = collision.transform.position - transform.position;
-        pushdi =- pushdi.normalized;
+        pushdi = -pushdi.normalized;
         rb.AddForce(pushdi * speed, ForceMode.Impulse);
     }
 
     private void ObjMoveback4(Collider collision, float speed = 30.0f)
     {
-
+        _PlayerAni._State = State.Dmg;
         Vector3 pushdi = collision.transform.position - transform.position;
         pushdi = -pushdi.normalized;
         rb.AddForce(pushdi * speed, ForceMode.Impulse);
     }
+
+    [PunRPC]
+    void BackRPC(float a, float b, float c)
+    {
+        PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+        _PlayerAni._State = State.Dmg;
+        rb.velocity = Vector3.zero;
+        Vector3 pushdi = new Vector3(a, b, c) - transform.position;
+        pushdi = -pushdi.normalized;
+        pushdi.y = 0f;
+        rb.AddForce(pushdi * 10.0f, ForceMode.Impulse);
+    }
+
 }

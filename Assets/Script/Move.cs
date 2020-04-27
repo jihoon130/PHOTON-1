@@ -6,6 +6,7 @@ using UnityStandardAssets.Utility;
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
+    private PlayerAni _PlayerAni;
 
     public bool isMove;
 
@@ -30,6 +31,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float StopT=0.0f;
     // jump
     public bool isGround;
+    public bool isJumping;
+    public bool isJumpDown;
+    private float fJumptime;
     public int score;
     //public Material[] _material;
 
@@ -38,8 +42,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
+        _PlayerAni = GetComponent<PlayerAni>();
 
-        if(PV.IsMine)
+        if (PV.IsMine)
         {
             NickName = PlayerPrefs.GetString("NickName");
         }
@@ -71,6 +76,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             {
                 if (!isMove)
                     return;
+
+
+                if (isJumping)
+                {
+                    if (rb.velocity.y < 0)
+                    {
+                        isJumpDown = true;
+                        _PlayerAni._State = State.Jump_Ing;
+                    }
+                }
+
 
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
@@ -104,6 +120,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 daepoT += Time.deltaTime;
             }
 
+
             if (StopT <= 0.0f)
             {
                 if (!isMove)
@@ -121,7 +138,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    Jump();
+                    fJumptime = 0;
+                    //rb.velocity = Vector3.zero;
+                    isJumping = true;
+                    _PlayerAni._State = State.Jump_Start;                    
                 }
 
                 if (Input.GetKeyDown(KeyCode.RightShift))
@@ -129,24 +149,38 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
                 }
             }
+
+            if (isJumping)
+            {
+                fJumptime += Time.deltaTime;
+            }
         }
     }
     private void Jump()
     {
         if (!isGround)
             return;
-        //CameraCol.instance.CameraJoom(CameraCol.instance.maxDistance + 4);
 
-        rb.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * 7f, ForceMode.Impulse);
 
         isGround = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
         if(collision.gameObject.tag == "Ground")
         {
-            //CameraCol.instance.CameraJoom(CameraCol.instance.SaveDistance);
+            if(isJumpDown && fJumptime > 1.3f)
+            {
+                fHorizontal = 0;
+                fVertical = 0;
+
+                _PlayerAni._State = State.Jump_End;
+                isJumping = false;
+                isJumpDown = false;
+                fJumptime = 0.0f;
+            }
+
             isGround = true;
         }
     }
@@ -217,6 +251,4 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         isMove = false;
     }
-
-
 }
