@@ -57,25 +57,23 @@ public class Create : MonoBehaviourPunCallbacks
             fTime += Time.deltaTime;
             if (fTime > 0.2f) fTime = 0;
 
-            if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
+
+            if (GetComponent<Move>().isMove)
             {
-                if (Input.GetMouseButton(0) && fTime > 0.1f)
+                if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
                 {
-                    BulletCreate();
-                    fTime = 0.0f;
+                    if (Input.GetMouseButton(0) && fTime > 0.1f)
+                    {
+                        BulletCreate();
+                        fTime = 0.0f;
+                    }
                 }
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
+                else
                 {
-                    BulletCreate();
-                    _Ani._State = State.Attack;
-                    
-                }
-                else if(Input.GetMouseButtonUp(0))
-                {
-                    _Ani._State = State.IdleRun;
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        BulletCreate();
+                    }
                 }
             }
         }
@@ -83,6 +81,10 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void BulletCreate()
     {
+        if (GetComponent<Move>().isJumping)
+            return;
+
+        _Ani._State = State.Attack;
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
