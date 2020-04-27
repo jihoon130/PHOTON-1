@@ -13,7 +13,7 @@ public class CameraPlayer : MonoBehaviour
     public float dist = 3f;
 
     public float xSpeed = 180.0f;
-    public float ySpeed = 60.0f;
+    public float ySpeed = 30f;
 
     //카메라 초기 높이 설정
     public float InitRotY = 1.5f;
@@ -22,8 +22,8 @@ public class CameraPlayer : MonoBehaviour
     private float x = 0.0f;
     private float y = 0.0f;
 
-    public float yMinLimit = -5f;
-    public float yMaxLimit = 30f;
+    public float yMinLimit = -2f;
+    public float yMaxLimit = 15f;
 
     private Quaternion rotation;
     private Vector3 position;
