@@ -77,15 +77,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (!isMove)
                     return;
 
-
-                if (isJumping)
-                {
-                    if (rb.velocity.y < 0)
-                    {
-                        isJumpDown = true;
-                        _PlayerAni._State = State.Jump_Ing;
-                    }
-                }
+              
 
 
                 fHorizontal = Input.GetAxisRaw("Horizontal");
@@ -115,6 +107,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
+
+
     }
 
     private void Update()
@@ -132,6 +126,31 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (!isMove)
                     return;
 
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    fJumptime = 0;
+                  //  rb.velocity = Vector3.zero;
+                    StartCoroutine("Fade");
+                    _PlayerAni._State = State.Jump_Start;
+                }
+
+
+                if (isJumping)
+                {
+                    RaycastHit hit;
+                    Vector3 pos = transform.position;
+                    Vector3 dir = -transform.up;
+                    if (Physics.Raycast(pos, dir, out hit, 1f))
+                    {
+                        Debug.Log(hit.collider.tag);
+                        if (hit.collider.CompareTag("Ground"))
+                        {
+                            PV.RPC("DownRPC", RpcTarget.AllBuffered);
+                        }
+                    }
+                }
+
                 if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
                 {
                     daepoT = 0.0f;
@@ -142,13 +161,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 {
                     PV.RPC("PlusScore", RpcTarget.AllBuffered);
                 }
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    fJumptime = 0;
-                    //rb.velocity = Vector3.zero;
-                    isJumping = true;
-                    _PlayerAni._State = State.Jump_Start;                    
-                }
+
 
                 if (Input.GetKeyDown(KeyCode.RightShift))
                 {
@@ -156,10 +169,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            if (isJumping)
-            {
-                fJumptime += Time.deltaTime;
-            }
         }
     }
     private void Jump()
@@ -174,21 +183,21 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionStay(Collision collision)
     {
-        if(collision.gameObject.tag == "Ground")
-        {
-            if(isJumpDown && fJumptime > 1.3f)
-            {
-                fHorizontal = 0;
-                fVertical = 0;
+        //if(collision.gameObject.tag == "Ground")
+        //{
+        //    if(isJumpDown && fJumptime > 1.3f)
+        //    {
+        //        fHorizontal = 0;
+        //        fVertical = 0;
 
-                _PlayerAni._State = State.Jump_End;
-                isJumping = false;
-                isJumpDown = false;
-                fJumptime = 0.0f;
-            }
+        //        _PlayerAni._State = State.Jump_End;
+        //        isJumping = false;
+        //        isJumpDown = false;
+        //        fJumptime = 0.0f;
+        //    }
 
-            isGround = true;
-        }
+        //    isGround = true;
+        //}
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -256,5 +265,24 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public void MoveFalse()
     {
         isMove = false;
+    }
+
+    [PunRPC]
+    public void DownRPC()
+    {
+        fHorizontal = 0;
+        fVertical = 0;
+
+        _PlayerAni._State = State.Jump_End;
+        isJumping = false;
+        isJumpDown = false;
+
+     isGround = true;
+    }
+
+    IEnumerator Fade()
+    {
+        yield return new WaitForSeconds(.5f);
+        isJumping = true;
     }
 }
