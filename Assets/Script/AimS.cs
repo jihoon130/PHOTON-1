@@ -26,12 +26,12 @@ public class AimS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (y <= 340f && y >= 260f)
-            y += Input.GetAxis("Mouse Y") * 120.0f * Time.deltaTime;
-        else if (y >= 340f)
-            y = 340f;
-        else if (y <= 260f)
-            y = 260f;
+        if (y <= 743f && y >= 23f)
+            y += Input.GetAxis("Mouse Y") * 300.0f * Time.deltaTime;
+        else if (y >= 743f)
+            y = 743f;
+        else if (y <= 23f)
+            y = 23f;
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
         ScreenCenter.y = y;
         Ray ray = Camera.main.ScreenPointToRay(ScreenCenter);

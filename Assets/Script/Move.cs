@@ -27,7 +27,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Transform tr;
     public float fHorizontal;
     public float fVertical;
-
+    bool fl=false;
     public float StopT=0.0f;
     // jump
     public bool isGround;
@@ -127,12 +127,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     return;
 
 
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround)
                 {
+                    PV.RPC("flRPC", RpcTarget.AllBuffered);
                     fJumptime = 0;
-                    Jump();
                     StartCoroutine("Fade");
                     _PlayerAni._State = State.Jump_Start;
+                    isGround = false;
                 }
 
 
@@ -143,7 +144,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     Vector3 dir = -transform.up;
                     if (Physics.Raycast(pos, dir, out hit, 1f))
                     {
-                        Debug.Log(hit.collider.tag);
                         if (hit.collider.CompareTag("Ground"))
                         {
                             PV.RPC("DownRPC", RpcTarget.AllBuffered);
@@ -173,31 +173,15 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void Jump()
     {
-        if (!isGround)
-            return;
-
         rb.AddForce(Vector3.up * 7f, ForceMode.Impulse);
-
-        isGround = false;
     }
 
-    private void OnCollisionStay(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        //if(collision.gameObject.tag == "Ground")
-        //{
-        //    if(isJumpDown && fJumptime > 1.3f)
-        //    {
-        //        fHorizontal = 0;
-        //        fVertical = 0;
-
-        //        _PlayerAni._State = State.Jump_End;
-        //        isJumping = false;
-        //        isJumpDown = false;
-        //        fJumptime = 0.0f;
-        //    }
-
-        //    isGround = true;
-        //}
+        if (collision.gameObject.tag == "Ground")
+        {
+            isGround = true;
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -276,7 +260,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         _PlayerAni._State = State.Jump_End;
         isJumping = false;
         isJumpDown = false;
-
+        fl = false;
      isGround = true;
     }
 
@@ -284,5 +268,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         yield return new WaitForSeconds(.5f);
         isJumping = true;
+    }
+    [PunRPC]
+    void flRPC()
+    {
+        fl = true;
     }
 }

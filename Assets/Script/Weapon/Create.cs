@@ -20,7 +20,7 @@ public class Create : MonoBehaviourPunCallbacks
     private int GunEffectType;
     private bool isGunTime;
     private float fGunTimer;
-
+    public float Y;
     private PlayerAni _Ani;
 
     private float fTime;
@@ -38,6 +38,12 @@ public class Create : MonoBehaviourPunCallbacks
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
+        if (Y <= 285f && Y >= -442f)
+            Y -= Input.GetAxis("Mouse Y") * 300.0f * Time.deltaTime;
+        else if (Y >= 285f)
+            Y = 285f;
+        else if (Y <= -442f)
+            Y = -442f;
 
         if (GetComponent<Move>().StopT <= 0.0f)
         {
@@ -142,7 +148,7 @@ public class Create : MonoBehaviourPunCallbacks
     private Vector3 RotVector(float z = 90f)
     {
         Vector3 Rot;
-        Rot.x = transform.rotation.eulerAngles.x;
+        Rot.x = transform.rotation.x + Y/10;
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
 
