@@ -50,7 +50,7 @@ public class PlayerAni : MonoBehaviour
             case State.IdleRun:
                 {
                     AniChange(0);
-                    MoveMent(_Move.fHorizontal, _Move.fVertical, "MoveSpeed");
+                    //MoveMent(_Move.fHorizontal, _Move.fVertical, "MoveSpeed");
                 }
                 break;
             case State.Attack:
