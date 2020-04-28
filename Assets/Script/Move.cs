@@ -130,7 +130,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     fJumptime = 0;
-                  //  rb.velocity = Vector3.zero;
+                    Jump();
                     StartCoroutine("Fade");
                     _PlayerAni._State = State.Jump_Start;
                 }
