@@ -65,8 +65,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-
-   
     private void FixedUpdate()
     {
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)

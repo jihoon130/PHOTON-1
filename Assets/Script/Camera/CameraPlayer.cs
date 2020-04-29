@@ -33,6 +33,7 @@ public class CameraPlayer : MonoBehaviour
     {
         I = this;
     }
+
     void Start()
     {
         //커서 숨기기"//"를 지우세요
@@ -67,7 +68,7 @@ public class CameraPlayer : MonoBehaviour
 
             //카메라 위치 변화 계산
             rotation = Quaternion.Euler(y, x, 0);
-            position = rotation * new Vector3(0, 0.0f, -dist) + target.position + new Vector3(0.0f, InitRotY, 0.0f);
+            position = rotation * new Vector3(0.0f, 0.0f, -dist) + target.position + new Vector3(0.0f, InitRotY, 0.0f);
 
             transform.rotation = rotation;
             transform.position = position;
@@ -75,6 +76,11 @@ public class CameraPlayer : MonoBehaviour
 
             target.Rotate(Vector3.up * Time.deltaTime * xSpeed * Input.GetAxis("Mouse X"));
         }
+    }
+
+    void Update()
+    {
+
     }
 
     float ClampAngle(float angle, float min, float max)

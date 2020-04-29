@@ -96,18 +96,6 @@ public class PlayerAni : MonoBehaviour
     public void AttackMent(float Dir, string name)
     {
         float dir = Dir;
-        Ani.SetFloat(name, dir);
+        Ani.SetFloat(name, dir, 0.1f, Time.deltaTime);
     }
-
-    /*
-    public void MoveMent()
-    {
-        float horizontal = _Move.fHorizontal;
-        float vertical = _Move.fVertical;
-
-        Debug.Log("horizontal : " + horizontal);
-        Debug.Log("vertical : " + vertical);
-
-        Ani.SetFloat("MoveSpeed", horizontal * horizontal + vertical * vertical, 0.1f, Time.deltaTime);
-    }*/
 }
