@@ -29,13 +29,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float fVertical;
     bool fl=false;
     public float StopT=0.0f;
+
+    public bool isPhoenix;
+    public bool isDie;
+
     // jump
     public bool isGround;
     public bool isJumping;
     public bool isJumpDown;
     private float fJumptime;
     public int score;
-    //public Material[] _material;
 
     private void Awake()
     {
@@ -56,12 +59,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
-
-            //this.GetComponent<Renderer>().material = _material[0];
-        }
-        else
-        {
-            //this.GetComponent<Renderer>().material = _material[1];
         }
     }
 
@@ -72,19 +69,20 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f)
             {
-                if (!isMove)
+                if (!isMove || isDie)
                     return;
 
-              
-
+                
 
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
 
-                if (fVertical < 0) MoveSpeed = 5f;
+
+                
+
+                if (fVertical < 0) MoveSpeed = 6f;
                 else MoveSpeed = 10f;
-
-
+                    
 
 
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
@@ -105,18 +103,46 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
-
-
     }
+    public void BlinkForward()
+    {
+        RaycastHit hit;
+        Vector3 destination = transform.position + transform.forward * 5f;
 
+        if(Physics.Linecast(transform.position, destination, out hit))
+        {
+            destination = transform.position + transform.forward * (hit.distance - 1f);
+        }
+
+        if(Physics.Raycast(destination, -Vector3.up, out hit))
+        {
+            destination = hit.point;
+            destination.y = 0.5f;
+            transform.position = destination;
+        }
+    }
     private void Update()
     {
         if (PV.IsMine)
         {
-            if(daepoT<=20.0f)
+            if(isDie)
             {
-                daepoT += Time.deltaTime;
+                rb.velocity = Vector3.zero;
+
+                if(Input.GetKeyDown(KeyCode.R))
+                    PV.RPC("ResetPosRPC", RpcTarget.AllBuffered);
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                if (fVertical <= 0)
+                    return;
+
+                BlinkForward();
+            }
+
+            if (daepoT<=20.0f)
+                daepoT += Time.deltaTime;
 
 
             if (StopT <= 0.0f)
@@ -134,13 +160,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     isGround = false;
                 }
 
-
                 if (isJumping)
                 {
+                    rb.velocity = new Vector3(0, -500 * Time.deltaTime, 0);
                     RaycastHit hit;
                     Vector3 pos = transform.position;
                     Vector3 dir = -transform.up;
-                    if (Physics.Raycast(pos, dir, out hit, 1f))
+                    if (Physics.Raycast(pos, dir, out hit, 0.5f))
                     {
                         if (hit.collider.CompareTag("Ground"))
                         {
@@ -200,11 +226,26 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    IEnumerator Phoenix()
+    {
+        yield return new WaitForSeconds(2f);
+        isPhoenix = false;
+    }
+
+
     [PunRPC]
-    public void ResetPos()
+    public void PhoenixTimerRPC()
+    {
+        isPhoenix = true;
+        StartCoroutine("Phoenix");
+    }
+
+    [PunRPC]
+    public void ResetPosRPC()
     {
         rb.velocity = Vector3.zero;
         transform.localPosition = new Vector3(Random.Range(27, -27), 5f, Random.Range(4, 5));
+        isDie = false;
     }
 
     [PunRPC]
@@ -259,9 +300,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isJumping = false;
         isJumpDown = false;
         fl = false;
-     isGround = true;
+        isGround = true;
     }
 
+    [PunRPC]
+    public void DieTrue()
+    {
+        isDie = true;
+    }
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(.5f);

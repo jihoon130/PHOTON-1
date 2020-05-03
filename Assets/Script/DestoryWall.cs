@@ -19,7 +19,7 @@ public class DestoryWall : MonoBehaviourPunCallbacks
             if (collision.gameObject.GetComponent<Move>().isGround)
                 collision.gameObject.GetComponent<Move>().isGround = false;
         }
-        if (collision.collider.tag == "Bullet" || collision.collider.tag == "SpeedBullet")
+        if (collision.collider.tag == "Bullet" || collision.collider.tag == "SpeedBullet" || collision.collider.tag == "SniperBullet")
         {
             collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
             //Pv.RPC(HitEffectRPC(collision.transform.position);

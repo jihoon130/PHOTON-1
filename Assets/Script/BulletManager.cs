@@ -27,13 +27,18 @@ public class BulletManager : MonoBehaviourPunCallbacks
 {
     private Create _Create;
     public PhotonView PV;
-    public enum BulletMode { Shot, Speaker }
+    public enum BulletMode { Shot, Speaker, Sniper }
     public BulletMode _BulletMode = BulletMode.Shot;
 
     public Text MinText, MaxText, NameText, ModeText;
 
 
-    public Bullet[] BulletList = new Bullet[2];
+    public Bullet[] BulletList = new Bullet[3];
+
+    public GameObject _AimUi;
+    public GameObject _AimSniperUi;
+
+    public int SniperType;
 
     //public Bullet[] BulletList = new Bullet[]
     //{
@@ -50,6 +55,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
     {
         I = this;
 
+        PV = GetComponent<PhotonView>();
         _Create = GetComponent<Create>();
 
         MinText = GameObject.Find("Min").GetComponent<Text>();
@@ -57,14 +63,17 @@ public class BulletManager : MonoBehaviourPunCallbacks
         NameText = GameObject.Find("Name").GetComponent<Text>();
         ModeText = GameObject.Find("Mode").GetComponent<Text>();
 
-        if(GetComponent<Move>().PV.IsMine)
+        if(PV.IsMine)
         {
-            BulletList[0] = new Bullet("Attack", 30, 30, 999);
-            BulletList[1] = new Bullet("Speed", 3, 3, 30);
+            BulletList[0] = new Bullet("Attack", 999, 999, 9999);
+            BulletList[1] = new Bullet("Speed", 5, 5, 50);
+            BulletList[2] = new Bullet("Sniper", 15, 15, 9999);
+            PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
         }
     }
     void Start()
     {
+        
     }
     void Update()
     {
@@ -76,7 +85,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
                 UITextUpdate();
             }
         }
-
     }
     void BulletCheck()
     {
@@ -103,8 +111,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
         if (MaxCheck < 0)
             return;
 
-
-
         BulletList[type].MaxBullet -= ManyNumber;
         BulletList[type].MinBullet += ManyNumber;
         BulletList[type].isBullet = true;
@@ -122,12 +128,23 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         if ((int)_BulletMode == 0) ModeName = "단발모드";
         else if ((int)_BulletMode == 1) ModeName = "연사모드";
+        else if ((int)_BulletMode == 2) ModeName = "스나이퍼";
 
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
         MaxText.text = BulletList[type].MaxBullet.ToString();
         NameText.text = BulletList[type].BulletName.ToString();
         ModeText.text = ModeName;
+    }
+
+    [PunRPC]
+    public void AimUiChangeRPC( bool aim, bool sniper)
+    {
+        if (PV.IsMine)
+        {
+            _AimUi.SetActive(aim);
+            _AimSniperUi.SetActive(sniper);
+        }
     }
 
 }

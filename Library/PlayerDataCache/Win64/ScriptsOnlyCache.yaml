@@ -16,9 +16,9 @@ ScriptsOnlyBuild:
     - Move
     - NetworkManager
     - PlayerAni
+    - PlayerDmgColor
     - PokManager
     - ScoreManager
-    - UnityStandardAssets.Utility.SmoothFollow
     PhotonUnityNetworking.Demos.dll:
     - Photon.Pun.Demo.Asteroids.Asteroid
     - Photon.Pun.Demo.Asteroids.Bullet
@@ -66,6 +66,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.RawImage
     - UnityEngine.UI.Shadow
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
@@ -126,8 +127,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11306}
     - Class: 114
-      Script: {instanceID: 11384}
-    - Class: 114
       Script: {instanceID: 11464}
     - Class: 114
       Script: {instanceID: 11490}
@@ -138,71 +137,75 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11792}
     - Class: 114
-      Script: {instanceID: 12126}
+      Script: {instanceID: 12128}
     - Class: 114
-      Script: {instanceID: 12252}
+      Script: {instanceID: 12254}
     - Class: 114
-      Script: {instanceID: 12348}
+      Script: {instanceID: 12350}
     - Class: 114
-      Script: {instanceID: 12430}
+      Script: {instanceID: 12432}
     - Class: 114
-      Script: {instanceID: 12604}
+      Script: {instanceID: 12606}
     - Class: 114
-      Script: {instanceID: 12658}
+      Script: {instanceID: 12660}
     - Class: 114
-      Script: {instanceID: 12746}
+      Script: {instanceID: 12748}
     - Class: 114
-      Script: {instanceID: 12910}
+      Script: {instanceID: 12912}
     - Class: 114
-      Script: {instanceID: 12980}
+      Script: {instanceID: 12932}
     - Class: 114
-      Script: {instanceID: 13060}
+      Script: {instanceID: 12948}
     - Class: 114
-      Script: {instanceID: 13088}
+      Script: {instanceID: 12984}
     - Class: 114
-      Script: {instanceID: 13196}
+      Script: {instanceID: 13064}
     - Class: 114
-      Script: {instanceID: 13212}
+      Script: {instanceID: 13092}
     - Class: 114
-      Script: {instanceID: 13226}
+      Script: {instanceID: 13200}
     - Class: 114
-      Script: {instanceID: 13412}
+      Script: {instanceID: 13216}
     - Class: 114
-      Script: {instanceID: 13496}
+      Script: {instanceID: 13230}
     - Class: 114
-      Script: {instanceID: 13522}
+      Script: {instanceID: 13416}
     - Class: 114
-      Script: {instanceID: 13534}
+      Script: {instanceID: 13500}
     - Class: 114
-      Script: {instanceID: 13562}
+      Script: {instanceID: 13526}
     - Class: 114
-      Script: {instanceID: 13686}
+      Script: {instanceID: 13538}
     - Class: 114
-      Script: {instanceID: 13714}
+      Script: {instanceID: 13566}
     - Class: 114
-      Script: {instanceID: 13766}
+      Script: {instanceID: 13690}
     - Class: 114
-      Script: {instanceID: 13790}
+      Script: {instanceID: 13718}
     - Class: 114
-      Script: {instanceID: 13796}
+      Script: {instanceID: 13770}
     - Class: 114
-      Script: {instanceID: 13964}
+      Script: {instanceID: 13794}
     - Class: 114
-      Script: {instanceID: 14018}
+      Script: {instanceID: 13800}
     - Class: 114
-      Script: {instanceID: 14190}
+      Script: {instanceID: 13968}
     - Class: 114
-      Script: {instanceID: 14228}
+      Script: {instanceID: 14022}
     - Class: 114
-      Script: {instanceID: 14328}
+      Script: {instanceID: 14194}
     - Class: 114
-      Script: {instanceID: 14342}
+      Script: {instanceID: 14232}
     - Class: 114
-      Script: {instanceID: 14382}
+      Script: {instanceID: 14332}
     - Class: 114
-      Script: {instanceID: 14388}
+      Script: {instanceID: 14346}
     - Class: 114
-      Script: {instanceID: 14398}
+      Script: {instanceID: 14386}
+    - Class: 114
+      Script: {instanceID: 14392}
+    - Class: 114
+      Script: {instanceID: 14402}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -288,7 +291,7 @@ ScriptsOnlyBuild:
     className: RegionListView
   - hash:
       serializedVersion: 2
-      Hash: 85959a62cee39f5ab3b4d1c785d4a834
+      Hash: d4162421ad4adcfdd03446fdd556e635
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Create
@@ -592,6 +595,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: AnimationTrack
+  - hash:
+      serializedVersion: 2
+      Hash: d320d5d3f9eaeb41e28210b1d9c96364
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: SniperMove
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -1002,6 +1011,12 @@ ScriptsOnlyBuild:
     className: Button
   - hash:
       serializedVersion: 2
+      Hash: aa2c0cf0815b75a3e46a2d6e12b3fc87
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: PlayerDmgColor
+  - hash:
+      serializedVersion: 2
       Hash: feb9a5a121d15fa3654d4e50a5233045
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -1194,7 +1209,7 @@ ScriptsOnlyBuild:
     className: PunTurnManager
   - hash:
       serializedVersion: 2
-      Hash: d320d5d3f9eaeb41e28210b1d9c96364
+      Hash: 7c6dacb2ef7feb3e5fd9b0ea9914b4ee
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CastMove
@@ -1356,7 +1371,7 @@ ScriptsOnlyBuild:
     className: DestoryWall
   - hash:
       serializedVersion: 2
-      Hash: 78f4d2b437fdbaa5dc636c97ccf21bdf
+      Hash: c4a7537d26b9f337027c5846e2038a54
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: BulletManager
@@ -1422,7 +1437,7 @@ ScriptsOnlyBuild:
     className: MarkerTrack
   - hash:
       serializedVersion: 2
-      Hash: 6e1607131bcf8744ed3fff0a537b3d75
+      Hash: 09afca03a5dac16a495ee79715f04ca3
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Move
@@ -1723,4 +1738,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: "C:/Users/jihoon/Desktop/04.26_\uBE4C\uB4DC/PhotonTest.exe"
+  playerPath: "C:/Users/tjsn0/Desktop/CowCowGit/\uBE4C\uB4DC/PhotonTest.exe"

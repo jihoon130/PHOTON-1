@@ -25,7 +25,8 @@ public class MapSuburb : MonoBehaviourPunCallbacks
         }
         else if (collision.collider.tag == "Player")
         {
-            collision.gameObject.GetComponent<Move>().PV.RPC("ResetPos", RpcTarget.AllBuffered);
+            //collision.gameObject.GetComponent<Move>().PV.RPC("ResetPosRPC", RpcTarget.AllBuffered);
+            collision.gameObject.GetComponent<Move>().PV.RPC("DieTrue", RpcTarget.AllBuffered);
         }
     }
 }

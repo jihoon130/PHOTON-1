@@ -25,12 +25,12 @@ public class CameraShake : MonoBehaviour
     }
     public void Init()
     {
-        camerashake.ShakeObj = GameObject.FindGameObjectWithTag("Follow");
+        
         originalPos = ShakeObj.transform.position;
     }
     public void ShakeCamera()
     {
-        gameObject.GetComponent<CameraFind>().islock = true;
+        //gameObject.GetComponent<Came>().islock = true;
         shakes = 0.1f;
         originalPos = ShakeObj.transform.position;
         CameraShaking = true;
@@ -50,7 +50,6 @@ public class CameraShake : MonoBehaviour
                 shakes = 0f;
                 gameObject.transform.position = originalPos;
                 CameraShaking = false;
-                gameObject.GetComponent<CameraFind>().islock = false;
             }
         }
     }

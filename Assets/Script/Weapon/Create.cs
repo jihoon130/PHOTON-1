@@ -7,12 +7,14 @@ public enum BulletMake
 {
     None,
     Attack,
-    Speed
+    Speed,
+    Sniper
 }
 public class Create : MonoBehaviourPunCallbacks
 {
-    
     public BulletMake _BulletMake = BulletMake.Attack;
+
+    private BulletManager _BulletManager;
 
     public PhotonView PV;
     public Transform StartTf;
@@ -20,42 +22,75 @@ public class Create : MonoBehaviourPunCallbacks
     private int GunEffectType;
     private bool isGunTime;
     private float fGunTimer;
-    public float Y;
+    public float AimY;
     private PlayerAni _Ani;
 
     private float fTime;
+
+    // Sniper
+    
+    private Camera cam;
 
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         _Ani = GetComponent<PlayerAni>();
+        _BulletManager = GetComponent<BulletManager>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
-
     // Update is called once per frame
     void Update()
     {
-
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        if (Y <= 285f && Y >= -442f)
-            Y -= Input.GetAxis("Mouse Y") * 300.0f * Time.deltaTime;
-        else if (Y >= 285f)
-            Y = 285f;
-        else if (Y <= -442f)
-            Y = -442f;
+        if (AimY <= 136f && AimY >= -276f)
+             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+
+        AimY = Mathf.Clamp(AimY, -276, 136);
 
         if (GetComponent<Move>().StopT <= 0.0f)
         {
-            //if(Input.GetKeyDown(KeyCode.G))
-            //{
-            //    Debug.Log(BulletManager.I._BulletMode);
-            //}
+            if (_BulletManager.SniperType == 0)
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+                    _BulletMake = BulletMake.Attack;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+                    _BulletMake = BulletMake.Speed;
+                }
+                else if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, false);
+                    _BulletMake = BulletMake.Sniper;
+                }
+            }
 
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-                _BulletMake = BulletMake.Attack;
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-                _BulletMake = BulletMake.Speed;
+            // Sniper
+            if (Input.GetMouseButtonDown(1))
+            {
+                if (_BulletMake != BulletMake.Sniper)
+                    return;
+
+                _BulletManager.SniperType++;
+
+                if (_BulletManager.SniperType == 1) { 
+                    cam.fieldOfView = 20f;
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, true);
+                }
+                else if (_BulletManager.SniperType == 2) cam.fieldOfView = 10f;
+                else if (_BulletManager.SniperType > 2) SniperReset();
+            }
+
+            if (_BulletManager.SniperType >= 1)
+            {
+                SniperRay();
+            }
+
 
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -70,9 +105,11 @@ public class Create : MonoBehaviourPunCallbacks
 
             if (GetComponent<Move>().isMove)
             {
+                if (_BulletManager.SniperType > 0)
+                    return;
+
                 if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
                 {
-                    
                     if (Input.GetMouseButton(0) && fTime > 0.1f)
                     {
                         GunEffectType = 1;
@@ -92,8 +129,6 @@ public class Create : MonoBehaviourPunCallbacks
                 if (Input.GetMouseButtonUp(0))
                     GunEffectType = 0;
             }
-
-
 
             if (GunEffectType != 0)
             {
@@ -119,8 +154,59 @@ public class Create : MonoBehaviourPunCallbacks
                     GunEffectType = 0;
                 }
             }
+
+            
+
         }
     }
+    private void SniperRay()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity))
+        {
+            if (Input.GetMouseButton(0) && GetComponent<BulletManager>().BulletList[2].isBullet)
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
+                }
+
+                GetComponent<BulletManager>().BulletUse(2);
+
+                cam.fieldOfView = 60f;
+                _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, false);
+                _BulletManager.SniperType = 0;
+            }
+        }
+    }
+    private void SniperReset()
+    {
+        cam.fieldOfView = 60f;
+        _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+        _BulletManager.SniperType = 0;
+    }
+    private void FixedUpdate()
+    {
+        //Debug.Log(RayCastTest());
+    }
+
+
+    private float RayCastTest()
+    {
+        RaycastHit hit;
+        float MaxDinstance = 15f;
+        float f = 0;
+
+        
+        if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDinstance))
+        {
+            f = hit.transform.transform.position.y;
+            Debug.Log(hit.collider.name);
+        }
+        return f;
+    }
+
 
     public void BulletCreate()
     {
@@ -135,6 +221,11 @@ public class Create : MonoBehaviourPunCallbacks
                 InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
             else if (_BulletMake == BulletMake.Speed)
                 InstantiateObject("CastObj_2", StartTf.transform.position, RotVector(), type);
+            //else if (_BulletMake == BulletMake.Sniper)
+            //{
+            //    if(_BulletManager.SniperType == 0)
+            //        InstantiateObject("CastObj_3", StartTf.transform.position, RotVector(), type);
+            //}
         }
         
     }
@@ -148,7 +239,8 @@ public class Create : MonoBehaviourPunCallbacks
     private Vector3 RotVector(float z = 90f)
     {
         Vector3 Rot;
-        Rot.x = transform.rotation.x + Y/10;
+
+        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + AimY / 10;
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
 

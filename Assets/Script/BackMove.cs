@@ -42,8 +42,8 @@ public class BackMove : MonoBehaviourPunCallbacks
                 return;
 
             
-            PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
-            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            //PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+          //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
             //  ObjMoveback(collision);
         }
 
@@ -52,6 +52,10 @@ public class BackMove : MonoBehaviourPunCallbacks
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
             SpeedObjMoveback(collision);
+        }
+        if (collision.gameObject.CompareTag("SniperBullet"))
+        {
+            SpeedObjMoveback(collision,10f);
         }
 
         if (b >= 0.1f && collision.gameObject.CompareTag("Wall"))
@@ -114,6 +118,12 @@ public class BackMove : MonoBehaviourPunCallbacks
     void BackRPC(float a, float b, float c)
     {
         PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+
+        if (_Move.isPhoenix)
+            return;
+
+        _Move.PV.RPC("PhoenixTimerRPC", RpcTarget.AllBuffered);
+
         _PlayerAni._State = State.Dmg;
         rb.velocity = Vector3.zero;
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;

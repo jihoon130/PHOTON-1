@@ -28,7 +28,6 @@ public class CameraPlayer : MonoBehaviour
     private Quaternion rotation;
     private Vector3 position;
 
-
     private void Awake()
     {
         I = this;
@@ -47,23 +46,10 @@ public class CameraPlayer : MonoBehaviour
     {
         if (target)
         {
-            //마우스 스크롤과의 거리계산
-            //dist -= ScrollSpeed * Input.mouseScrollDelta.y * Time.deltaTime;
-            //
-            ////마우스 스크롤했을경우 카메라 거리의 Min과Max
-            //if (dist < -3.0)
-            //{
-            //    dist = 3.0f;
-            //}
-            //if (dist >= 0) dist = 0;
-
             //카메라 회전속도 계산
             x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;
             y -= Input.GetAxis("Mouse Y") * ySpeed * Time.deltaTime;
 
-            //앵글값 정하기
-            //y값의 Min과 MaX 없애면 y값이 360도 계속 돎
-            //x값은 계속 돌고 y값만 제한
             y = ClampAngle(y, yMinLimit, yMaxLimit);
 
             //카메라 위치 변화 계산
@@ -71,9 +57,17 @@ public class CameraPlayer : MonoBehaviour
             position = rotation * new Vector3(0.0f, 0.0f, -dist) + target.position + new Vector3(0.0f, InitRotY, 0.0f);
 
             transform.rotation = rotation;
-            transform.position = position;
-            //transform.rotation = Quaternion.Slerp(transform.rotation, target.transform.rotation, 3 * Time.deltaTime);
 
+            Vector3 vPos2 = new Vector3(position.x, position.y, position.z);
+
+            transform.position = vPos2;
+
+            //transform.position = position;
+
+            //transform.position = Vector3.Lerp(transform.position, position, 10 * Time.deltaTime);
+            //transform.position = position;
+
+            //transform.rotation = Quaternion.Slerp(transform.rotation, target.transform.rotation, 10 * Time.deltaTime);
             target.Rotate(Vector3.up * Time.deltaTime * xSpeed * Input.GetAxis("Mouse X"));
         }
     }
