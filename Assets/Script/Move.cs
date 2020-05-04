@@ -228,7 +228,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     IEnumerator Phoenix()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.3f);
         isPhoenix = false;
     }
 
@@ -244,7 +244,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public void ResetPosRPC()
     {
         rb.velocity = Vector3.zero;
-        transform.localPosition = new Vector3(Random.Range(27, -27), 5f, Random.Range(4, 5));
+
+        transform.localPosition = new Vector3(Random.Range(-6, 7), 7f, Random.Range(-23, -30));
+
         isDie = false;
     }
 

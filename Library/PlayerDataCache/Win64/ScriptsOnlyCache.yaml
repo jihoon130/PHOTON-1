@@ -6,19 +6,22 @@ ScriptsOnlyBuild:
     - BackMove
     - Bubble
     - BulletManager
+    - CameraCol
     - CameraPlayer
     - CastMove
     - Create
     - DestoryPok
-    - DestoryWall
     - HIT
     - MapSuburb
     - Move
     - NetworkManager
+    - Player
     - PlayerAni
     - PlayerDmgColor
     - PokManager
+    - ResetCount
     - ScoreManager
+    - Timer
     PhotonUnityNetworking.Demos.dll:
     - Photon.Pun.Demo.Asteroids.Asteroid
     - Photon.Pun.Demo.Asteroids.Bullet
@@ -48,11 +51,8 @@ ScriptsOnlyBuild:
     UnityEditor.Graphs.dll:
     - UnityEditor.Graphs.AnimationBlendTree.Graph
     - UnityEditor.Graphs.AnimationBlendTree.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.AnyStateNode
     - UnityEditor.Graphs.AnimationStateMachine.Graph
     - UnityEditor.Graphs.AnimationStateMachine.GraphGUI
-    - UnityEditor.Graphs.AnimationStateMachine.StateMachineNode
-    - UnityEditor.Graphs.AnimationStateMachine.StateNode
     - UnityEditor.Graphs.AnimatorControllerTool
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
@@ -71,7 +71,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Slider
     - UnityEngine.UI.Text
   sceneClasses:
-    Assets/Scenes/SampleScene.unity:
+    Assets/Scenes/TaScene.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -183,8 +183,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 13718}
     - Class: 114
-      Script: {instanceID: 13770}
-    - Class: 114
       Script: {instanceID: 13794}
     - Class: 114
       Script: {instanceID: 13800}
@@ -192,6 +190,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 13968}
     - Class: 114
       Script: {instanceID: 14022}
+    - Class: 114
+      Script: {instanceID: 14090}
     - Class: 114
       Script: {instanceID: 14194}
     - Class: 114
@@ -206,6 +206,18 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14392}
     - Class: 114
       Script: {instanceID: 14402}
+    - Class: 114
+      Script: {instanceID: 17384}
+    - Class: 114
+      Script: {instanceID: 18660}
+    - Class: 114
+      Script: {instanceID: 18662}
+    - Class: 114
+      Script: {instanceID: 18664}
+    - Class: 114
+      Script: {instanceID: 78780}
+    - Class: 114
+      Script: {instanceID: 165478}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1735,7 +1747,25 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 50f06a649f4764853317935d670639e4
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Player
+  - hash:
+      serializedVersion: 2
+      Hash: e0e6941f2860e054dc867ab2fff4aeee
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ResetCount
+  - hash:
+      serializedVersion: 2
+      Hash: 1092f233c3bae8c1c451b79f066f8fa7
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Timer
   platform: 19
   scenePathNames:
-  - Assets/Scenes/SampleScene.unity
+  - Assets/Scenes/TaScene.unity
   playerPath: "C:/Users/tjsn0/Desktop/CowCowGit/\uBE4C\uB4DC/PhotonTest.exe"

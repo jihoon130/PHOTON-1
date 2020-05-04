@@ -6,31 +6,37 @@ using Photon.Realtime;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
+    private bool isRoom;
+    private int MaxPlayer = 1;
     private void Awake()
     {
-
-        PhotonNetwork.SendRate = 60;
-        PhotonNetwork.SerializationRate = 30;
-        Connect();
+        PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.ConnectUsingSettings();
     }
-    public void Connect() => PhotonNetwork.ConnectUsingSettings();
-    // Update is called once per frame
+
+    private void Update()
+    {
+        if(!isRoom && PhotonNetwork.PlayerList.Length == MaxPlayer)
+        {
+            Spawn();
+            isRoom = true;
+        }
+    }
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 15 }, null);
+        PhotonNetwork.JoinRandomRoom();
+    }
+    // Update is called once per frame
+    public override void OnJoinRandomFailed(short returnCode, string message)
+    {
+        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
     }
     public override void OnJoinedRoom()
     {
-        Spawn();
-    }
-
-    public override void OnJoinedLobby()
-    {
-        PhotonNetwork.JoinRandomRoom();
     }
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(27, -27), 5f, Random.Range(4, 5)), Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-6, 7), 7f, Random.Range(-23, -30)), Quaternion.identity);
     }
 }

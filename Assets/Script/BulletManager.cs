@@ -40,13 +40,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public int SniperType;
 
-    //public Bullet[] BulletList = new Bullet[]
-    //{
-    //    new Bullet ("Attack",30, 30, 999),
-    //    new Bullet ("Speed",3, 3 ,30)
-    //};
-
-
     public int type23;
     public static BulletManager I;
 
@@ -118,17 +111,16 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public void UITextUpdate()
     {
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (_BulletMode == BulletMode.Speaker)
-                _BulletMode = BulletMode.Shot;
-            else
-                _BulletMode++;
-        }
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    if (_BulletMode == BulletMode.Speaker)
+        //        _BulletMode = BulletMode.Shot;
+        //    else
+        //        _BulletMode++;
+        //}
 
         if ((int)_BulletMode == 0) ModeName = "단발모드";
         else if ((int)_BulletMode == 1) ModeName = "연사모드";
-        else if ((int)_BulletMode == 2) ModeName = "스나이퍼";
 
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
