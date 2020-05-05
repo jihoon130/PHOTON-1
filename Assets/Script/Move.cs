@@ -320,4 +320,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         fl = true;
     }
+
+    [PunRPC]
+    public void DestroyRPC() => Destroy(gameObject);
 }

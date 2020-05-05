@@ -11,7 +11,6 @@ public class Timer : MonoBehaviour
     private int Minute, Second;
 
     public Text TimerText;
-
     private bool isTimer;
 
     private void Awake() => PV = GetComponent<PhotonView>();
@@ -24,6 +23,7 @@ public class Timer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (PV.IsMine)
         {
             if (GameObject.FindGameObjectWithTag("Player") != null)

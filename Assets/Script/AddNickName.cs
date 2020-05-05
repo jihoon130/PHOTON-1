@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 public class AddNickName : MonoBehaviour
 {
     public InputField Nick;
-    public GameObject Play;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,8 +20,14 @@ public class AddNickName : MonoBehaviour
 
   public  void SetNickName()
     {
-        PlayerPrefs.SetString("NickName", Nick.text);
-        gameObject.SetActive(false);
-        Play.SetActive(true);
+        if (Nick.text == "")
+        {
+            PlayerPrefs.SetString("NickName", "무한지훈교도");
+        }
+        else
+        {
+            PlayerPrefs.SetString("NickName", Nick.text);
+        }
+        SceneManager.LoadScene(1);
     }
 }
