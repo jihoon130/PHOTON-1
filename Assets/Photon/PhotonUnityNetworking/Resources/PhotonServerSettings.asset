@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 9c27909c-c8de-4765-938a-28f07efbf9a5
+    AppIdRealtime: 7db39814-832b-424b-9ea9-9e5fef21e645
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: kr
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
@@ -50,14 +50,15 @@ MonoBehaviour:
   - OpenWaterRPC
   - PhoenixTimerRPC
   - PlusScore
+  - ReadyRPC
   - ResetPosRPC
   - RespawnSpaceship
   - SpeedSetting
   - TimerCheckRPC
   - TimerRPC
-  - OpenRPC
-  - ReadyRPC
-  - LoadSenceRPC
+  - PlayerGetScoreRPC
+  - NickRPC
+  - NickChangeRPC
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 1

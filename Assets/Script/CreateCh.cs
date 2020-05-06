@@ -36,7 +36,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
 
            foreach (GameObject taggedEnemy in taggedEnemys)
             {
-                  taggedEnemy.GetComponent<Move>().StopT += 10.0f;
+                  taggedEnemy.GetComponent<Move>().StopT += 0.1f;
                         int a;
                          AAA:
                         a = Random.Range(0, 4);
@@ -59,7 +59,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
 
     IEnumerator GameStart()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(0.1f);
         Daegi.text = "";
         timer.SetActive(true);
     }
