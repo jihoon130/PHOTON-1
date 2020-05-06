@@ -33,19 +33,22 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            string e = collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString();
-            string r = gameObject.GetComponent<Move>().PV.ViewID.ToString();
-
-            if (e[0] == r[0])
-                return;
-
-            
-            //PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
-          //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
-            //  ObjMoveback(collision);
-        }
+        //if (collision.gameObject.CompareTag("Bullet"))
+        //{
+        //    string e = collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString();
+        //    string r = gameObject.GetComponent<Move>().PV.ViewID.ToString();
+        //
+        //    if (e[0] == r[0])
+        //        return;
+        //
+        //    Debug.Log("때린애 " + e);
+        //    Debug.Log("맞은애 " + r);
+        //
+        //
+        //    //PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+        //    //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        //    //  ObjMoveback(collision);
+        //}
 
 
 

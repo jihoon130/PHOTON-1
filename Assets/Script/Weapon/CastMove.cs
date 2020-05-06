@@ -5,29 +5,60 @@ using Photon.Pun;
 
 public class CastMove : MonoBehaviourPunCallbacks
 {
+    private Move _Move; 
     public float CastSpeed = 70.0f;
     public float Dir = 0.5f;
-
+    public GameObject[] pu;
     public PhotonView PV;
+    public GameObject pu2;
+    public GameObject pu3;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
         StartCoroutine("DirCheck");
+        _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
     private void Update()
     {
         Vector3 pos = transform.position;
         Vector3 PosA = transform.forward;
         RaycastHit hit;
+
         if(Physics.Raycast(pos,PosA,out hit,1.0f))
         {
             if(hit.collider.CompareTag("Player"))
             {
-               hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
+                string my = _Move.PV.ViewID.ToString();
+                string you = hit.collider.gameObject.GetComponent<Move>().PV.ViewID.ToString();
+
+                pu = GameObject.FindGameObjectsWithTag("Player");
+
+
+                for(int i=0;i<pu.Length;i++)
+                {
+                    if (pu[i].GetComponent<Move>().PV.ViewID.ToString().Substring(0,1) == PV.ViewID.ToString().Substring(0,1))
+                    {
+                        pu2 = pu[i];
+                        pu3 = hit.collider.gameObject;
+                        PV.RPC("PiguckRPC", RpcTarget.AllBuffered);
+                       // hit.collider.GetComponent<Move>().Piguck = pu[i];
+                    }
+                }
+
+                if (you[0] == my[0])
+                    return;
+
+
+
+
+                hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
                 PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
             }
         }
     }
+
+
     private void FixedUpdate()
     {
         transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
@@ -46,6 +77,13 @@ public class CastMove : MonoBehaviourPunCallbacks
             PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
             PV.RPC("HitEffectRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
         }
+    }
+
+    [PunRPC]
+    void PiguckRPC()
+    {
+        if(pu3)
+        pu3.GetComponent<Move>().Piguck = pu2;
     }
 
     [PunRPC]

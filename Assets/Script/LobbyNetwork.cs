@@ -36,7 +36,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             ReadyButton.GetComponent<Image>().color = new Color(0, 0, 0);
         }
 
-        if (ReadyButton.GetComponentInChildren<Text>().text == "Start" && PhotonNetwork.PlayerList.Length >= 3) // 2
+        if (ReadyButton.GetComponentInChildren<Text>().text == "Start" && PhotonNetwork.PlayerList.Length >= 1) // 2
         {
             ReadyButton.GetComponent<Button>().enabled = true;
             ReadyButton.GetComponent<Image>().color = new Color(255, 255, 255);

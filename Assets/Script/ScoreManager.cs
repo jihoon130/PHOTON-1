@@ -7,6 +7,8 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
 
+    public GameObject[] ScoreUI;
+
     public int[] Score;
     public string[] NickName;
     private string SaveNick;
@@ -15,6 +17,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     public string bestNick;
     public int k;
     public Text Scoretext;
+    public Text EndSocreText;
     public GameObject[] SusoonJung;
     public GameObject TempObject;
     // Start is called before the first frame update
@@ -30,11 +33,11 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     {
         PlayerGetScore();
 
-        Debug.Log(SusoonJung.Length);
+        //Debug.Log(SusoonJung.Length);
         for(int i = 0 ; i < SusoonJung.Length - 1 ; i++)
         {
-            Debug.Log(SusoonJung[i].GetComponent<Move>().score);
-            Debug.Log(SusoonJung[i + 1].GetComponent<Move>().score);
+            //Debug.Log(SusoonJung[i].GetComponent<Move>().score);
+            //Debug.Log(SusoonJung[i + 1].GetComponent<Move>().score);
         
             if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
             {
@@ -44,8 +47,17 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
 
-        UpdateScore();
+        UpdateScore(Scoretext);
+        UpdateScore(EndSocreText);
     }
+
+    [PunRPC]
+    public void EndScoreRPC()
+    {
+        ScoreUI[0].SetActive(false);
+        ScoreUI[1].SetActive(true);
+    }
+
     void ScoreUpdate()
     {
         GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player");
@@ -110,13 +122,13 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         //}
     }
 
-    void UpdateScore()
+    void UpdateScore(Text t)
     {
-        Scoretext.text = "";
+        t.text = "";
         for (int i = 0; i < SusoonJung.Length; i++)
         {
             string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
-            Scoretext.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + SusoonJung[i].GetComponent<Move>().score + "\n";
+            t.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + SusoonJung[i].GetComponent<Move>().score + "\n" + "\n";
         }
     }
 }

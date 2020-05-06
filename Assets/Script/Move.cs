@@ -8,8 +8,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public PhotonView PV;
     private PlayerAni _PlayerAni;
 
-    public bool isMove;
+    // ID
+    public int PVGetID;
 
+    public bool isMove;
+  public  GameObject Piguck;
 
     public string NickName;
     public string EnemyNickName;
@@ -54,7 +57,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     void Start()
     {
-        score = 5;
+        score = 0;
         isMove = true;
         if (PV.IsMine)
         {
@@ -125,7 +128,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            if(isDie)
+            Debug.Log("내값 : " + this.PV.ViewID);
+
+            if (Piguck)
+                StartCoroutine("DestroyPiguck");
+
+            if (isDie)
             {
                 rb.velocity = Vector3.zero;
 
@@ -231,7 +239,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(0.3f);
         isPhoenix = false;
     }
-
+    IEnumerator DestroyPiguck()
+    {
+        yield return new WaitForSeconds(100f);
+        Destroy(Piguck);
+    }
 
     [PunRPC]
     public void PhoenixTimerRPC()
@@ -243,17 +255,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ResetPosRPC()
     {
+        if (Piguck)
+        {
+            Piguck.GetComponent<Move>().score += 1;
+            Piguck = null;
+        }
+
         rb.velocity = Vector3.zero;
 
         transform.localPosition = new Vector3(Random.Range(-6, 7), 7f, Random.Range(-23, -30));
 
         isDie = false;
-    }
-
-    [PunRPC]
-    void PlusScore()
-    {
-        score++;
     }
 
     [PunRPC]
@@ -284,6 +296,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public void MoveTrue()
     {
         isMove = true;
+
     }
 
     [PunRPC]

@@ -51,6 +51,8 @@ public class Timer : MonoBehaviour
         {
             Minute = 0;
             Second = 0;
+
+            GameObject.Find("ScoreManager").GetComponent<ScoreManager>().PV.RPC("EndScoreRPC", RpcTarget.AllBuffered);
             return;
         }
 
