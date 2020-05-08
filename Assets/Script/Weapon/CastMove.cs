@@ -41,11 +41,14 @@ public class CastMove : MonoBehaviourPunCallbacks
                     {
                         pu2 = pu[i];
                         pu3 = hit.collider.gameObject;
-                        PV.RPC("PiguckRPC", RpcTarget.AllBuffered);
+                       // Piguck();
+                      
                        // hit.collider.GetComponent<Move>().Piguck = pu[i];
                     }
                 }
 
+
+                PV.RPC("PiguckRPC", RpcTarget.AllBuffered);
                 if (you[0] == my[0])
                     return;
 

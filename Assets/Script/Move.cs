@@ -10,10 +10,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     // ID
     public int PVGetID;
-
+    public int score2;
     public bool isMove;
   public  GameObject Piguck;
-
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 10.0f;
@@ -21,7 +20,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float daepoT = 0.0f;
     // Water
     public GameObject Boonsoo;
-
+    public ScoreManager scoreM;
     private Vector3 currPos;
     private Rigidbody rb;
     private Quaternion currRot;
@@ -50,6 +49,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
 
+        scoreM = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         if (PV.IsMine)
         {
             NickName = PlayerPrefs.GetString("NickName");
@@ -129,16 +129,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             Debug.Log("내값 : " + this.PV.ViewID);
-
             if (Piguck)
                 StartCoroutine("DestroyPiguck");
+
 
             if (isDie)
             {
                 rb.velocity = Vector3.zero;
 
-                if(Input.GetKeyDown(KeyCode.R))
-                    PV.RPC("ResetPosRPC", RpcTarget.AllBuffered);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftShift))
@@ -224,6 +222,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(tr.position);
             stream.SendNext(tr.rotation);
             stream.SendNext(NickName.ToString());
+            stream.SendNext(score);
         }
         //클론이 통신을 받는 
         else
@@ -231,6 +230,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
             EnemyNickName = (string)stream.ReceiveNext();
+            score2 = (int)stream.ReceiveNext();
         }
     }
 
@@ -242,7 +242,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     IEnumerator DestroyPiguck()
     {
         yield return new WaitForSeconds(100f);
-        Destroy(Piguck);
+        Piguck = null;
     }
 
     [PunRPC]
@@ -257,8 +257,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Piguck)
         {
-            Piguck.GetComponent<Move>().score += 1;
+            Debug.Log("DD");
+            scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
+            Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
+            // Piguck.GetComponent<Move>().score += 1;
             Piguck = null;
+            // PV.RPC("PlusScoreRPC", RpcTarget.All);
         }
 
         rb.velocity = Vector3.zero;
@@ -267,6 +271,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         isDie = false;
     }
+
+
 
     [PunRPC]
     public void SpeedSetting()

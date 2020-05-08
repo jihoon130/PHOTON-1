@@ -27,14 +27,13 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         Score = new int[5];
         NickName = new string[5];
-        InvokeRepeating("ScoreUpdate", 0, 0.1f);
+        InvokeRepeating("ScoreUpdate", 0f, 0.1f);
     }
     private void Update()
     {
         PlayerGetScore();
-
         //Debug.Log(SusoonJung.Length);
-        for(int i = 0 ; i < SusoonJung.Length - 1 ; i++)
+        for (int i = 0 ; i < SusoonJung.Length - 1 ; i++)
         {
             //Debug.Log(SusoonJung[i].GetComponent<Move>().score);
             //Debug.Log(SusoonJung[i + 1].GetComponent<Move>().score);
@@ -47,8 +46,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
 
-        UpdateScore(Scoretext);
-        UpdateScore(EndSocreText);
+        PV.RPC("UpdateScoreRPC", RpcTarget.AllBuffered);
     }
 
     [PunRPC]
@@ -64,7 +62,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject taggedEnemy in taggedEnemys)
         {
-            Score[taggedEnemy.GetComponent<Move>().PV.ViewID/1000] = taggedEnemy.GetComponent<Move>().score;
+          //  Score[taggedEnemy.GetComponent<Move>().PV.ViewID/1000] = taggedEnemy.GetComponent<Move>().score;
 
             if(k>=1 && taggedEnemy.GetComponent<Move>().PV.ViewID == k*1000+1)
             {
@@ -121,14 +119,14 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         //    }
         //}
     }
-
-    void UpdateScore(Text t)
+    [PunRPC]
+    void UpdateScoreRPC()
     {
-        t.text = "";
+        Scoretext.text = "";
         for (int i = 0; i < SusoonJung.Length; i++)
         {
             string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
-            t.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + SusoonJung[i].GetComponent<Move>().score + "\n" + "\n";
+            Scoretext.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000] + "\n" + "\n";
         }
     }
 }
