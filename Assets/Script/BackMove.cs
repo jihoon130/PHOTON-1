@@ -88,12 +88,10 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.AddForce(pushdi * speed, ForceMode.Impulse);
 
         //rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
-        collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
 
     }
     private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
     {
-        collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
         _Move.PV.RPC("SpeedSetting", RpcTarget.AllBuffered);
     }
 

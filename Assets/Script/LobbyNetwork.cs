@@ -15,6 +15,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public int ReadyCount=0;
     public GameObject ReadyButton;
     bool g=false;
+    public GameObject[] Spot;
+    public Sprite[] images;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -30,22 +32,51 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         if (g)
           return;
 
-        if(ReadyButton.GetComponentInChildren<Text>().text=="Start" && PhotonNetwork.PlayerList.Length <= 1)
+        if (PhotonNetwork.IsMasterClient)
         {
-            ReadyButton.GetComponent<Button>().enabled = false;
-            ReadyButton.GetComponent<Image>().color = new Color(0, 0, 0);
+            ReadyButton.GetComponent<Image>().sprite = images[1];
+        }
+        else
+        {
+            ReadyButton.GetComponent<Image>().sprite = images[0];
         }
 
-        if (ReadyButton.GetComponentInChildren<Text>().text == "Start" && PhotonNetwork.PlayerList.Length >= 1) // 2
+
+        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && PhotonNetwork.PlayerList.Length <= 1)
+        {
+            ReadyButton.GetComponent<Button>().enabled = false;
+        }
+
+        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && ReadyCount >= PhotonNetwork.PlayerList.Length-1) // 2
         {
             ReadyButton.GetComponent<Button>().enabled = true;
             ReadyButton.GetComponent<Image>().color = new Color(255, 255, 255);
-            ReadyCount = 0;
             ReadyButton.GetComponent<Button>().onClick.AddListener(() => CheckReady());
         }
 
 
         OpenR();
+
+
+        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
+
+        for (int i = 0; i < taggedEnemys.Length; i++)
+        {
+            taggedEnemys[i].transform.position = Spot[i].transform.position;
+
+            if(taggedEnemys[i].GetComponent<LobbyPlayer>().pv.Owner.IsMasterClient)
+            {
+                taggedEnemys[i].GetComponent<LobbyPlayer>().Master.SetActive(true);
+            }
+
+
+            if (PhotonNetwork.MasterClient == null)
+            {
+                PhotonNetwork.SetMasterClient(taggedEnemys[i].GetComponent<LobbyPlayer>().pv.Owner);
+            }
+        }
+        //     pv.RPC("TransRPC", RpcTarget.AllBuffered);
+
     }
 
     void OnLogin()
@@ -54,6 +85,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.NickName = PlayerPrefs.GetString("NickName");
         PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
+        PhotonNetwork.SendRate = 60;
+        PhotonNetwork.SerializationRate = 30;
     }
 
     public override void OnConnectedToMaster()
@@ -67,21 +100,19 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("LobbyCh", transform.position, Quaternion.identity);
 
-        if(PhotonNetwork.IsMasterClient)
-        {
-            ReadyButton.GetComponentInChildren<Text>().text = "Start";
-        }
-        else
-        {
-            ReadyButton.GetComponentInChildren<Text>().text = "Ready";
-        }
+
+       
+
+
     }
+
+
 
     void OpenR()
     {
-        Player = GameObject.FindGameObjectsWithTag("Follow");
+        Player = GameObject.FindGameObjectsWithTag("Player1");
 
         for (int i=0;i<Player.Length;i++)
         {
@@ -90,9 +121,9 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Ready = new bool[Player.Length];
                 Ready[i] = Player[i].GetComponent<LobbyPlayer>().Ready;
-                GameObject.Find(i.ToString()).GetComponentInChildren<Text>().text = Player[i].GetComponent<PhotonView>().Owner.ToString();
             }
         }
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -111,18 +142,25 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        for(int i=0;i<Player.Length;i++)
-        {
-            if(Ready[i])
-            {
-                ReadyCount++;
-            }
-        }
+        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
 
-        if(!g && ReadyCount >= Player.Length-1 && PhotonNetwork.IsMasterClient)
+        ReadyCount = taggedEnemys.Length;
+
+        if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length-1 && PhotonNetwork.IsMasterClient)
         {
+            if (ReadyCount == 0)
+                return;
+
             g = true;
             PhotonNetwork.LoadLevel("TaScene");
         }
     }
+
+
+    void OnPlayerDisconnected()
+    {
+        PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
+    }
+
+
 }

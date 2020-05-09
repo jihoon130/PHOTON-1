@@ -62,7 +62,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         foreach (GameObject taggedEnemy in taggedEnemys)
         {
-          //  Score[taggedEnemy.GetComponent<Move>().PV.ViewID/1000] = taggedEnemy.GetComponent<Move>().score;
+           Score[taggedEnemy.GetComponent<Move>().PV.ViewID/1000] = taggedEnemy.GetComponent<Move>().score;
 
             if(k>=1 && taggedEnemy.GetComponent<Move>().PV.ViewID == k*1000+1)
             {

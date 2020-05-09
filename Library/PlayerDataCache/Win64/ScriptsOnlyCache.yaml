@@ -9,6 +9,7 @@ ScriptsOnlyBuild:
     - CameraCol
     - CameraPlayer
     - CastMove
+    - ChangeCh
     - Create
     - CreateCh
     - DestoryPok
@@ -35,6 +36,9 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
+    PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PhotonViewInspector
+    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -67,6 +71,7 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.InputField
+    - UnityEngine.UI.Outline
     - UnityEngine.UI.RawImage
     - UnityEngine.UI.Shadow
     - UnityEngine.UI.Slider
@@ -94,8 +99,6 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 11246}
     - Class: 114
-      Script: {instanceID: 11534}
-    - Class: 114
       Script: {instanceID: 11590}
     - Class: 114
       Script: {instanceID: 12254}
@@ -109,9 +112,9 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14250}
     - Class: 114
       Script: {instanceID: 14356}
+    - Class: 114
+      Script: {instanceID: 57192}
     - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
       Script: {instanceID: 0}
     - Class: 157
       Script: {instanceID: 0}
@@ -241,6 +244,8 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14240}
     - Class: 114
+      Script: {instanceID: 14252}
+    - Class: 114
       Script: {instanceID: 14356}
     - Class: 114
       Script: {instanceID: 14396}
@@ -350,11 +355,11 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 14430}
     - Class: 114
-      Script: {instanceID: 19358}
+      Script: {instanceID: 20048}
     - Class: 114
-      Script: {instanceID: 19360}
+      Script: {instanceID: 20050}
     - Class: 114
-      Script: {instanceID: 19362}
+      Script: {instanceID: 20052}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1360,7 +1365,7 @@ ScriptsOnlyBuild:
     className: PunTurnManager
   - hash:
       serializedVersion: 2
-      Hash: a1f4d490ca1e564547e010cfc73c07e1
+      Hash: ba147ae9e2dc89327f206cfac683b5b0
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CastMove
@@ -1618,7 +1623,7 @@ ScriptsOnlyBuild:
     className: OnEscapeQuit
   - hash:
       serializedVersion: 2
-      Hash: f273d52a2d146ae488f3138eafce221d
+      Hash: 8585ac8c40142e3287f0b3126bbaced8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LobbyPlayer
@@ -1732,7 +1737,7 @@ ScriptsOnlyBuild:
     className: PhotonView
   - hash:
       serializedVersion: 2
-      Hash: 78ddc82fd9b958ac633ec3c01cf6f712
+      Hash: fc35c2671d27120b4d09777dc6be9439
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: LobbyNetwork
@@ -1904,9 +1909,15 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: e06722372961e7111add431bfc746379
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ChangeCh
   platform: 19
   scenePathNames:
   - Assets/Scenes/StartPage.unity
   - Assets/Scenes/LobbyScene.unity
   - Assets/Scenes/TaScene.unity
-  playerPath: "C:/Users/tjsn0/Desktop/CowCowGit/\uBE4C\uB4DC/PhotonTest.exe"
+  playerPath: "C:/Users/\uC774\uC9C0\uD6C8/Desktop/\uC0C8 \uD3F4\uB354/PhotonTest.exe"

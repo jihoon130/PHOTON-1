@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 7db39814-832b-424b-9ea9-9e5fef21e645
+    AppIdRealtime: 9c27909c-c8de-4765-938a-28f07efbf9a5
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -41,6 +41,7 @@ MonoBehaviour:
   - DestroysRPC
   - DieTrue
   - DownRPC
+  - EndScoreRPC
   - Fire
   - flRPC
   - GunEffectTypeObj
@@ -49,25 +50,18 @@ MonoBehaviour:
   - MoveTrue
   - OpenWaterRPC
   - PhoenixTimerRPC
-  - PlusScore
+  - PiguckRPC
   - ReadyRPC
   - ResetPosRPC
   - RespawnSpaceship
   - SpeedSetting
   - TimerCheckRPC
   - TimerRPC
-  - PlayerGetScoreRPC
-  - NickRPC
-  - NickChangeRPC
-  - TargetCheckRPC
-  - UpdateRPC
-  - PiguckRPC
-  - PlusScoreRPC
-  - EndScoreRPC
-  - ScoreUpdateRPC
-  - updateRPC
   - UpdateScoreRPC
-  - Piguck
+  - AttackRPC
+  - MasterRPC
+  - TransRPC
+  - ChangeCh1
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0
