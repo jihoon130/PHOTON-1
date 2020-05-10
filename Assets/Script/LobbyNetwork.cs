@@ -75,7 +75,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
                 PhotonNetwork.SetMasterClient(taggedEnemys[i].GetComponent<LobbyPlayer>().pv.Owner);
             }
         }
-        //     pv.RPC("TransRPC", RpcTarget.AllBuffered);
+        //     pv.RPC("TransRPC", RpcTarget.All);
 
     }
 

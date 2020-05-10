@@ -45,8 +45,8 @@ public class BackMove : MonoBehaviourPunCallbacks
         //    Debug.Log("맞은애 " + r);
         //
         //
-        //    //PV.RPC("BackRPC", RpcTarget.AllBuffered, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
-        //    //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        //    //PV.RPC("BackRPC", RpcTarget.All, collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+        //    //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
         //    //  ObjMoveback(collision);
         //}
 
@@ -70,7 +70,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         {
             if (GetComponent<Move>().PV.IsMine)
                 GetComponent<Move>().StopT += 5.0f;
-            collision.gameObject.GetComponent<DestoryPok>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            collision.gameObject.GetComponent<DestoryPok>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }
 
@@ -92,7 +92,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     }
     private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
     {
-        _Move.PV.RPC("SpeedSetting", RpcTarget.AllBuffered);
+        _Move.PV.RPC("SpeedSetting", RpcTarget.All);
     }
 
     private void ObjMoveback2(Collision collision, float speed = 15.0f)
@@ -123,7 +123,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         if (_Move.isPhoenix)
             return;
 
-        _Move.PV.RPC("PhoenixTimerRPC", RpcTarget.AllBuffered);
+        _Move.PV.RPC("PhoenixTimerRPC", RpcTarget.All);
 
         _PlayerAni._State = State.Dmg;
         rb.velocity = Vector3.zero;

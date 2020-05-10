@@ -15,12 +15,12 @@ public class CastMove : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-      //  StartCoroutine("DirCheck");
+      StartCoroutine("DirCheck");
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
     private void Update()
     {
-        PV.RPC("AttackRPC", RpcTarget.AllBuffered);
+        PV.RPC("AttackRPC", RpcTarget.All);
     }
 
 
@@ -32,15 +32,15 @@ public class CastMove : MonoBehaviourPunCallbacks
     IEnumerator DirCheck()
     {
         yield return new WaitForSeconds(Dir);
-        PV.RPC("DestroysRPC", RpcTarget.AllBuffered);
+        PV.RPC("DestroysRPC", RpcTarget.All);
     }
 
     private void OnCollisionEnter(Collision other)
     {
         if(other.collider.tag == "Ground")
         {
-            PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
-            PV.RPC("HitEffectRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
+            PV.RPC("DestroyRPC", RpcTarget.All);
+            PV.RPC("HitEffectRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
@@ -70,8 +70,8 @@ public class CastMove : MonoBehaviourPunCallbacks
     void ho()
     {
         Debug.Log("TT");
-        PV.RPC("PiguckRPC", RpcTarget.AllBuffered);
-        PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+        PV.RPC("PiguckRPC", RpcTarget.All);
+        PV.RPC("DestroyRPC", RpcTarget.All);
     }
 
     [PunRPC]
@@ -111,7 +111,7 @@ public class CastMove : MonoBehaviourPunCallbacks
 
 
                 }
-                hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
+                hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
             }
         }
     }

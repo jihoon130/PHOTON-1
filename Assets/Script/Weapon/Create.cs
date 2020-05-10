@@ -55,17 +55,17 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
                     _BulletMake = BulletMake.Attack;
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
                     _BulletMake = BulletMake.Speed;
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, false);
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, false);
                     _BulletMake = BulletMake.Sniper;
                 }
             }
@@ -80,7 +80,7 @@ public class Create : MonoBehaviourPunCallbacks
 
                 if (_BulletManager.SniperType == 1) { 
                     cam.fieldOfView = 20f;
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, true);
+                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, true);
                 }
                 else if (_BulletManager.SniperType == 2) cam.fieldOfView = 10f;
                 else if (_BulletManager.SniperType > 2) SniperReset();
@@ -132,7 +132,7 @@ public class Create : MonoBehaviourPunCallbacks
 
             if (GunEffectType != 0)
             {
-                PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, true);
+                PV.RPC("GunEffectTypeObj", RpcTarget.All, true);
 
                 if (GunEffectType == 2)
                     isGunTime = true;
@@ -140,7 +140,7 @@ public class Create : MonoBehaviourPunCallbacks
                     GunEffectType = 3;
             }
             else
-                PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, false);
+                PV.RPC("GunEffectTypeObj", RpcTarget.All, false);
 
 
             if (isGunTime)
@@ -148,7 +148,7 @@ public class Create : MonoBehaviourPunCallbacks
                 fGunTimer += Time.deltaTime;
                 if(fGunTimer > 1.0f)
                 {
-                    PV.RPC("GunEffectTypeObj", RpcTarget.AllBuffered, false);
+                    PV.RPC("GunEffectTypeObj", RpcTarget.All, false);
                     fGunTimer = 0.0f;
                     isGunTime = false;
                     GunEffectType = 0;
@@ -169,13 +169,13 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (hit.collider.CompareTag("Player"))
                 {
-                    hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.AllBuffered, transform.position.x, transform.position.y, transform.position.z);
+                    hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
                 }
 
                 GetComponent<BulletManager>().BulletUse(2);
 
                 cam.fieldOfView = 60f;
-                _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, false, false);
+                _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, false);
                 _BulletManager.SniperType = 0;
             }
         }
@@ -183,7 +183,7 @@ public class Create : MonoBehaviourPunCallbacks
     private void SniperReset()
     {
         cam.fieldOfView = 60f;
-        _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.AllBuffered, true, false);
+        _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
         _BulletManager.SniperType = 0;
     }
     private void FixedUpdate()

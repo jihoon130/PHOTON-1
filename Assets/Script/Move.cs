@@ -158,7 +158,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround)
                 {
-                    PV.RPC("flRPC", RpcTarget.AllBuffered);
+                    PV.RPC("flRPC", RpcTarget.All);
                     fJumptime = 0;
                     StartCoroutine("Fade");
                     _PlayerAni._State = State.Jump_Start;
@@ -175,7 +175,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         if (hit.collider.CompareTag("Ground"))
                         {
-                            PV.RPC("DownRPC", RpcTarget.AllBuffered);
+                            PV.RPC("DownRPC", RpcTarget.All);
                         }
                     }
                 }
@@ -183,12 +183,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
                 {
                     daepoT = 0.0f;
-                    PV.RPC("OpenWaterRPC", RpcTarget.AllBuffered);
+                    PV.RPC("OpenWaterRPC", RpcTarget.All);
                 }
 
                 if (Input.GetKeyDown(KeyCode.G))
                 {
-                    PV.RPC("PlusScore", RpcTarget.AllBuffered);
+                    PV.RPC("PlusScore", RpcTarget.All);
                 }
 
 

@@ -20,7 +20,7 @@ public class SniperMove : MonoBehaviourPunCallbacks
     IEnumerator DirCheck()
     {
         yield return new WaitForSeconds(1.0f);
-        PV.RPC("DestroysRPC", RpcTarget.AllBuffered);
+        PV.RPC("DestroysRPC", RpcTarget.All);
     }
 
     [PunRPC]

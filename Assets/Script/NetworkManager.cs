@@ -60,7 +60,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
                     }
                 }
                 taggedEnemy.GetComponent<Transform>().position = Spawn1[a].transform.position;
-                pv.RPC("DestroyRPC", RpcTarget.AllBuffered, a);
+                pv.RPC("DestroyRPC", RpcTarget.All, a);
                 taggedEnemy.GetComponent<Move>().StopT += 10.0f;
             }
 

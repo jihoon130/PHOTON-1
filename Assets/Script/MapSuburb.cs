@@ -21,12 +21,12 @@ public class MapSuburb : MonoBehaviourPunCallbacks
     {
         if (collision.collider.tag == "Bullet")
         {
-            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
         else if (collision.collider.tag == "Player")
         {
-            //collision.gameObject.GetComponent<Move>().PV.RPC("ResetPosRPC", RpcTarget.AllBuffered);
-            collision.gameObject.GetComponent<Move>().PV.RPC("DieTrue", RpcTarget.AllBuffered);
+            //collision.gameObject.GetComponent<Move>().PV.RPC("ResetPosRPC", RpcTarget.All);
+            collision.gameObject.GetComponent<Move>().PV.RPC("DieTrue", RpcTarget.All);
         }
     }
 }

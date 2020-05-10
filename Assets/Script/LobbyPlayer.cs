@@ -35,7 +35,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-       // pv.RPC("MasterRPC", RpcTarget.AllBuffered);
+       // pv.RPC("MasterRPC", RpcTarget.All);
         if (pv.IsMine)
         {
             Me.SetActive(true);
@@ -69,7 +69,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void OKReady()
     {
-         pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
+         pv.RPC("ReadyRPC", RpcTarget.All);
     }
 
 

@@ -45,7 +45,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
                         goto AAA;
                           }
                 taggedEnemy.GetComponent<Transform>().position = Spawn1[a].transform.position;
-                pv.RPC("DestroyRPC", RpcTarget.AllBuffered, a);
+                pv.RPC("DestroyRPC", RpcTarget.All, a);
             }
 
             start = false;

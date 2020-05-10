@@ -21,9 +21,9 @@ public class DestoryWall : MonoBehaviourPunCallbacks
         }
         if (collision.collider.tag == "Bullet" || collision.collider.tag == "SpeedBullet" || collision.collider.tag == "SniperBullet")
         {
-            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
             //Pv.RPC(HitEffectRPC(collision.transform.position);
-            Pv.RPC("HitEffectRPC", RpcTarget.AllBuffered, collision.transform.position.x, 
+            Pv.RPC("HitEffectRPC", RpcTarget.All, collision.transform.position.x, 
                             collision.transform.position.y, collision.transform.position.z);
         }
     }

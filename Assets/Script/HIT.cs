@@ -23,7 +23,7 @@ public class HIT : MonoBehaviourPunCallbacks
         ftime += Time.deltaTime;
         if(ftime > 2.5f)
         {
-            PV.RPC("DestroyRPC", RpcTarget.AllBuffered);
+            PV.RPC("DestroyRPC", RpcTarget.All);
             ftime = 0.0f;
         }
     }

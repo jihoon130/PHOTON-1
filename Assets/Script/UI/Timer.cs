@@ -31,7 +31,7 @@ public class Timer : MonoBehaviour
                 if (!isTimer)
                     StartCoroutine("TimeCoroutine");
 
-                PV.RPC("TimerRPC", RpcTarget.AllBuffered);
+                PV.RPC("TimerRPC", RpcTarget.All);
             }
         }
     }
@@ -40,7 +40,7 @@ public class Timer : MonoBehaviour
     {
         isTimer = true;
         yield return new WaitForSeconds(1f);
-        PV.RPC("TimerCheckRPC", RpcTarget.AllBuffered);
+        PV.RPC("TimerCheckRPC", RpcTarget.All);
         isTimer = false;
     }
 
@@ -52,7 +52,7 @@ public class Timer : MonoBehaviour
             Minute = 0;
             Second = 0;
 
-            GameObject.Find("ScoreManager").GetComponent<ScoreManager>().PV.RPC("EndScoreRPC", RpcTarget.AllBuffered);
+            GameObject.Find("ScoreManager").GetComponent<ScoreManager>().PV.RPC("EndScoreRPC", RpcTarget.All);
             return;
         }
 

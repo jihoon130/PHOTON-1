@@ -20,7 +20,7 @@ public class PlayerDmgColor : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        PV.RPC("ColorChangeRPC", RpcTarget.AllBuffered);
+        PV.RPC("ColorChangeRPC", RpcTarget.All);
     }
 
     [PunRPC]

@@ -46,7 +46,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
 
-        PV.RPC("UpdateScoreRPC", RpcTarget.AllBuffered);
+        PV.RPC("UpdateScoreRPC", RpcTarget.All);
     }
 
     [PunRPC]

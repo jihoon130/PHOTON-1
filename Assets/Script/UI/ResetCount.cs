@@ -51,7 +51,7 @@ public class ResetCount : MonoBehaviourPunCallbacks
                         ResetUi.SetActive(false);
                         Count = 3;
                      // _Move.ResetPos();
-                       _Move.PV.RPC("ResetPosRPC", RpcTarget.AllBuffered);
+                       _Move.PV.RPC("ResetPosRPC", RpcTarget.All);
                         time = 0;
                     }
                     time = 0;
