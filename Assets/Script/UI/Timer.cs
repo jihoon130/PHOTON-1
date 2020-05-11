@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class Timer : MonoBehaviour
+public class Timer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
 
-    private int Minute, Second;
+    public int Minute { get; set; }
+    public int Second { get; set; }
+        
+
 
     public Text TimerText;
     private bool isTimer;

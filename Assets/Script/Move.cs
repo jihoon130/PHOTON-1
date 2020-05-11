@@ -270,7 +270,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         rb.velocity = Vector3.zero;
 
-        transform.localPosition = new Vector3(Random.Range(-6, 7), 7f, Random.Range(-23, -30));
+        transform.localPosition = new Vector3(0, 10, Random.Range(-3, 3));
 
         isDie = false;
     }

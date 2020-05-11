@@ -47,6 +47,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         }
 
         PV.RPC("UpdateScoreRPC", RpcTarget.All);
+        PV.RPC("UpdateUiScoreRPC", RpcTarget.All);
     }
 
     [PunRPC]
@@ -127,6 +128,17 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         {
             string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
             Scoretext.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000] + "\n" + "\n";
+        }
+    }
+
+    [PunRPC]
+    void UpdateUiScoreRPC()
+    {
+        EndSocreText.text = "";
+        for (int i = 0; i < SusoonJung.Length; i++)
+        {
+            string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
+            EndSocreText.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000] + "\n" + "\n";
         }
     }
 }
