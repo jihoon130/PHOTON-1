@@ -256,16 +256,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Piguck)
         {
-            Debug.Log("DD");
             //scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
            // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
             Piguck.GetComponent<Move>().score += 1;
             Piguck = null;
             // PV.RPC("PlusScoreRPC", RpcTarget.All);
-        }
-        else
-        {
-            Debug.Log("FF");
         }
 
         rb.velocity = Vector3.zero;

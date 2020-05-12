@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-public class TestMaps : MonoBehaviourPunCallbacks
+public class MapManager : MonoBehaviourPunCallbacks
 {
 
     [Serializable]
@@ -15,6 +15,9 @@ public class TestMaps : MonoBehaviourPunCallbacks
         public int Second;
         public float MapZ;
         public string Dir;
+
+        [HideInInspector]
+        public bool isCheck;
     }
 
 
@@ -22,7 +25,6 @@ public class TestMaps : MonoBehaviourPunCallbacks
     public PhotonView PV;
 
     private bool isCheckd;
-    private int SaveIndex;
 
     private Timer timer;
 
@@ -39,37 +41,33 @@ public class TestMaps : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        PV.RPC("TimerCheckMapRPC", RpcTarget.All);
+        TimerCheckMapRPC();
 
         if(isCheckd)
-        {
-            if (SaveIndex == -1)
-                return;
-
-            PV.RPC("MapDownRPC", RpcTarget.All, SaveIndex);
-        }
+            MapDownRPC();
     }
 
 
-    [PunRPC]
     void TimerCheckMapRPC()
     {
         for(int i = 0; i < mapDatas.Length; i++)
         {
             if (timer.Minute == mapDatas[i].Min && timer.Second == mapDatas[i].Second)
             {
-                SaveIndex = i;
+                mapDatas[i].isCheck = true;
                 isCheckd = true;
             }
         }
     }
 
-    [PunRPC]
-    void MapDownRPC(int index1)
+    void MapDownRPC()
     {
-        for(int i = 0; i <= index1; i++)
+        for(int i = 0; i < mapDatas.Length; i++)
         {
-            for(int z = 0; z < mapDatas[index1].MapObj.Length; z++)
+            if (!mapDatas[i].isCheck)
+                return;
+
+            for (int z = 0; z < mapDatas[i].MapObj.Length; z++)
             {
                 mapDatas[i].MapObj[z].transform.localPosition = new Vector3(0, 10, mapDatas[i].MapZ);
 
@@ -81,8 +79,6 @@ public class TestMaps : MonoBehaviourPunCallbacks
                     {
                         mapDatas[i].MapZ = -14.2f;
                     }
-                    SaveIndex = -1;
-                    isCheckd = false;
                 }
                 else if (mapDatas[i].Dir == "Up")
                 {
@@ -92,11 +88,8 @@ public class TestMaps : MonoBehaviourPunCallbacks
                     {
                         mapDatas[i].MapZ = -5.5f;
                     }
-                    SaveIndex = -1;
-                    isCheckd = false;
                 }
             }
-            
         }
     }
 }

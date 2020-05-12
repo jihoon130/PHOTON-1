@@ -1514,7 +1514,7 @@ PrefabInstance:
     - target: {fileID: 4338711086650504789, guid: 11de49b114bc0c3488b9c3facf5ee5f7,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4430854984422310211, guid: 11de49b114bc0c3488b9c3facf5ee5f7,
         type: 3}
@@ -1716,7 +1716,8 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4338711086650504789, guid: 11de49b114bc0c3488b9c3facf5ee5f7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 11de49b114bc0c3488b9c3facf5ee5f7, type: 3}
 --- !u!4 &441368861 stripped
 Transform:
@@ -2070,78 +2071,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 441368860}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &441368897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 441368896}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b77ad6f4ec161fd45826056ef06d721a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapDatas:
-  - MapObj:
-    - {fileID: 441368876}
-    - {fileID: 441368872}
-    Min: 2
-    Second: 45
-    MapZ: -5.5
-    Dir: Down
-  - MapObj:
-    - {fileID: 441368876}
-    - {fileID: 441368872}
-    Min: 2
-    Second: 35
-    MapZ: -12.2
-    Dir: Up
-  - MapObj:
-    - {fileID: 441368878}
-    - {fileID: 441368877}
-    Min: 2
-    Second: 25
-    MapZ: -5.5
-    Dir: Down
-  - MapObj:
-    - {fileID: 441368878}
-    - {fileID: 441368877}
-    Min: 2
-    Second: 10
-    MapZ: -12.2
-    Dir: Up
-  - MapObj:
-    - {fileID: 441368874}
-    - {fileID: 441368873}
-    Min: 2
-    Second: 5
-    MapZ: -12.2
-    Dir: Down
-  - MapObj:
-    - {fileID: 441368875}
-    - {fileID: 441368872}
-    Min: 2
-    Second: 10
-    MapZ: -5.5
-    Dir: Down
-  - MapObj:
-    - {fileID: 441368875}
-    - {fileID: 441368874}
-    Min: 1
-    Second: 50
-    MapZ: -12.2
-    Dir: Up
-  - MapObj:
-    - {fileID: 441368878}
-    - {fileID: 441368873}
-    - {fileID: 441368872}
-    - {fileID: 441368871}
-    Min: 1
-    Second: 50
-    MapZ: -5
-    Dir: Down
-  PV: {fileID: 0}
 --- !u!23 &441368898 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6316626886983987005, guid: 11de49b114bc0c3488b9c3facf5ee5f7,
@@ -2290,7 +2219,86 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 126
-  m_CollisionDetection: 2
+  m_CollisionDetection: 3
+--- !u!114 &441368908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441368896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77ad6f4ec161fd45826056ef06d721a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapDatas:
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368877}
+    Min: 2
+    Second: 50
+    MapZ: -5.5
+    Dir: Down
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368877}
+    Min: 2
+    Second: 45
+    MapZ: -12.2
+    Dir: Up
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368877}
+    - {fileID: 441368876}
+    - {fileID: 441368875}
+    Min: 2
+    Second: 40
+    MapZ: -5.5
+    Dir: Down
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368875}
+    Min: 2
+    Second: 35
+    MapZ: -12.2
+    Dir: Up
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368872}
+    - {fileID: 441368871}
+    Min: 2
+    Second: 35
+    MapZ: -5.5
+    Dir: Down
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368877}
+    - {fileID: 441368876}
+    - {fileID: 441368875}
+    - {fileID: 441368874}
+    - {fileID: 441368873}
+    - {fileID: 441368872}
+    Min: 2
+    Second: 30
+    MapZ: -5.5
+    Dir: Down
+    isCheck: 0
+  - MapObj:
+    - {fileID: 441368878}
+    - {fileID: 441368877}
+    - {fileID: 441368876}
+    - {fileID: 441368874}
+    Min: 2
+    Second: 30
+    MapZ: -12.2
+    Dir: Up
+    isCheck: 0
+  PV: {fileID: 0}
 --- !u!1 &501227902
 GameObject:
   m_ObjectHideFlags: 0

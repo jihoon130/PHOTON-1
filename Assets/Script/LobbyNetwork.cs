@@ -47,7 +47,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             ReadyButton.GetComponent<Button>().enabled = false;
         }
 
-        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && ReadyCount >= PhotonNetwork.PlayerList.Length-1) // 2
+        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start")//&& ReadyCount >= PhotonNetwork.PlayerList.Length-1) // 2   빌드시 수정
         {
             ReadyButton.GetComponent<Button>().enabled = true;
             ReadyButton.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -143,6 +143,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
+        if(!g)
+        {
+            PhotonNetwork.LoadLevel("TaScene");
+            g = true;
+        }
+        /* 빌드시 수정
         GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
 
         ReadyCount = taggedEnemys.Length;
@@ -155,7 +161,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             g = true;
             PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel("TaScene");
-        }
+        }*/
     }
 
 
