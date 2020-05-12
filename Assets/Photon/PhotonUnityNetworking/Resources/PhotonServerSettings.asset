@@ -18,7 +18,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: kr
+    FixedRegion: 
     Server: 
     Port: 0
     Protocol: 0
@@ -32,6 +32,7 @@ MonoBehaviour:
   StartInOfflineMode: 0
   RpcList:
   - AimUiChangeRPC
+  - AttackRPC
   - BackRPC
   - ClickRpc
   - ColorChangeRPC
@@ -44,8 +45,12 @@ MonoBehaviour:
   - EndScoreRPC
   - Fire
   - flRPC
+  - GetDownRPC
+  - GetUpRPC
   - GunEffectTypeObj
   - HitEffectRPC
+  - MapArrayRPC
+  - MapDownRPC
   - MoveFalse
   - MoveTrue
   - OpenWaterRPC
@@ -55,25 +60,11 @@ MonoBehaviour:
   - ResetPosRPC
   - RespawnSpaceship
   - SpeedSetting
+  - TimerCheckMapRPC
   - TimerCheckRPC
   - TimerRPC
   - UpdateScoreRPC
-  - AttackRPC
-  - MasterRPC
-  - TransRPC
-  - ChangeCh1
-  - MapDownRPC
-  - MapArrayRPC
-  - MapDownArrayRPC
-  - DownGet
-  - MapnArrayRPC
-  - GetTpye
-  - GetDownRPC
-  - GetUpRPC
-  - GetResetRPC
-  - TimerCheckMapRPC
-  - TimerCheckMapsRPC
   - UpdateUiScoreRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 0
+  DevRegionSetOnce: 1

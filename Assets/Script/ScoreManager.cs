@@ -31,21 +31,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        PlayerGetScore();
-        //Debug.Log(SusoonJung.Length);
-        for (int i = 0 ; i < SusoonJung.Length - 1 ; i++)
-        {
-            //Debug.Log(SusoonJung[i].GetComponent<Move>().score);
-            //Debug.Log(SusoonJung[i + 1].GetComponent<Move>().score);
-        
-            if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
-            {
-                TempObject = SusoonJung[i];
-                SusoonJung[i] = SusoonJung[i + 1];
-                SusoonJung[i + 1] = TempObject;
-            }
-        }
-
         PV.RPC("UpdateScoreRPC", RpcTarget.All);
         PV.RPC("UpdateUiScoreRPC", RpcTarget.All);
     }
@@ -76,21 +61,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         }
     }
 
-    void PlayerGetScore()
-    {
-        SusoonJung = GameObject.FindGameObjectsWithTag("Player");
-        //for (int i = 0; i <taggedEnemys.Length; i++)
-        //{
-        //    NickName[i] = taggedEnemys[i].GetComponent<Move>().PV.Owner.ToString();
-        //    //if(NickName[i] == null)
-
-        //}
-
-        //foreach ( GameObject g in taggedEnemys)
-        //{
-        //    Score[g.GetComponent<Move>().PV.ViewID / 1000] = g.GetComponent<Move>().score;
-        //}
-    }
 
     void ScroeFindMax()
     {
@@ -123,6 +93,20 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     [PunRPC]
     void UpdateScoreRPC()
     {
+        if(PhotonNetwork.PlayerList.Length != SusoonJung.Length)
+        SusoonJung = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < SusoonJung.Length - 1; i++)
+        {
+
+            if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
+            {
+                TempObject = SusoonJung[i];
+                SusoonJung[i] = SusoonJung[i + 1];
+                SusoonJung[i + 1] = TempObject;
+            }
+        }
+
         Scoretext.text = "";
         for (int i = 0; i < SusoonJung.Length; i++)
         {

@@ -32,11 +32,10 @@ public class MapColor : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        TimerCheckMapsRPC();
+        TimerCheckMaps();
     }
 
-    //[PunRPC]
-    void TimerCheckMapsRPC()
+    void TimerCheckMaps()
     {
         for (int i = 0; i < Mapdata.Length; i++)
         {

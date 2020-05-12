@@ -87,6 +87,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
+        PhotonNetwork.QuickResends = 3;
     }
 
     public override void OnConnectedToMaster()
@@ -152,6 +153,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
                 return;
 
             g = true;
+            PhotonNetwork.CurrentRoom.IsVisible = false;
             PhotonNetwork.LoadLevel("TaScene");
         }
     }
