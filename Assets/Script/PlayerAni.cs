@@ -19,17 +19,18 @@ public class PlayerAni : MonoBehaviour
 
     public State _State = State.IdleRun;
 
-    private float CurAniTime;
+    public float CurAniTime;
 
     void Start()
     {
         Ani = GetComponent<Animator>();
         _Move = GetComponent<Move>();
-        CurAniTime = 0.5f;
     }
 
     void Update()
     {
+        Debug.Log(_State);
+
         PlayerStateCheck();
 
         AttackMent(_Move.fHorizontal, "VelocityX");

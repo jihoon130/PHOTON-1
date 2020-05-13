@@ -160,17 +160,26 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (isJumping)
                 {
-                    rb.velocity = new Vector3(0, -500 * Time.deltaTime, 0);
+                    _PlayerAni._State = State.Jump_Ing;
+
+                    rb.velocity = new Vector3(0, -800 * Time.deltaTime, 0);
                     RaycastHit hit;
                     Vector3 pos = transform.position;
                     Vector3 dir = -transform.up;
-                    if (Physics.Raycast(pos, dir, out hit, 0.5f))
+
+
+                    if (Physics.Raycast(pos, dir, out hit, 2.0f))
                     {
                         if (hit.collider.CompareTag("Ground"))
                         {
                             PV.RPC("DownRPC", RpcTarget.All);
                         }
                     }
+                }
+                else
+                {
+                    if (_PlayerAni._State == State.Jump_Ing)
+                        _PlayerAni._State = State.Jump_End;
                 }
 
                 if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
@@ -195,7 +204,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void Jump()
     {
-        rb.AddForce(Vector3.up * 7f, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * 4f, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
