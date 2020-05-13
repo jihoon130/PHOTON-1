@@ -75,19 +75,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (!isMove || isDie)
                     return;
 
-                
-
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
-
-
-                
 
                 if (fVertical < 0) MoveSpeed = 6f;
                 else MoveSpeed = 10f;
                     
-
-
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
 
