@@ -24,10 +24,10 @@ public class AimS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (y <= 454f && y >= 23f)
+       if (y <= 1045f && y >= 48f)
             y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
 
-        y = Mathf.Clamp(y, 23f, 454f);
+       y = Mathf.Clamp(y,48f, 1045f);
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
         ScreenCenter.y = y;

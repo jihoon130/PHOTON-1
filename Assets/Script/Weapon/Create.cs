@@ -45,16 +45,9 @@ public class Create : MonoBehaviourPunCallbacks
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        if (AimY <= 552f && AimY >= -500f)
-             AimY -= Input.GetAxis("Mouse Y") * 1500.0f * Time.deltaTime;
-        else if(AimY >= 552f)
-        {
-            AimY = 552f;
-        }
-        else if(AimY <= -400f)
-        {
-            AimY = -400f;
-        }
+        if (AimY <= 554f && AimY >= -466f)
+             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+        AimY = Mathf.Clamp(AimY, -466f, 554f);
 
 
         if (GetComponent<Move>().StopT <= 0.0f)
