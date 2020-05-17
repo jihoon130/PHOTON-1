@@ -17,10 +17,9 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        PV = GetComponent<PhotonView>();
-        rb = GetComponent<Rigidbody>();
-        _Move = GetComponent<Move>();
-        _PlayerAni = GetComponent<PlayerAni>();
+        PV = GetComponentInParent<PhotonView>();
+        _Move = GetComponentInParent<Move>();
+        _PlayerAni = GetComponentInParent<PlayerAni>();
     }
 
     private void Update()
@@ -58,7 +57,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
         if (collision.gameObject.CompareTag("SniperBullet"))
         {
-            SpeedObjMoveback(collision,10f);
+            SpeedObjMoveback(collision, 10f);
         }
 
         if (b >= 0.1f && collision.gameObject.CompareTag("Wall"))
@@ -92,7 +91,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     }
     private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
     {
-        _Move.PV.RPC("SpeedSetting", RpcTarget.All);
+        _Move.SpeedSetting();
     }
 
     private void ObjMoveback2(Collision collision, float speed = 15.0f)
@@ -115,15 +114,14 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.AddForce(pushdi * speed, ForceMode.Impulse);
     }
 
-    [PunRPC]
-    void BackRPC(float a, float b, float c)
+    public void Back1(float a, float b, float c)
     {
         PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
 
         if (_Move.isPhoenix)
             return;
 
-        _Move.PV.RPC("PhoenixTimerRPC", RpcTarget.All);
+        _Move.PhoenixTimer();
 
         _PlayerAni._State = State.Dmg;
         rb.velocity = Vector3.zero;

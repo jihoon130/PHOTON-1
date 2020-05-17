@@ -12,7 +12,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public int PVGetID;
     public int score2;
     public bool isMove;
-  public  GameObject Piguck;
+    public GameObject Piguck;
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 10.0f;
@@ -29,8 +29,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Transform tr;
     public float fHorizontal;
     public float fVertical;
-    bool fl=false;
-    public float StopT=0.0f;
+    bool fl = false;
+    public float StopT = 0.0f;
 
     public bool isPhoenix;
     public bool isDie;
@@ -80,7 +80,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (fVertical < 0) MoveSpeed = 6f;
                 else MoveSpeed = 10f;
-                    
+
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
 
@@ -105,12 +105,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         RaycastHit hit;
         Vector3 destination = transform.position + transform.forward * 5f;
 
-        if(Physics.Linecast(transform.position, destination, out hit))
+        if (Physics.Linecast(transform.position, destination, out hit))
         {
             destination = transform.position + transform.forward * (hit.distance - 1f);
         }
 
-        if(Physics.Raycast(destination, -Vector3.up, out hit))
+        if (Physics.Raycast(destination, -Vector3.up, out hit))
         {
             destination = hit.point;
             destination.y = 0.5f;
@@ -139,7 +139,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 BlinkForward();
             }
 
-            if (daepoT<=20.0f)
+            if (daepoT <= 20.0f)
                 daepoT += Time.deltaTime;
 
 
@@ -151,7 +151,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround)
                 {
-                    PV.RPC("flRPC", RpcTarget.All);
+                    flRP();
                     fJumptime = 0;
                     StartCoroutine("Fade");
                     _PlayerAni._State = State.Jump_Start;
@@ -172,7 +172,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     {
                         if (hit.collider.CompareTag("Ground"))
                         {
-                            PV.RPC("DownRPC", RpcTarget.All);
+                            DownR();
                         }
                     }
                 }
@@ -182,16 +182,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                         _PlayerAni._State = State.Jump_End;
                 }
 
-                if (daepoT>=20.0f && Input.GetKeyDown(KeyCode.V))
+                if (daepoT >= 20.0f && Input.GetKeyDown(KeyCode.V))
                 {
                     daepoT = 0.0f;
                     PV.RPC("OpenWaterRPC", RpcTarget.All);
                 }
 
-                if (Input.GetKeyDown(KeyCode.G))
-                {
-                    PV.RPC("PlusScore", RpcTarget.All);
-                }
 
 
                 if (Input.GetKeyDown(KeyCode.RightShift))
@@ -246,8 +242,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         Piguck = null;
     }
 
-    [PunRPC]
-    public void PhoenixTimerRPC()
+    public void PhoenixTimer()
     {
         isPhoenix = true;
         StartCoroutine("Phoenix");
@@ -259,7 +254,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (Piguck)
         {
             //scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
-           // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
+            // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
             Piguck.GetComponent<Move>().score += 1;
             Piguck = null;
             // PV.RPC("PlusScoreRPC", RpcTarget.All);
@@ -273,11 +268,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-
-    [PunRPC]
     public void SpeedSetting()
     {
-        if(PV.IsMine)
+        if (PV.IsMine)
         {
             MoveSpeed = 5;
             StartCoroutine("SpeedTimer");
@@ -298,21 +291,18 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         Boonsoo.SetActive(true);
     }
 
-    [PunRPC]
     public void MoveTrue()
     {
         isMove = true;
 
     }
 
-    [PunRPC]
     public void MoveFalse()
     {
         isMove = false;
     }
 
-    [PunRPC]
-    public void DownRPC()
+    public void DownR()
     {
         fHorizontal = 0;
         fVertical = 0;
@@ -324,7 +314,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isGround = true;
     }
 
-    [PunRPC]
     public void DieTrue()
     {
         isDie = true;
@@ -334,8 +323,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(.5f);
         isJumping = true;
     }
-    [PunRPC]
-    void flRPC()
+
+    void flRP()
     {
         fl = true;
     }

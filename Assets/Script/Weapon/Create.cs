@@ -37,6 +37,7 @@ public class Create : MonoBehaviourPunCallbacks
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        AimY = 300f;
     }
     // Update is called once per frame
     void Update()
@@ -44,10 +45,17 @@ public class Create : MonoBehaviourPunCallbacks
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        if (AimY <= 136f && AimY >= -276f)
-             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+        if (AimY <= 552f && AimY >= -500f)
+             AimY -= Input.GetAxis("Mouse Y") * 1500.0f * Time.deltaTime;
+        else if(AimY >= 552f)
+        {
+            AimY = 552f;
+        }
+        else if(AimY <= -400f)
+        {
+            AimY = -400f;
+        }
 
-        AimY = Mathf.Clamp(AimY, -276, 136);
 
         if (GetComponent<Move>().StopT <= 0.0f)
         {
@@ -55,17 +63,17 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
+                    _BulletManager.AimUiChange(true, false);
                     _BulletMake = BulletMake.Attack;
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha2))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
+                    _BulletManager.AimUiChange(true, false);
                     _BulletMake = BulletMake.Speed;
                 }
                 else if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, false);
+                    _BulletManager.AimUiChange(false, false);
                     _BulletMake = BulletMake.Sniper;
                 }
             }
@@ -80,7 +88,7 @@ public class Create : MonoBehaviourPunCallbacks
 
                 if (_BulletManager.SniperType == 1) { 
                     cam.fieldOfView = 20f;
-                    _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, true);
+                    _BulletManager.AimUiChange(false, true);
                 }
                 else if (_BulletManager.SniperType == 2) cam.fieldOfView = 10f;
                 else if (_BulletManager.SniperType > 2) SniperReset();
@@ -169,13 +177,13 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (hit.collider.CompareTag("Player"))
                 {
-                    hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
+                    hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
                 }
 
                 GetComponent<BulletManager>().BulletUse(2);
 
                 cam.fieldOfView = 60f;
-                _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, false, false);
+                _BulletManager.AimUiChange(false, false);
                 _BulletManager.SniperType = 0;
             }
         }
@@ -183,7 +191,7 @@ public class Create : MonoBehaviourPunCallbacks
     private void SniperReset()
     {
         cam.fieldOfView = 60f;
-        _BulletManager.PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
+        _BulletManager.AimUiChange(true, false);
         _BulletManager.SniperType = 0;
     }
     private void FixedUpdate()

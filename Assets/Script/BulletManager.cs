@@ -61,7 +61,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
             BulletList[0] = new Bullet("Attack", 999, 999, 9999);
             BulletList[1] = new Bullet("Speed", 5, 5, 50);
             BulletList[2] = new Bullet("Sniper", 15, 15, 9999);
-            PV.RPC("AimUiChangeRPC", RpcTarget.All, true, false);
+            AimUiChange(true, false);
         }
     }
     void Start()
@@ -129,8 +129,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         ModeText.text = ModeName;
     }
 
-    [PunRPC]
-    public void AimUiChangeRPC( bool aim, bool sniper)
+    public void AimUiChange( bool aim, bool sniper)
     {
         if (PV.IsMine)
         {

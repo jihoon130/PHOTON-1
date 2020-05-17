@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class CastMove : MonoBehaviourPunCallbacks
 {
-    private Move _Move; 
+    private Move _Move;
     public float CastSpeed = 70.0f;
     public float Dir = 0.5f;
     public PhotonView PV;
@@ -15,7 +15,7 @@ public class CastMove : MonoBehaviourPunCallbacks
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-      StartCoroutine("DirCheck");
+        StartCoroutine("DirCheck");
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
     private void Update()
@@ -32,47 +32,24 @@ public class CastMove : MonoBehaviourPunCallbacks
     IEnumerator DirCheck()
     {
         yield return new WaitForSeconds(Dir);
-        PV.RPC("DestroysRPC", RpcTarget.All);
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if(other.collider.tag == "Ground")
+        if (other.collider.tag == "Ground")
         {
-            PV.RPC("DestroyRPC", RpcTarget.All);
-            PV.RPC("HitEffectRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
+            Destroy(gameObject);
+            HitEffect(transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
-    [PunRPC]
-    void PiguckRPC()
-    {
-        if(pu3)
-        pu3.GetComponent<Move>().Piguck = pu2;
-    }
-
-    [PunRPC]
-    void DestroyRPC() => Destroy(gameObject);
-
-    [PunRPC]
-    void DestroysRPC()
-    {
-        if (this.gameObject != null)
-            Destroy(gameObject);
-    }
-
-    [PunRPC]
-    public void HitEffectRPC(float a, float b, float c)
+    public void HitEffect(float a, float b, float c)
     {
         PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
     }
 
-    void ho()
-    {
-        Debug.Log("TT");
-        PV.RPC("PiguckRPC", RpcTarget.All);
-        PV.RPC("DestroyRPC", RpcTarget.All);
-    }
+
 
     [PunRPC]
     void AttackRPC()
@@ -85,9 +62,9 @@ public class CastMove : MonoBehaviourPunCallbacks
 
         if (Physics.Raycast(pos, PosA, out hit, 0.5f))
         {
-            if (hit.collider.CompareTag("Player"))
+            if (hit.collider.CompareTag("Attack1"))
             {
-                if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponent<Move>().PV.ViewID.ToString().Substring(0, 1))
+                if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1))
                     return;
 
 
@@ -97,21 +74,22 @@ public class CastMove : MonoBehaviourPunCallbacks
 
                 for (int i = 0; i < pu.Length; i++)
                 {
-                    if (pu[i].GetComponent<Move>().PV.ViewID.ToString().Substring(0, 1) == PV.ViewID.ToString().Substring(0, 1))
+                    if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == PV.ViewID.ToString().Substring(0, 1))
                     {
                         pu2 = pu[i];
                         pu3 = hit.collider.gameObject;
                         // Piguck();
-                        Destroy(this.gameObject);
 
                         if (pu3)
-                            pu3.GetComponent<Move>().Piguck = pu2;
+                            pu3.GetComponentInParent<Move>().Piguck = pu2;
                         // hit.collider.GetComponent<Move>().Piguck = pu[i];
                     }
 
 
                 }
-                hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
+                hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
+                Destroy(this.gameObject);
+                //hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
             }
         }
     }

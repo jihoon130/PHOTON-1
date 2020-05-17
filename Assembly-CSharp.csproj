@@ -11,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{EA6A0F0D-910A-C40F-607D-4B9950C2044A}</ProjectGuid>
+    <ProjectGuid>{717535F6-9720-FCA4-6AB4-37883568CB8B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -87,6 +87,7 @@
     <Compile Include="Assets\Script\Camera\SmoothFollow.cs" />
     <Compile Include="Assets\Script\ChangeCh.cs" />
     <Compile Include="Assets\Script\CreateCh.cs" />
+    <Compile Include="Assets\Script\CreateMesh.cs" />
     <Compile Include="Assets\Script\DestoryPok.cs" />
     <Compile Include="Assets\Script\DestoryWall.cs" />
     <Compile Include="Assets\Script\HIT.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Assets\Script\LobbyPlayer.cs" />
     <Compile Include="Assets\Script\Map\MapColor.cs" />
     <Compile Include="Assets\Script\Map\MapManager.cs" />
-    <Compile Include="Assets\Script\Map\TestMaps.cs" />
     <Compile Include="Assets\Script\MapSuburb.cs" />
     <Compile Include="Assets\Script\Move.cs" />
     <Compile Include="Assets\Script\NetworkManager.cs" />
@@ -116,58 +116,58 @@
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />
     <None Include="Assets\Photon\PhotonUnityNetworking\link.xml" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Postprocessing.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -347,25 +347,19 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.5f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>D:/Cowcow_Final/PHOTON-1/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.5f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.iOS.Extensions.Common">
-      <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.5f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
+      <HintPath>C:/Users/이지훈/Desktop/COWCOW~1/PHOTON-134/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.5f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
@@ -715,47 +709,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
-      <Project>{8AFA59D7-81FE-1923-BFB0-9473D348CEDA}</Project>
+      <Project>{A27EB479-EFD3-B7AD-E9E0-4264AE8249A9}</Project>
       <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoHubEditor.csproj">
-      <Project>{AAF4C281-26D2-B77C-A23D-E2B7699B3F76}</Project>
+      <Project>{F1435637-A1CC-D02C-0B87-089C085F7229}</Project>
       <Name>PunDemos.DemoHubEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoSlotcarEditor.csproj">
-      <Project>{78652716-9BA5-8603-997F-492123E898BC}</Project>
+      <Project>{B2AD138C-C1C1-3040-7968-AAD78BEABDC9}</Project>
       <Name>PunDemos.DemoSlotcarEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
-      <Project>{FC369194-235B-F05D-13E9-4B94B96A4F8F}</Project>
+      <Project>{5EFC564E-9496-3A6C-3A1E-33035E227925}</Project>
       <Name>PhotonUnityNetworking.Demos</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{AA878F98-D32C-61E7-F029-7A28A027F592}</Project>
+      <Project>{F732CA46-39C8-7A51-AD07-34D88434512C}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonWebSocket.csproj">
-      <Project>{84288E0F-E431-09E4-12F9-6BBE4893012F}</Project>
+      <Project>{37E0B757-4E0D-2819-4042-6A7AC62C1C86}</Project>
       <Name>PhotonWebSocket</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{8769AA88-93AD-9A93-291F-80DA3E49C56A}</Project>
+      <Project>{DD68EEB6-F0B3-0642-74AD-BEEDCC78A8C0}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{AE6F8CD5-811D-4232-126A-98D05CBE710A}</Project>
+      <Project>{E18700AD-6F82-E834-5C8F-0DD554BC4CE0}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonChat.csproj">
-      <Project>{1921EF32-3F9F-8B38-3213-CF1423917836}</Project>
+      <Project>{A7D13E66-0AC8-4603-5106-72C8C10AECCF}</Project>
       <Name>PhotonChat</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
-      <Project>{566D7CD1-73B8-74CC-051A-75099F1E68C9}</Project>
+      <Project>{5BB53DD9-B0F2-0DC9-EFC5-0195A405342A}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{77D37E44-84F2-F540-F2F2-D3BDAF96DBFA}</Project>
+      <Project>{5AEC344E-89AC-DEF1-17DD-E7EEFF411817}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
   </ItemGroup>

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-public class TestMaps : MonoBehaviourPunCallbacks
+public class MapManager : MonoBehaviourPunCallbacks
 {
 
     [Serializable]
@@ -69,25 +69,21 @@ public class TestMaps : MonoBehaviourPunCallbacks
 
             for (int z = 0; z < mapDatas[i].MapObj.Length; z++)
             {
-                mapDatas[i].MapObj[z].transform.localPosition = new Vector3(0, 10, mapDatas[i].MapZ);
+                mapDatas[i].MapObj[z].transform.localPosition = new Vector3(0, 0, mapDatas[i].MapZ);
 
                 if (mapDatas[i].Dir == "Down")
                 {
                     mapDatas[i].MapZ -= 5 * Time.deltaTime;
 
-                    if (mapDatas[i].MapZ < -14.2f)
-                    {
-                        mapDatas[i].MapZ = -14.2f;
-                    }
+                    if (mapDatas[i].MapZ < -8f)
+                        mapDatas[i].MapZ = -8f;
                 }
                 else if (mapDatas[i].Dir == "Up")
                 {
                     mapDatas[i].MapZ += 5 * Time.deltaTime;
 
-                    if (mapDatas[i].MapZ > -5.5f)
-                    {
-                        mapDatas[i].MapZ = -5.5f;
-                    }
+                    if (mapDatas[i].MapZ > 0)
+                        mapDatas[i].MapZ = 0;
                 }
             }
         }

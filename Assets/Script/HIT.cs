@@ -23,11 +23,9 @@ public class HIT : MonoBehaviourPunCallbacks
         ftime += Time.deltaTime;
         if(ftime > 2.5f)
         {
-            PV.RPC("DestroyRPC", RpcTarget.All);
+            Destroy(gameObject);
             ftime = 0.0f;
         }
     }
 
-    [PunRPC]
-    public void DestroyRPC() => Destroy(gameObject);
 }

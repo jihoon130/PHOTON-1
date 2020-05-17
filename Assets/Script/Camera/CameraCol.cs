@@ -6,9 +6,13 @@ public class CameraCol : MonoBehaviour
 {
     public static CameraCol instance;
 
+    // 카메라의 최소 거리
     public float minDistance = 1.0f;
+    // 카메라의 최대 거리
     public float maxDistance = 4.0f;
+    // 카메라 거리 저장
     public float SaveDistance;
+    // 속도
     public float smooth = 10.0f;
 
     Vector3 dollyDir;

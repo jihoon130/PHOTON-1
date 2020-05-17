@@ -29,7 +29,6 @@ public class PlayerAni : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(_State);
 
         PlayerStateCheck();
 
@@ -40,6 +39,9 @@ public class PlayerAni : MonoBehaviour
         {
             _State = State.IdleRun;
         }
+
+        if (Input.GetKeyDown(KeyCode.T))
+            _State = State.Dmg;
 
     }
 
