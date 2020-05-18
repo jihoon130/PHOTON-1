@@ -37,7 +37,7 @@ public class Create : MonoBehaviourPunCallbacks
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        AimY = 300f;
+       
     }
     // Update is called once per frame
     void Update()
@@ -45,9 +45,9 @@ public class Create : MonoBehaviourPunCallbacks
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        if (AimY <= 554f && AimY >= -466f)
-             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
-        AimY = Mathf.Clamp(AimY, -466f, 554f);
+        if (AimY <= 110f && AimY >= -210f)
+             AimY -= Input.GetAxis("Mouse Y") * 700.0f * Time.deltaTime;
+        AimY = Mathf.Clamp(AimY, -210f, 110f);
 
 
         if (GetComponent<Move>().StopT <= 0.0f)
@@ -203,7 +203,7 @@ public class Create : MonoBehaviourPunCallbacks
         if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDinstance))
         {
             f = hit.transform.transform.position.y;
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
         }
         return f;
     }
@@ -241,10 +241,9 @@ public class Create : MonoBehaviourPunCallbacks
     {
         Vector3 Rot;
 
-        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + AimY / 10;
+        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + (AimY / 7);
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
-
         return Rot;
     }
 

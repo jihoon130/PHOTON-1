@@ -17,17 +17,17 @@ public class AimS : MonoBehaviour
     }
     void Start()
     {
-        y = 300.0f;
+        y = 600.0f;
         ScreenCenter = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
     }
 
     // Update is called once per frame
     void Update()
     {
-       if (y <= 1045f && y >= 48f)
-            y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+       if (y <= 790f && y >= 190f)
+            y += Input.GetAxis("Mouse Y") * 700.0f * Time.deltaTime;
 
-       y = Mathf.Clamp(y,48f, 1045f);
+       y = Mathf.Clamp(y, 190f, 790f);
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
         ScreenCenter.y = y;

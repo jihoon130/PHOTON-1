@@ -41,6 +41,7 @@ public class CameraPlayer : MonoBehaviour
     {
         //커서 숨기기"//"를 지우세요
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         Vector3 angles = transform.eulerAngles;
         x = angles.y;
         y = angles.x;

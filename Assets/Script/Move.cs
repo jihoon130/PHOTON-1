@@ -200,7 +200,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void Jump()
     {
-        rb.AddForce(Vector3.up * 4f, ForceMode.Impulse);
+        rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
 
     private void OnCollisionEnter(Collision collision)
