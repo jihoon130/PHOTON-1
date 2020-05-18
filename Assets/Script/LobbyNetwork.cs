@@ -145,6 +145,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     {
         if(!g)
         {
+            PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("TaScene");
             g = true;
         }

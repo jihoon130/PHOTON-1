@@ -16,10 +16,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     public int bestScore;
     public string bestNick;
     public int k;
-    public Text Scoretext;
     public Text EndSocreText;
     public GameObject[] SusoonJung;
     public GameObject TempObject;
+    public GameObject[] ScoreT;
     // Start is called before the first frame update
     void Start()
     {
@@ -107,11 +107,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
 
-        Scoretext.text = "";
         for (int i = 0; i < SusoonJung.Length; i++)
         {
-            string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
-            Scoretext.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000] + "\n" + "\n";
+            ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
         }
     }
 

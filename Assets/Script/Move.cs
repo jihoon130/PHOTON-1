@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
+using UnityEngine.UI;
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
@@ -19,6 +20,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
     // Water
+    string chat;
     public GameObject Boonsoo;
     public ScoreManager scoreM;
     private Vector3 currPos;
@@ -27,6 +29,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Quaternion targetRotation;
     // Move
     private Transform tr;
+   public Text[] ChatText;
     public float fHorizontal;
     public float fVertical;
     bool fl = false;
@@ -48,6 +51,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
+
+        ChatText = new Text[8];
+        ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
+        for (int i = 1; i < ChatText.Length; i++)
+        {
+            ChatText[i] = GameObject.Find("ChatBox" + i.ToString()).GetComponent<Text>();
+        }
 
         scoreM = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         if (PV.IsMine)
@@ -87,6 +97,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 gameObject.GetComponentInChildren<TextMesh>().text = NickName;
 
                 this.GetComponentInChildren<TextMesh>().text = NickName;
+
+        
             }
             else
             {
@@ -256,6 +268,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             //scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
             // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
             Piguck.GetComponent<Move>().score += 1;
+            PV.RPC("SendMsgRPC", RpcTarget.AllBuffered, Piguck.GetComponent<Move>().PV.Owner.NickName.ToString());
+            //SendMsg();
             Piguck = null;
             // PV.RPC("PlusScoreRPC", RpcTarget.All);
         }
@@ -267,6 +281,23 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isDie = false;
     }
 
+    [PunRPC]
+    void SendMsgRPC(string _msg)
+    {
+        bool isInput = false;
+        for (int i = 0; i < ChatText.Length; i++)
+            if (ChatText[i].text == "")
+            {
+                isInput = true;
+                ChatText[i].text = _msg + " 님이" +PV.Owner.NickName.ToString() + " 을 죽임";
+                break;
+            }
+        if (!isInput) // 꽉차면 한칸씩 위로 올림
+        {
+            for (int i = 1; i < ChatText.Length; i++) ChatText[i - 1].text = ChatText[i].text;
+            ChatText[ChatText.Length - 1].text = _msg + " 님이" + PV.Owner.NickName.ToString() + " 을 죽임";
+        }
+    }
 
     public void SpeedSetting()
     {
