@@ -20,7 +20,8 @@ public class CastMove : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        PV.RPC("AttackRPC", RpcTarget.All);
+        Attack();
+       // PV.RPC("AttackRPC", RpcTarget.All);
     }
 
 
@@ -51,10 +52,14 @@ public class CastMove : MonoBehaviourPunCallbacks
 
 
 
-    [PunRPC]
-    void AttackRPC()
+  //  [PunRPC]
+    void Attack()
     {
-        Vector3 pos = transform.position;
+
+        if (!this.gameObject)
+            return;
+
+            Vector3 pos = transform.position;
         Vector3 PosA = transform.forward;
         RaycastHit hit;
 
@@ -88,7 +93,7 @@ public class CastMove : MonoBehaviourPunCallbacks
 
                 }
                 hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
-                Destroy(this.gameObject);
+                Destroy(gameObject);
                 //hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
             }
         }

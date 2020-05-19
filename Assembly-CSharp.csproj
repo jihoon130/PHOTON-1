@@ -742,6 +742,10 @@
       <Project>{AE6F8CD5-811D-4232-126A-98D05CBE710A}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
+    <ProjectReference Include="PhotonChat.csproj">
+      <Project>{1921EF32-3F9F-8B38-3213-CF1423917836}</Project>
+      <Name>PhotonChat</Name>
+    </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
       <Project>{566D7CD1-73B8-74CC-051A-75099F1E68C9}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
@@ -749,10 +753,6 @@
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
       <Project>{77D37E44-84F2-F540-F2F2-D3BDAF96DBFA}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="PhotonChat.csproj">
-      <Project>{1921EF32-3F9F-8B38-3213-CF1423917836}</Project>
-      <Name>PhotonChat</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

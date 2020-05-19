@@ -143,7 +143,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        if(!g)
+        if(!g && PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("TaScene");

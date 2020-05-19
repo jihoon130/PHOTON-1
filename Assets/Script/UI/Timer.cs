@@ -26,29 +26,25 @@ public class Timer : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
-        if (PV.IsMine)
-        {
-            if (GameObject.FindGameObjectWithTag("Player") != null)
+        GameObject[] player2 = GameObject.FindGameObjectsWithTag("Player");
+            if (player2.Length == PhotonNetwork.PlayerList.Length)
             {
                 if (!isTimer)
                     StartCoroutine("TimeCoroutine");
 
-                PV.RPC("TimerRPC", RpcTarget.All);
+                Timer1();
             }
-        }
     }
 
     IEnumerator TimeCoroutine()
     {
         isTimer = true;
         yield return new WaitForSeconds(1f);
-        PV.RPC("TimerCheckRPC", RpcTarget.All);
+        TimerCheck();
         isTimer = false;
     }
 
-    [PunRPC]
-    void TimerCheckRPC()
+    void TimerCheck()
     {
         if (Minute <= 0 && Second <= 0)
         {
@@ -69,8 +65,7 @@ public class Timer : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    void TimerRPC()
+    void Timer1()
     {
         if (Second <= 9)
             TimerText.text = Minute.ToString() + " : 0" + Second.ToString();

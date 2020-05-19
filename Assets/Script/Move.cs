@@ -194,14 +194,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                         _PlayerAni._State = State.Jump_End;
                 }
 
-                if (daepoT >= 20.0f && Input.GetKeyDown(KeyCode.V))
-                {
-                    daepoT = 0.0f;
-                    PV.RPC("OpenWaterRPC", RpcTarget.All);
-                }
-
-
-
                 if (Input.GetKeyDown(KeyCode.RightShift))
                 {
                     PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
@@ -289,7 +281,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (ChatText[i].text == "")
             {
                 isInput = true;
-                ChatText[i].text = _msg + " 님이" +PV.Owner.NickName.ToString() + " 을 죽임";
+                ChatText[i].text = _msg + " ---> " +PV.Owner.NickName.ToString();
                 break;
             }
         if (!isInput) // 꽉차면 한칸씩 위로 올림
@@ -315,12 +307,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             MoveSpeed = 10;
     }
 
-    [PunRPC]
-    public void OpenWaterRPC()
-    {
-        isMove = false;
-        Boonsoo.SetActive(true);
-    }
 
     public void MoveTrue()
     {
@@ -360,6 +346,4 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         fl = true;
     }
 
-    [PunRPC]
-    public void DestroyRPC() => Destroy(gameObject);
 }
