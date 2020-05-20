@@ -11,6 +11,7 @@ public enum State
     Jump_Start,
     Jump_Ing,
     Jump_End,
+    Dash
 }
 public class PlayerAni : MonoBehaviour
 {
@@ -80,6 +81,11 @@ public class PlayerAni : MonoBehaviour
             case State.Jump_End:
                 {
                     AniChange(12);
+                }
+                break;
+            case State.Dash:
+                {
+                    AniChange(13);
                 }
                 break;
         }

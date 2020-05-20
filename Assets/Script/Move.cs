@@ -45,6 +45,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private float fJumptime;
     public int score;
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -143,6 +144,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             }
 
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                _PlayerAni._State = State.Dash;
+            }
+
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 if (fVertical <= 0)
@@ -180,7 +186,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     Vector3 dir = -transform.up;
 
 
-                    if (Physics.Raycast(pos, dir, out hit, 2.0f))
+                    if (Physics.Raycast(pos, dir, out hit, 0.5f))
                     {
                         if (hit.collider.CompareTag("Ground"))
                         {
@@ -188,11 +194,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                         }
                     }
                 }
-                else
-                {
-                    if (_PlayerAni._State == State.Jump_Ing)
-                        _PlayerAni._State = State.Jump_End;
-                }
+                //else
+                //{
+                //    if (_PlayerAni._State == State.Jump_Ing)
+                //        _PlayerAni._State = State.Jump_End;
+                //}
 
                 if (Input.GetKeyDown(KeyCode.RightShift))
                 {

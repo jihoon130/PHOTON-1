@@ -21,6 +21,9 @@ public class CameraCol : MonoBehaviour
 
     public float ZoomMax;
 
+    Color SaveColor;
+    MeshRenderer SaveObj;
+
     private void Awake()
     {
         SaveDistance = maxDistance;
@@ -36,10 +39,19 @@ public class CameraCol : MonoBehaviour
 
         if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
         {
-            distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
+            SaveObj = hit.collider.gameObject.GetComponent<MeshRenderer>();
+
+            SaveColor = hit.collider.gameObject.GetComponent<MeshRenderer>().material.color;
+            SaveColor.a = 0.1f;
+            hit.collider.gameObject.GetComponent<MeshRenderer>().material.color = SaveColor;
+            //distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
         else
-            distance = maxDistance;
+        {
+            SaveColor.a = 1.0f;
+            SaveObj.material.color = SaveColor;
+        }
+            //distance = maxDistance;
 
         transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, smooth * Time.deltaTime);
     }

@@ -17,7 +17,7 @@ public class AimS : MonoBehaviour
     }
     void Start()
     {
-        y = 600.0f;
+        y = 400.0f;
         ScreenCenter = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
     }
 
@@ -30,10 +30,10 @@ public class AimS : MonoBehaviour
         }
 
 
-       if (y <= 790f && y >= 190f)
-            y += Input.GetAxis("Mouse Y") * 700.0f * Time.deltaTime;
+       if (y <= 550f && y >= 336f)
+            y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
 
-       y = Mathf.Clamp(y, 190f, 790f);
+       y = Mathf.Clamp(y, 336f, 550f);
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
         ScreenCenter.y = y;

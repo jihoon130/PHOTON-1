@@ -33,6 +33,8 @@ public class Create : MonoBehaviourPunCallbacks
 
     private bool isBullet;
 
+    public float testAim;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -46,9 +48,9 @@ public class Create : MonoBehaviourPunCallbacks
         if (!GetComponent<Move>().PV.IsMine)
             return;
 
-        if (AimY <= 110f && AimY >= -210f)
-             AimY -= Input.GetAxis("Mouse Y") * 700.0f * Time.deltaTime;
-        AimY = Mathf.Clamp(AimY, -210f, 110f);
+        if (AimY <= 110f && AimY >= -110f)
+             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+        AimY = Mathf.Clamp(AimY, -110f, 110f);
 
 
         if (GetComponent<Move>().StopT <= 0.0f)
@@ -248,7 +250,8 @@ public class Create : MonoBehaviourPunCallbacks
     {
         Vector3 Rot;
 
-        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x; //(AimY / 7);
+        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + AimY / testAim; //(AimY / 7);
+        //Rot.x = AimY / testAim; //(AimY / 7);
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
         return Rot;
