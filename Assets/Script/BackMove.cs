@@ -128,7 +128,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
-        rb.AddForce(pushdi * 10.0f, ForceMode.Impulse);
+        rb.AddForce(pushdi * 20.0f, ForceMode.Impulse);
     }
 
 }

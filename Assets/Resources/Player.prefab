@@ -102,7 +102,7 @@ MonoBehaviour:
   Piguck: {fileID: 0}
   NickName: 
   EnemyNickName: 
-  MoveSpeed: 10
+  MoveSpeed: 7
   AngleSpeed: 15
   daepoT: 0
   Boonsoo: {fileID: 4407164868738895872, guid: 6f896df176582ff4ebec619c879d1314, type: 3}
@@ -213,15 +213,15 @@ MonoBehaviour:
   ShowLayerWeightsInspector: 1
   ShowParameterInspector: 1
   m_SynchronizeParameters:
+  - Type: 3
+    SynchronizeType: 0
+    Name: State
   - Type: 1
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: VelocityX
   - Type: 1
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: VelocityZ
-  - Type: 3
-    SynchronizeType: 2
-    Name: State
   m_SynchronizeLayers:
   - SynchronizeType: 2
     LayerIndex: 0
@@ -299,7 +299,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3661639628750336703, guid: fa088a910855ab94ba5294e84dc6ba8c, type: 3}
+  - {fileID: 2100000, guid: 5708e6c076ab9e540a471f4440fdcec2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15793,7 +15793,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3620572297651811420, guid: fa088a910855ab94ba5294e84dc6ba8c, type: 3}
+  - {fileID: 2100000, guid: 6a35e3b1d1f80854fa52724472fd9bcf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -31226,7 +31226,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bd293dc32f4aaf94e8274f2fac2cdf89, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 40e6d5b5cf9ca69409f442bd8801efd8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

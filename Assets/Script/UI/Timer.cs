@@ -52,6 +52,7 @@ public class Timer : MonoBehaviourPunCallbacks
             Second = 0;
 
             GameObject.Find("ScoreManager").GetComponent<ScoreManager>().PV.RPC("EndScoreRPC", RpcTarget.All);
+            Cursor.visible = true;
             return;
         }
 

@@ -16,7 +16,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject Piguck;
     public string NickName;
     public string EnemyNickName;
-    public float MoveSpeed = 10.0f;
+    public float MoveSpeed = 7.0f;
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
     // Water
@@ -88,8 +88,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
 
-                if (fVertical < 0) MoveSpeed = 6f;
-                else MoveSpeed = 10f;
+                if (fVertical < 0) MoveSpeed = 4f;
+                else MoveSpeed = 7f;
 
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);

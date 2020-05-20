@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 9c27909c-c8de-4765-938a-28f07efbf9a5
+    AppIdRealtime: 7db39814-832b-424b-9ea9-9e5fef21e645
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -31,7 +31,6 @@ MonoBehaviour:
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
-  - AttackRPC
   - ClickRpc
   - ColorChangeRPC
   - DestroyRpc
@@ -42,15 +41,12 @@ MonoBehaviour:
   - Fire
   - GunEffectTypeObj
   - HitEffectRPC
-  - OpenWaterRPC
   - ReadyRPC
   - ResetPosRPC
   - RespawnSpaceship
-  - TimerCheckRPC
-  - TimerRPC
+  - SendMsgRPC
   - UpdateScoreRPC
   - UpdateUiScoreRPC
-  - SendMsgRPC
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 1

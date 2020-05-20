@@ -31,13 +31,14 @@ public class Create : MonoBehaviourPunCallbacks
     
     private Camera cam;
 
+    private bool isBullet;
+
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-       
     }
     // Update is called once per frame
     void Update()
@@ -123,12 +124,16 @@ public class Create : MonoBehaviourPunCallbacks
                     if (Input.GetMouseButtonDown(0))
                     {
                         GunEffectType = 2;
-                        BulletCreate();
+                        _Ani._State = State.Attack;
+                        //BulletCreate();
                     }
                 }
 
                 if (Input.GetMouseButtonUp(0))
+                {
+                    isBullet = false;
                     GunEffectType = 0;
+                }
             }
 
             if (GunEffectType != 0)
@@ -211,10 +216,11 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void BulletCreate()
     {
-        if (GetComponent<Move>().isJumping)
+        if (GetComponent<Move>().isJumping || isBullet)
             return;
 
-        _Ani._State = State.Attack;
+
+        //_Ani._State = State.Attack;
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
@@ -228,7 +234,8 @@ public class Create : MonoBehaviourPunCallbacks
             //        InstantiateObject("CastObj_3", StartTf.transform.position, RotVector(), type);
             //}
         }
-        
+
+        isBullet = true;
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
@@ -241,13 +248,16 @@ public class Create : MonoBehaviourPunCallbacks
     {
         Vector3 Rot;
 
-        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + (AimY / 7);
+        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x; //(AimY / 7);
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
         return Rot;
     }
 
-   
+    public void BulletIsCheckd(bool isCheckd) => isBullet = isCheckd;
+
+
+
     [PunRPC]
     public void GunEffectTypeObj(bool type)
     {
