@@ -24,6 +24,12 @@ public class AimS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameObject.Find("EndScore"))
+        {
+            Destroy(this.gameObject);
+        }
+
+
        if (y <= 790f && y >= 190f)
             y += Input.GetAxis("Mouse Y") * 700.0f * Time.deltaTime;
 

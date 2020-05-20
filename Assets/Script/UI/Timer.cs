@@ -10,17 +10,17 @@ public class Timer : MonoBehaviourPunCallbacks
 
     public int Minute { get; set; }
     public int Second { get; set; }
-        
 
 
+    bool EndCheck=false;
     public Text TimerText;
     private bool isTimer;
 
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
-        Minute = 2;
-        Second = 59;
+        Minute = 0;
+        Second = 10;
     }
 
     // Update is called once per frame
@@ -40,6 +40,7 @@ public class Timer : MonoBehaviourPunCallbacks
     {
         isTimer = true;
         yield return new WaitForSeconds(1f);
+        if(!EndCheck)
         TimerCheck();
         isTimer = false;
     }
@@ -51,8 +52,8 @@ public class Timer : MonoBehaviourPunCallbacks
             Minute = 0;
             Second = 0;
 
-            GameObject.Find("ScoreManager").GetComponent<ScoreManager>().PV.RPC("EndScoreRPC", RpcTarget.All);
-            Cursor.visible = true;
+            GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EndScore();
+            EndCheck = true;
             return;
         }
 

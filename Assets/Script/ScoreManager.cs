@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
+using UnityEngine.SceneManagement;
 public class ScoreManager : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
@@ -12,11 +13,12 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     public int[] Score;
     public string[] NickName;
     private string SaveNick;
-
+    public GameObject[] EndSco;
     public int bestScore;
     public string bestNick;
     public int k;
-    public Text EndSocreText;
+    public Text[] EndSocreText;
+    public GameObject End2;
     public GameObject[] SusoonJung;
     public GameObject TempObject;
     public GameObject[] ScoreT;
@@ -32,15 +34,35 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     private void Update()
     {
         PV.RPC("UpdateScoreRPC", RpcTarget.All);
-        PV.RPC("UpdateUiScoreRPC", RpcTarget.All);
     }
 
-    [PunRPC]
-    public void EndScoreRPC()
+    public void EndScore()
     {
-        ScoreUI[0].SetActive(false);
-        ScoreUI[1].SetActive(true);
+        End2.SetActive(true);
+        StartCoroutine("EndS");
     }
+
+    IEnumerator EndS()
+    {
+        yield return new WaitForSeconds(1f);
+        EndSco[0].SetActive(true);
+        yield return new WaitForSeconds(2f);
+        EndSco[0].SetActive(false);
+        for (int i = 1; i <= PhotonNetwork.PlayerList.Length; i++)
+        {
+            EndSco[i].SetActive(true);
+            EndSco[i].GetComponentInChildren<Text>().text = SusoonJung[i-1].GetComponent<Move>().PV.Owner.ToString().Substring(4);
+            SusoonJung[i - 1].GetComponent<Move>().isMove = false;
+            EndSco[i].transform.GetChild(1).GetComponent<Text>().text = Score[SusoonJung[i-1].GetComponent<Move>().PV.ViewID / 1000].ToString();
+            
+        }
+        yield return new WaitForSeconds(2f);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        EndSco[6].SetActive(true);
+        EndSco[5].SetActive(true);
+    }
+
 
     void ScoreUpdate()
     {
@@ -113,14 +135,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         }
     }
 
-    [PunRPC]
-    void UpdateUiScoreRPC()
+
+
+    public void GoTitle()
     {
-        EndSocreText.text = "";
-        for (int i = 0; i < SusoonJung.Length; i++)
-        {
-            string Texts = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString();
-            EndSocreText.text += i + 1 + "등 : " + Texts.Substring(4) + "  점수 : " + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000] + "\n" + "\n";
-        }
+        SceneManager.LoadScene(0);
     }
 }
