@@ -113,23 +113,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
-    public void BlinkForward()
-    {
-        RaycastHit hit;
-        Vector3 destination = transform.position + transform.forward * 5f;
-
-        if (Physics.Linecast(transform.position, destination, out hit))
-        {
-            destination = transform.position + transform.forward * (hit.distance - 1f);
-        }
-
-        if (Physics.Raycast(destination, -Vector3.up, out hit))
-        {
-            destination = hit.point;
-            destination.y = 0.5f;
-            transform.position = destination;
-        }
-    }
     private void Update()
     {
         if (PV.IsMine)
@@ -157,14 +140,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 _PlayerAni._State = State.Dash;
-            }
-
-            if (Input.GetKeyDown(KeyCode.LeftShift))
-            {
-                if (fVertical <= 0)
-                    return;
-
-                BlinkForward();
             }
 
             if (daepoT <= 20.0f)

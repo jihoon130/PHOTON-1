@@ -27,7 +27,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 {
     private Create _Create;
     public PhotonView PV;
-    public enum BulletMode { Shot, Speaker, Sniper }
+    public enum BulletMode { Shot }
     public BulletMode _BulletMode = BulletMode.Shot;
 
     public Text MinText, MaxText, NameText, ModeText;
@@ -36,10 +36,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
     public Bullet[] BulletList = new Bullet[3];
 
     public GameObject _AimUi;
-    public GameObject _AimSniperUi;
-
-    public int SniperType;
-
     public int type23;
     public static BulletManager I;
 
@@ -58,10 +54,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         if(PV.IsMine)
         {
-            BulletList[0] = new Bullet("Attack", 999, 999, 9999);
-            BulletList[1] = new Bullet("Speed", 5, 5, 50);
-            BulletList[2] = new Bullet("Sniper", 15, 15, 9999);
-            AimUiChange(true, false);
+            BulletList[0] = new Bullet("Attack", 30, 30, 90);
         }
     }
     void Start()
@@ -111,16 +104,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public void UITextUpdate()
     {
-        //if (Input.GetMouseButtonDown(1))
-        //{
-        //    if (_BulletMode == BulletMode.Speaker)
-        //        _BulletMode = BulletMode.Shot;
-        //    else
-        //        _BulletMode++;
-        //}
-
         if ((int)_BulletMode == 0) ModeName = "단발모드";
-        else if ((int)_BulletMode == 1) ModeName = "연사모드";
 
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
@@ -128,14 +112,4 @@ public class BulletManager : MonoBehaviourPunCallbacks
         NameText.text = BulletList[type].BulletName.ToString();
         ModeText.text = ModeName;
     }
-
-    public void AimUiChange( bool aim, bool sniper)
-    {
-        if (PV.IsMine)
-        {
-            _AimUi.SetActive(aim);
-            _AimSniperUi.SetActive(sniper);
-        }
-    }
-
 }

@@ -7,8 +7,6 @@ public enum BulletMake
 {
     None,
     Attack,
-    Speed,
-    Sniper
 }
 public class Create : MonoBehaviourPunCallbacks
 {
@@ -55,47 +53,6 @@ public class Create : MonoBehaviourPunCallbacks
 
         if (GetComponent<Move>().StopT <= 0.0f)
         {
-            if (_BulletManager.SniperType == 0)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    _BulletManager.AimUiChange(true, false);
-                    _BulletMake = BulletMake.Attack;
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    _BulletManager.AimUiChange(true, false);
-                    _BulletMake = BulletMake.Speed;
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    _BulletManager.AimUiChange(false, false);
-                    _BulletMake = BulletMake.Sniper;
-                }
-            }
-
-            // Sniper
-            if (Input.GetMouseButtonDown(1))
-            {
-                if (_BulletMake != BulletMake.Sniper)
-                    return;
-
-                _BulletManager.SniperType++;
-
-                if (_BulletManager.SniperType == 1) { 
-                    cam.fieldOfView = 20f;
-                    _BulletManager.AimUiChange(false, true);
-                }
-                else if (_BulletManager.SniperType == 2) cam.fieldOfView = 10f;
-                else if (_BulletManager.SniperType > 2) SniperReset();
-            }
-
-            if (_BulletManager.SniperType >= 1)
-            {
-                SniperRay();
-            }
-
-
             if (Input.GetKeyDown(KeyCode.R))
             {
                 int type = (int)_BulletMake - 1;
@@ -109,32 +66,25 @@ public class Create : MonoBehaviourPunCallbacks
 
             if (GetComponent<Move>().isMove)
             {
-                if (_BulletManager.SniperType > 0)
-                    return;
-
-                if (GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Speaker)
+                if (Input.GetMouseButtonDown(0))
                 {
-                    if (Input.GetMouseButton(0) && fTime > 0.1f)
-                    {
-                        GunEffectType = 1;
-                        BulletCreate();
-                        fTime = 0.0f;
-                    }
+                    GunEffectType = 2;
+                    _Ani._State = State.Attack;
                 }
-                else
-                {
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        GunEffectType = 2;
-                        _Ani._State = State.Attack;
-                        //BulletCreate();
-                    }
-                }
-
-                if (Input.GetMouseButtonUp(0))
+                else if (Input.GetMouseButtonUp(0))
                 {
                     isBullet = false;
                     GunEffectType = 0;
+                }
+
+
+                if (GetComponent<Machinegun>().isMachineAttack && !GetComponent<Machinegun>().isMachinegun)
+                {
+                    if (Input.GetMouseButton(1))
+                    {
+                        GunEffectType = 2;
+                        _Ani._State = State.Machinegun;
+                    }
                 }
             }
 
@@ -167,74 +117,17 @@ public class Create : MonoBehaviourPunCallbacks
 
         }
     }
-    private void SniperRay()
-    {
-        RaycastHit hit;
-
-        if(Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, Mathf.Infinity))
-        {
-            if (Input.GetMouseButton(0) && GetComponent<BulletManager>().BulletList[2].isBullet)
-            {
-                if (hit.collider.CompareTag("Player"))
-                {
-                    hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
-                }
-
-                GetComponent<BulletManager>().BulletUse(2);
-
-                cam.fieldOfView = 60f;
-                _BulletManager.AimUiChange(false, false);
-                _BulletManager.SniperType = 0;
-            }
-        }
-    }
-    private void SniperReset()
-    {
-        cam.fieldOfView = 60f;
-        _BulletManager.AimUiChange(true, false);
-        _BulletManager.SniperType = 0;
-    }
-    private void FixedUpdate()
-    {
-        //Debug.Log(RayCastTest());
-    }
-
-
-    private float RayCastTest()
-    {
-        RaycastHit hit;
-        float MaxDinstance = 15f;
-        float f = 0;
-
-        
-        if (Physics.Raycast(transform.position, transform.forward, out hit, MaxDinstance))
-        {
-            f = hit.transform.transform.position.y;
-            //Debug.Log(hit.collider.name);
-        }
-        return f;
-    }
-
 
     public void BulletCreate()
     {
         if (GetComponent<Move>().isJumping || isBullet)
             return;
 
-
-        //_Ani._State = State.Attack;
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             if (_BulletMake == BulletMake.Attack)
                 InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
-            else if (_BulletMake == BulletMake.Speed)
-                InstantiateObject("CastObj_2", StartTf.transform.position, RotVector(), type);
-            //else if (_BulletMake == BulletMake.Sniper)
-            //{
-            //    if(_BulletManager.SniperType == 0)
-            //        InstantiateObject("CastObj_3", StartTf.transform.position, RotVector(), type);
-            //}
         }
 
         isBullet = true;
@@ -250,8 +143,7 @@ public class Create : MonoBehaviourPunCallbacks
     {
         Vector3 Rot;
 
-        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + AimY / testAim; //(AimY / 7);
-        //Rot.x = AimY / testAim; //(AimY / 7);
+        Rot.x = CameraPlayer.I.transform.rotation.eulerAngles.x + AimY / testAim; 
         Rot.y = transform.rotation.eulerAngles.y;
         Rot.z = z;
         return Rot;

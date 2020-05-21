@@ -11,11 +11,13 @@ public enum State
     Jump_Start,
     Jump_Ing,
     Jump_End,
-    Dash
+    Dash,
+    Machinegun
 }
 public class PlayerAni : MonoBehaviour
 {
-    private Animator Ani;
+    [HideInInspector]
+    public Animator Ani;
     private Move _Move;
 
     public State _State = State.IdleRun;
@@ -24,6 +26,7 @@ public class PlayerAni : MonoBehaviour
 
     void Start()
     {
+       
         Ani = GetComponent<Animator>();
         _Move = GetComponent<Move>();
     }
@@ -36,13 +39,20 @@ public class PlayerAni : MonoBehaviour
         AttackMent(_Move.fHorizontal, "VelocityX");
         AttackMent(_Move.fVertical, "VelocityZ");
 
-        if (Ani.GetCurrentAnimatorStateInfo(0).normalizedTime < CurAniTime)
+        if (_State != State.Machinegun)
         {
-            _State = State.IdleRun;
+            if (Ani.GetCurrentAnimatorStateInfo(0).normalizedTime < CurAniTime)
+            {
+                _State = State.IdleRun;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.T))
-            _State = State.Dmg;
+        {
+            //Ani.SetLayerWeight(1, 1.0f);
+            _State = State.IdleRun;
+        }
+            
 
     }
 
@@ -86,6 +96,12 @@ public class PlayerAni : MonoBehaviour
             case State.Dash:
                 {
                     AniChange(13);
+                }
+                break;
+            case State.Machinegun:
+                {
+                    
+                    AniChange(14);
                 }
                 break;
         }
