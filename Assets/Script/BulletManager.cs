@@ -27,7 +27,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 {
     private Create _Create;
     public PhotonView PV;
-    public enum BulletMode { Shot }
+    public enum BulletMode { Shot, Machinegun }
     public BulletMode _BulletMode = BulletMode.Shot;
 
     public Text MinText, MaxText, NameText, ModeText;
@@ -55,6 +55,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         if(PV.IsMine)
         {
             BulletList[0] = new Bullet("Attack", 30, 30, 90);
+            BulletList[1] = new Bullet("Machinegun", 20, 20, 100);
         }
     }
     void Start()
@@ -95,7 +96,15 @@ public class BulletManager : MonoBehaviourPunCallbacks
         int MaxCheck = BulletList[type].MaxBullet - ManyNumber;
 
         if (MaxCheck < 0)
+        {
+            if (_BulletMode == BulletMode.Machinegun)
+            {
+                GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
+                GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
+                GetComponent<PlayerAni>()._State = State.IdleRun;
+            }
             return;
+        }
 
         BulletList[type].MaxBullet -= ManyNumber;
         BulletList[type].MinBullet += ManyNumber;

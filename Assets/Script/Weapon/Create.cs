@@ -7,6 +7,7 @@ public enum BulletMake
 {
     None,
     Attack,
+    Machinegun
 }
 public class Create : MonoBehaviourPunCallbacks
 {
@@ -56,7 +57,6 @@ public class Create : MonoBehaviourPunCallbacks
             if (Input.GetKeyDown(KeyCode.R))
             {
                 int type = (int)_BulletMake - 1;
-
                 GetComponent<BulletManager>().BulletAdd(type);
             }
 
@@ -78,12 +78,24 @@ public class Create : MonoBehaviourPunCallbacks
                 }
 
 
-                if (GetComponent<Machinegun>().isMachineAttack && !GetComponent<Machinegun>().isMachinegun)
+                if (GetComponent<Machinegun>().isMachineAttack)
                 {
-                    if (Input.GetMouseButton(1))
+                    if (Input.GetMouseButtonDown(1))
                     {
-                        GunEffectType = 2;
-                        _Ani._State = State.Machinegun;
+                        if (_Ani._State == State.Machinegun)
+                        {
+                            CameraCol.instance.CameraReset();
+                            GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
+                            _Ani._State = State.IdleRun;
+                        }
+                        else if (_Ani._State == State.IdleRun)
+                        {
+                            CameraCol.instance.CameraJoom(-1f);
+                            GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(true);
+                            _Ani._State = State.Machinegun;
+                        }
+                        _BulletManager._BulletMode = BulletManager.BulletMode.Machinegun;
+                        _BulletMake = BulletMake.Machinegun;
                     }
                 }
             }

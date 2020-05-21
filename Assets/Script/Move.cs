@@ -250,11 +250,19 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             //scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
             // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
-            Piguck.GetComponent<Move>().score += 1;
+            Piguck.GetComponent<Move>().score += 10;
             PV.RPC("SendMsgRPC", RpcTarget.AllBuffered, Piguck.GetComponent<Move>().PV.Owner.NickName.ToString());
             //SendMsg();
             Piguck = null;
             // PV.RPC("PlusScoreRPC", RpcTarget.All);
+        }
+
+        if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
+        {
+            GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
+            GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC",RpcTarget.All, true, false);
+            CameraCol.instance.CameraReset();
+            GetComponent<Create>()._BulletMake = BulletMake.Attack;
         }
 
         rb.velocity = Vector3.zero;
@@ -336,6 +344,4 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         fl = true;
     }
-
-
 }

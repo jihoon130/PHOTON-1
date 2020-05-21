@@ -18,6 +18,7 @@ public class CameraCol : MonoBehaviour
     Vector3 dollyDir;
     public Vector3 dollyDirAdjusted;
     public float distance;
+    private float Curdistance;
 
     public float ZoomMax;
 
@@ -30,6 +31,7 @@ public class CameraCol : MonoBehaviour
         instance = this;
         dollyDir = transform.localPosition.normalized;
         distance = transform.localPosition.magnitude;
+        Curdistance = distance;
     }
 
     void LateUpdate()
@@ -58,10 +60,10 @@ public class CameraCol : MonoBehaviour
 
     public void CameraJoom(float joom)
     {
-        maxDistance = joom;
+        distance = joom;
     }
     public void CameraReset()
     {
-        maxDistance = 4;
+        distance = Curdistance;
     }
 }

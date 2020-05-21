@@ -25,7 +25,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        GunObjChange(true, false);
+        GunObjChangeRPC(true, false);
     }
 
     void Update()
@@ -37,12 +37,18 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             if(Input.GetMouseButtonDown(1))
             {
-                GunObjChange(false, true);
+                PV.RPC("GunObjChangeRPC", RpcTarget.All, false, true);
                 GameObject.Find("UI_ItemManager").GetComponent<ItemUIManager>().ItemUIChange(false);
-                isMachineAttack = true;
+                StartCoroutine("KeyTimer");
                 isMachinegun = false;
             }
         }
+    }
+
+    IEnumerator KeyTimer()
+    {
+        yield return new WaitForSeconds(1f);
+        isMachineAttack = true;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -51,11 +57,12 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             isMachinegun = true;
             GameObject.Find("UI_ItemManager").GetComponent<ItemUIManager>().ItemUIChange(true);
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }
 
-    public void GunObjChange(bool gun1, bool gun2)
+    [PunRPC]
+    public void GunObjChangeRPC(bool gun1, bool gun2)
     {
         GunObj.SetActive(gun1);
         MachinegunObj.SetActive(gun2);
