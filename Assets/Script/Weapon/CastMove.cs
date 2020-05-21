@@ -38,7 +38,7 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.tag == "Ground")
+        if (other.collider.tag == "Ground" || other.collider.tag == "Wall")
         {
             Destroy(gameObject);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);

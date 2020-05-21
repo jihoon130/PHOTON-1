@@ -37,7 +37,7 @@ public class CameraCol : MonoBehaviour
         Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxDistance);
         RaycastHit hit;
 
-        if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit))
+        if (Physics.Linecast(transform.parent.position, desiredCameraPos, out hit) && SaveObj)
         {
             SaveObj = hit.collider.gameObject.GetComponent<MeshRenderer>();
 
@@ -46,7 +46,7 @@ public class CameraCol : MonoBehaviour
             hit.collider.gameObject.GetComponent<MeshRenderer>().material.color = SaveColor;
             //distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
-        else
+        else if(SaveObj)
         {
             SaveColor.a = 1.0f;
             SaveObj.material.color = SaveColor;

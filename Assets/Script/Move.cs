@@ -30,11 +30,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     // Move
     private Transform tr;
    public Text[] ChatText;
+  public  float anit =0.0f;
     public float fHorizontal;
     public float fVertical;
     bool fl = false;
     public float StopT = 0.0f;
-
     public bool isPhoenix;
     public bool isDie;
 
@@ -134,7 +134,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            if (Piguck)
+            if (_PlayerAni._State == State.Jump_End || _PlayerAni._State == State.Jump_Ing)
+                anit += Time.deltaTime;
+            else
+                anit = 0.0f;
+
+            if(anit >=1.0f)
+            {
+                DownR();
+                _PlayerAni._State = State.IdleRun;
+            }
+                if (Piguck)
                 StartCoroutine("DestroyPiguck");
 
 
@@ -351,5 +361,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         fl = true;
     }
+
 
 }
