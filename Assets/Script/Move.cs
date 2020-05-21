@@ -53,7 +53,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
 
-        ChatText = new Text[8];
+        ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
         for (int i = 1; i < ChatText.Length; i++)
         {
