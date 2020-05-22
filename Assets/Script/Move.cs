@@ -12,7 +12,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public int PVGetID;
     public int score2;
     public bool isMove;
- public   bool OKE;
+    public bool OKE;
     public GameObject Piguck;
     public string NickName;
     public string EnemyNickName;
@@ -30,8 +30,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Quaternion targetRotation;
     // Move
     private Transform tr;
-   public Text[] ChatText;
-  public  float anit =0.0f;
+    public Text[] ChatText;
+    public  float anit =0.0f;
     public float fHorizontal;
     public float fVertical;
     bool fl = false;
@@ -91,8 +91,20 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
 
-                if (fVertical < 0) MoveSpeed = 4f;
-                else MoveSpeed = 7f;
+                if (fVertical < 0)
+                {
+                    if(GetComponent<Machinegun>().isMachineAttack)
+                        MoveSpeed = 2.5f;
+                    else
+                        MoveSpeed = 4f;
+                }
+                else
+                {
+                    if (GetComponent<Machinegun>().isMachineAttack)
+                        MoveSpeed = 4f;
+                    else
+                        MoveSpeed = 7f;
+                }
 
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
@@ -208,11 +220,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                         }
                     }
                 }
-                //else
-                //{
-                //    if (_PlayerAni._State == State.Jump_Ing)
-                //        _PlayerAni._State = State.Jump_End;
-                //}
 
                 if (Input.GetKeyDown(KeyCode.RightShift))
                 {
@@ -292,6 +299,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
             GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC",RpcTarget.All, true, false);
+            GetComponent<Machinegun>().isMachineAttack = false;
             CameraCol.instance.CameraReset();
             GetComponent<Create>()._BulletMake = BulletMake.Attack;
         }

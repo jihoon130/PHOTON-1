@@ -11,12 +11,13 @@ public class Machinegun : MonoBehaviourPunCallbacks
     public GameObject MachinegunObj;
 
 
-    [HideInInspector]
     public bool isMachinegun; // 머신건 UI 사용 유무
     public bool isMachineAttack;
+    public bool isMachineRay;
 
+    public Transform MachinegunStartPoint;
 
-
+    private float timer;
 
 
     private void Awake()
@@ -26,12 +27,25 @@ public class Machinegun : MonoBehaviourPunCallbacks
     void Start()
     {
         GunObjChangeRPC(true, false);
+
     }
 
     void Update()
     {
+        if (isMachineRay)
+        {
+            timer += Time.deltaTime;
+            if (timer > 0.1f)
+            {
+                RayCastBullet();
+                timer = 0.0f;
+            }
+        }
+
         if (!PV.IsMine)
             return;
+
+        Debug.Log("isMachineRay : " + isMachineRay);
 
         if(isMachinegun)
         {
@@ -43,11 +57,50 @@ public class Machinegun : MonoBehaviourPunCallbacks
                 isMachinegun = false;
             }
         }
+
+        if(isMachineAttack)
+        {
+            if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0 &&
+                GetComponent<BulletManager>().BulletList[1].MaxBullet <= 0)
+            {
+                isMachineRay = false;
+                GunObjChangeRPC(true, false);
+                GetComponent<Create>()._BulletMake = BulletMake.Attack;
+                GetComponent<PlayerAni>()._State = State.IdleRun;
+                CameraCol.instance.CameraReset();
+                isMachineAttack = false;
+            }
+        }
+    }
+
+    private void RayCastBullet()
+    {
+        if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0)
+            return;
+
+        GetComponent<BulletManager>().BulletUse(1);
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(MachinegunStartPoint.transform.position, MachinegunStartPoint.transform.forward, out hit, Mathf.Infinity))
+        {
+            if(hit.collider.tag == "Attack1")
+            {
+                PhotonNetwork.Instantiate("Hit", new Vector3(hit.transform.position.x, hit.transform.position.y + 0.5f, hit.transform.position.z), Quaternion.Euler(0, 0, 0));
+            }
+            else
+                PhotonNetwork.Instantiate("Hit", hit.transform.position, Quaternion.Euler(0, 0, 0));
+
+            if (hit.collider.CompareTag("Attack1"))
+            {
+                hit.collider.GetComponent<BackMove>().Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
+            }
+        }
     }
 
     IEnumerator KeyTimer()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         isMachineAttack = true;
     }
 

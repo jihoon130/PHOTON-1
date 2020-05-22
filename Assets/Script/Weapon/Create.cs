@@ -91,7 +91,7 @@ public class Create : MonoBehaviourPunCallbacks
                         }
                         else if (_Ani._State == State.IdleRun)
                         {
-                            CameraCol.instance.CameraJoom(-1f);
+                            CameraCol.instance.CameraJoom(3f);
                             GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(true);
                             _Ani._State = State.Machinegun;
                         }

@@ -6,7 +6,6 @@ public class MachinegunOBJ : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
     private Animator Ani;
-    private BulletManager _BulletManager;
 
     private void Awake()
     {
@@ -23,5 +22,9 @@ public class MachinegunOBJ : MonoBehaviourPunCallbacks
         
     }
 
-    public void AttackChang(bool attack) => Ani.SetBool("Attack", attack);
+    public void AttackChang(bool attack)
+    {
+        GameObject.FindGameObjectWithTag("Player").GetComponent<Machinegun>().isMachineRay = attack;
+        Ani.SetBool("Attack", attack);
+    }
 }

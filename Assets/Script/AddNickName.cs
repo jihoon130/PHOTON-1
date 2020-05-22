@@ -17,7 +17,6 @@ public class AddNickName : MonoBehaviour
     {
         
     }
-
     public void SetNickName()
     {
         if (Nick.text == "")
