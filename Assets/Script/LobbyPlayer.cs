@@ -19,6 +19,9 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject Me;
     public Sprite[] sprites;
     public GameObject Bonche;
+    public GameObject NickC1;
+    public InputField Nick2;
+    public GameObject Nick3;
    public int a=0;
     public int b = 0;
     private string c;
@@ -29,16 +32,16 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         pv = GetComponent<PhotonView>();
         bt = GameObject.Find("Ready").GetComponent<Button>();
         transform.SetParent(GameObject.Find("Canvas").transform, true);
-        c = PhotonNetwork.NickName;
-
     }
     // Update is called once per frame
     void Update()
     {
-       // pv.RPC("MasterRPC", RpcTarget.All);
+        c = PhotonNetwork.NickName;
+        // pv.RPC("MasterRPC", RpcTarget.All);
         if (pv.IsMine)
         {
             Me.SetActive(true);
+            Nick3.SetActive(true);
             Bonche.GetComponent<Image>().sprite = sprites[a];
             NickName.text = PhotonNetwork.NickName;
 
@@ -108,6 +111,12 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
             Ready = false;
             Rd.SetActive(false);
         }
+    }
+
+    public void ChangeNick()
+    {
+        NickC1 = GameObject.Find("Canvas").GetComponent<ChaningNick>().NickC1;
+        NickC1.SetActive(true);
     }
 
 

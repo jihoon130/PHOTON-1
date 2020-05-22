@@ -19,6 +19,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float MoveSpeed = 7.0f;
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
+    bool kk=false;
     // Water
     string chat;
     public GameObject Boonsoo;
@@ -38,7 +39,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float StopT = 0.0f;
     public bool isPhoenix;
     public bool isDie;
-
+    public float GooT=0.0f;
     // jump
     public bool isGround;
     public bool isJumping;
@@ -142,6 +143,18 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
              //   anit = 0.0f;
             }
 
+            if(GooT >0.0f)
+            {
+                GooT -= Time.deltaTime;
+                transform.Translate(Vector3.forward * Time.deltaTime*10);
+                isMove = false;
+                _PlayerAni._State = State.Dash;
+            }
+            else
+            {
+                kk = false;
+                isMove = true;
+            }
 
             if (fHorizontal != 0.0f || fVertical != 0.0f && isGround)
             {
@@ -178,9 +191,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             }
 
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (!kk&&Input.GetKeyDown(KeyCode.Z) && isGround && fVertical ==0.0f && fHorizontal==0.0f)
             {
-                _PlayerAni._State = State.Dash;
+                kk = true;
+                GooT += 0.5f;
             }
 
             if (daepoT <= 20.0f)
