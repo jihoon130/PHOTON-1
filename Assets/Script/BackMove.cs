@@ -118,7 +118,10 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
 
-        if (_Move.isPhoenix)
+        if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+            return;
+
+        if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
             return;
 
         _Move.PhoenixTimer();

@@ -69,7 +69,7 @@ public class MapManager : MonoBehaviourPunCallbacks
 
             for (int z = 0; z < mapDatas[i].MapObj.Length; z++)
             {
-                mapDatas[i].MapObj[z].transform.localPosition = new Vector3(0, 0, mapDatas[i].MapZ);
+                mapDatas[i].MapObj[z].transform.localPosition = new Vector3(0, mapDatas[i].MapZ, 0);
 
                 if (mapDatas[i].Dir == "Down")
                 {

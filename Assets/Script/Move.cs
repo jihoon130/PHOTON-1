@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
-    private PlayerAni _PlayerAni;
+    public PlayerAni _PlayerAni;
     // ID
     public int PVGetID;
     public int score2;

@@ -84,17 +84,14 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
         if (Physics.Raycast(MachinegunStartPoint.transform.position, MachinegunStartPoint.transform.forward, out hit, Mathf.Infinity))
         {
-            if(hit.collider.tag == "Attack1")
+            if (hit.collider.CompareTag("Attack1"))
             {
                 PhotonNetwork.Instantiate("Hit", new Vector3(hit.transform.position.x, hit.transform.position.y + 0.5f, hit.transform.position.z), Quaternion.Euler(0, 0, 0));
+                hit.collider.GetComponent<BackMove>().Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
             }
             else
                 PhotonNetwork.Instantiate("Hit", hit.transform.position, Quaternion.Euler(0, 0, 0));
 
-            if (hit.collider.CompareTag("Attack1"))
-            {
-                hit.collider.GetComponent<BackMove>().Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
-            }
         }
     }
 
