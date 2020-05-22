@@ -87,7 +87,8 @@ public class Machinegun : MonoBehaviourPunCallbacks
             if (hit.collider.CompareTag("Attack1"))
             {
                 PhotonNetwork.Instantiate("Hit", new Vector3(hit.transform.position.x, hit.transform.position.y + 0.5f, hit.transform.position.z), Quaternion.Euler(0, 0, 0));
-                hit.collider.GetComponent<BackMove>().Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
+                hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All,hit.transform.position.x,hit.transform.position.y,hit.transform.position.z);
+                    //.Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
             }
             else
                 PhotonNetwork.Instantiate("Hit", hit.transform.position, Quaternion.Euler(0, 0, 0));

@@ -134,4 +134,22 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.AddForce(pushdi * 20.0f, ForceMode.Impulse);
     }
 
+    [PunRPC]
+    public void BackRPC(float a, float b, float c)
+    {
+        PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+
+        if (GetComponentInParent<Machinegun>().isMachineRay)
+            return;
+
+        if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+            return;
+
+        _PlayerAni._State = State.Dmg;
+        rb.velocity = Vector3.zero;
+        Vector3 pushdi = new Vector3(a, b, c) - transform.position;
+        pushdi = -pushdi.normalized;
+        pushdi.y = 0f;
+        rb.AddForce(pushdi * 20.0f, ForceMode.Impulse);
+    }
 }
