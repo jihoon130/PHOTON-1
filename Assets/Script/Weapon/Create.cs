@@ -23,7 +23,7 @@ public class Create : MonoBehaviourPunCallbacks
     private float fGunTimer;
     public float AimY;
     private PlayerAni _Ani;
-
+    public GameObject Effect1;
     private float fTime;
 
     // Sniper
@@ -40,6 +40,7 @@ public class Create : MonoBehaviourPunCallbacks
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        Effect1.GetComponent<ParticleSystem>().Stop();
     }
     // Update is called once per frame
     void Update()
@@ -128,6 +129,16 @@ public class Create : MonoBehaviourPunCallbacks
             
 
         }
+    }
+
+    public void EffectOn()
+    {
+        Debug.Log("DD");
+        Effect1.GetComponent<ParticleSystem>().Play();
+    }
+    public void EffectOFF()
+    {
+        Effect1.GetComponent<ParticleSystem>().Stop();
     }
 
     public void BulletCreate()

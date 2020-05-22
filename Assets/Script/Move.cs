@@ -8,11 +8,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
     private PlayerAni _PlayerAni;
-
     // ID
     public int PVGetID;
     public int score2;
     public bool isMove;
+ public   bool OKE;
     public GameObject Piguck;
     public string NickName;
     public string EnemyNickName;
@@ -24,6 +24,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject Boonsoo;
     public ScoreManager scoreM;
     private Vector3 currPos;
+    public GameObject[] Effects;
     private Rigidbody rb;
     private Quaternion currRot;
     private Quaternion targetRotation;
@@ -64,6 +65,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             NickName = PlayerPrefs.GetString("NickName");
+            Effects[1].GetComponent<ParticleSystem>().Stop();
         }
     }
     void Start()
@@ -118,14 +120,41 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             if (_PlayerAni._State == State.Jump_End || _PlayerAni._State == State.Jump_Ing)
-                anit += Time.deltaTime;
-            else
-                anit = 0.0f;
-
-            if(anit >=1.0f)
             {
-                DownR();
-                _PlayerAni._State = State.IdleRun;
+                OKE = true;
+               // anit += Time.deltaTime;
+            }
+            else
+            {
+                OKE = false;
+             //   anit = 0.0f;
+            }
+
+
+            if (fHorizontal != 0.0f || fVertical != 0.0f && isGround)
+            {
+                Effects[0].GetComponent<ParticleSystem>().Play();
+            }
+            else 
+            {
+                Effects[0].GetComponent<ParticleSystem>().Stop();
+            }
+
+            if (OKE)
+            {
+                RaycastHit hit;
+                Vector3 pos = transform.position;
+                Vector3 dir = -transform.up;
+
+
+                if (Physics.Raycast(pos, dir, out hit, 1f))
+                {
+                    if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall"))
+                    {
+                        DownR();
+                        _PlayerAni._State = State.IdleRun;
+                    }
+                }
             }
                 if (Piguck)
                 StartCoroutine("DestroyPiguck");
@@ -154,10 +183,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround)
                 {
+                    _PlayerAni._State = State.Jump_Start;
                     flRP();
                     fJumptime = 0;
                     StartCoroutine("Fade");
-                    _PlayerAni._State = State.Jump_Start;
                     isGround = false;
                 }
 
@@ -173,7 +202,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                     if (Physics.Raycast(pos, dir, out hit, 0.5f))
                     {
-                        if (hit.collider.CompareTag("Ground"))
+                        if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall"))
                         {
                             DownR();
                         }
@@ -200,11 +229,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground")
-        {
-            isGround = true;
-        }
+        //if (collision.gameObject.tag == "Ground")
+        //{
+        //    isGround = true;
+        //}
     }
+
+
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -322,7 +353,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         fHorizontal = 0;
         fVertical = 0;
-
+        Effects[1].GetComponent<ParticleSystem>().Play();
         _PlayerAni._State = State.Jump_End;
         isJumping = false;
         isJumpDown = false;

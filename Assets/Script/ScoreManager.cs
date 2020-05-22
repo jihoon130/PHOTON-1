@@ -22,7 +22,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     public GameObject[] SusoonJung;
     public GameObject TempObject;
     public GameObject[] ScoreT;
+    public GameObject[] RankG;
     // Start is called before the first frame update
+
+
     void Start()
     {
         PV = GetComponent<PhotonView>();
@@ -30,9 +33,22 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         Score = new int[5];
         NickName = new string[5];
         InvokeRepeating("ScoreUpdate", 0f, 0.1f);
+
+
+
+
     }
     private void Update()
     {
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        {
+            RankG[i].SetActive(true);
+            for (int j=PhotonNetwork.PlayerList.Length; j<4;j++)
+            {
+                RankG[j].SetActive(false);
+            }
+        }
+
         PV.RPC("UpdateScoreRPC", RpcTarget.All);
     }
 
@@ -131,6 +147,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < SusoonJung.Length; i++)
         {
+            if(ScoreT[i])
             ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
         }
     }
