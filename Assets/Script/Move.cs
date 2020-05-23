@@ -248,16 +248,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        //if (collision.gameObject.tag == "Ground")
-        //{
-        //    isGround = true;
-        //}
-    }
-
-
-
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //통신을 보내는 
@@ -300,23 +290,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Piguck)
         {
-            //scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000] += 1;
-            // Debug.Log(scoreM.Score[Piguck.GetComponent<Move>().PV.ViewID / 1000]);
             Piguck.GetComponent<Move>().score += 10;
             PV.RPC("SendMsgRPC", RpcTarget.AllBuffered, Piguck.GetComponent<Move>().PV.Owner.NickName.ToString());
-            //SendMsg();
             Piguck = null;
-            // PV.RPC("PlusScoreRPC", RpcTarget.All);
         }
 
         if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
         {
-            GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
-            GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC",RpcTarget.All, true, false);
-            GetComponent<Machinegun>().isMachineAttack = false;
-            CameraCol.instance.CameraReset();
-            GetComponent<PlayerAni>()._State = State.IdleRun;
-            GetComponent<Create>()._BulletMake = BulletMake.Attack;
+            GetComponent<Machinegun>().MachineDeleteReset();
         }
 
         rb.velocity = Vector3.zero;
@@ -361,16 +342,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-    public void MoveTrue()
-    {
-        isMove = true;
-
-    }
-
-    public void MoveFalse()
-    {
-        isMove = false;
-    }
+    public void MoveTrue() => isMove = true;
+    public void MoveFalse() => isMove = false;
 
     public void DownR()
     {
@@ -384,18 +357,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isGround = true;
     }
 
-    public void DieTrue()
-    {
-        isDie = true;
-    }
+        
+    public void DieTrue() => isDie = true;
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(.5f);
         isJumping = true;
     }
 
-    void flRP()
-    {
-        fl = true;
-    }
+    private void flRP() => fl = true;
 }

@@ -19,14 +19,14 @@ public class MapManager : MonoBehaviourPunCallbacks
         [HideInInspector]
         public bool isCheck;
     }
-
-
     public MapData[] mapDatas;
     public PhotonView PV;
 
     private bool isCheckd;
 
     private Timer timer;
+
+    
 
     private void Awake()
     {
@@ -46,7 +46,6 @@ public class MapManager : MonoBehaviourPunCallbacks
         if(isCheckd)
             MapDownRPC();
     }
-
 
     void TimerCheckMapRPC()
     {

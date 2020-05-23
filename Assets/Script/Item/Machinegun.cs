@@ -58,8 +58,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             if(Input.GetMouseButtonDown(1))
             {
-                //GetComponent<PlayerAni>()._State = State.Machinegun;
-
                 GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
 
@@ -89,22 +87,26 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
     public void MachineIdleChange()
     {
-        CameraCol.instance.CameraReset();
         GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
-        //_Mode = Mode.IdleRun;
-        GameObject.Find("UI_WeaponManager").GetComponent<ItemUIManager>().UIWeaponChange(true, false);
-        GetComponent<PlayerAni>()._State = State.IdleRun;
+        ResetArray();
     }
     public void MachineDeleteReset()
     {
         isMachineRay = false;
+        isMachineAttack = false;
         GameObject.Find("UI_WeaponManager").GetComponent<ItemUIManager>().UIWeaponChange(true, false);
         PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
         GetComponent<Create>()._BulletMake = BulletMake.Attack;
-        GetComponent<PlayerAni>()._State = State.IdleRun;
-        CameraCol.instance.CameraReset();
-        isMachineAttack = false;
+        GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Shot;
+        ResetArray();
     }
+
+    private void ResetArray()
+    {
+        CameraCol.instance.CameraReset();
+        GetComponent<PlayerAni>()._State = State.IdleRun;
+    }
+
     public void EffectStart()
     {
         AttackEffect.GetComponent<ParticleSystem>().Play();
@@ -123,28 +125,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
         EffectStart();
 
         GetComponent<Create>().BulletMachinegunCreate();
-
-        //GetComponent<BulletManager>().BulletUse(1);
-
-        //RaycastHit hit;
-
-        //if (Physics.Raycast(MachinegunStartPoint.transform.position, MachinegunStartPoint.transform.forward, out hit, Mathf.Infinity))
-        //{
-        //    Transform points = hit.transform;
-        //
-        //    PhotonNetwork.Instantiate("MachinegunHit", new Vector3(points.position.x, points.position.y + 0.5f, points.position.z), Quaternion.Euler(0, 0, 0));
-        //
-        //    if (hit.collider.CompareTag("Attack1"))
-        //    {
-        //        hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
-        //        //.Back1(hit.transform.position.x, hit.transform.position.y, hit.transform.position.z);
-        //
-        //        if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1))
-        //            return;
-        //
-        //
-        //    }
-        //}
     }
 
     IEnumerator KeyTimer()
@@ -157,6 +137,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
     {
         if(collision.gameObject.tag == "Machiengun" && PV.IsMine)
         {
+            if (isMachinegun || GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Machinegun)
+                return;
+
             isMachinegun = true;
             GameObject.Find("UI_WeaponManager").GetComponent<ItemUIManager>().ItemUIChange(true);
             GetComponent<BulletManager>().BulletListAdd(1);

@@ -46,15 +46,14 @@ public class CameraCol : MonoBehaviour
             SaveColor = hit.collider.gameObject.GetComponent<MeshRenderer>().material.color;
             SaveColor.a = 0.1f;
             hit.collider.gameObject.GetComponent<MeshRenderer>().material.color = SaveColor;
-            //distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
+            distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
         else if(SaveObj)
         {
             SaveColor.a = 1.0f;
             SaveObj.material.color = SaveColor;
         }
-            //distance = maxDistance;
-
+        distance = maxDistance;
         transform.localPosition = Vector3.Lerp(transform.localPosition, dollyDir * distance, smooth * Time.deltaTime);
     }
 
