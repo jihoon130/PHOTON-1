@@ -59,7 +59,7 @@ public class CastMove : MonoBehaviourPunCallbacks
         if (!this.gameObject)
             return;
 
-            Vector3 pos = transform.position;
+        Vector3 pos = transform.position;
         Vector3 PosA = transform.forward;
         RaycastHit hit;
 
@@ -73,9 +73,7 @@ public class CastMove : MonoBehaviourPunCallbacks
                     return;
 
 
-
                 GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
-
 
                 for (int i = 0; i < pu.Length; i++)
                 {
@@ -89,8 +87,6 @@ public class CastMove : MonoBehaviourPunCallbacks
                             pu3.GetComponentInParent<Move>().Piguck = pu2;
                         // hit.collider.GetComponent<Move>().Piguck = pu[i];
                     }
-
-
                 }
                 hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
                 Destroy(gameObject);

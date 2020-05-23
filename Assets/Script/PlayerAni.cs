@@ -100,7 +100,6 @@ public class PlayerAni : MonoBehaviour
                 break;
             case State.Machinegun:
                 {
-                    
                     AniChange(14);
                 }
                 break;

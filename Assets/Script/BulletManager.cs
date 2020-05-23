@@ -85,6 +85,13 @@ public class BulletManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void BulletListAdd(int array)
+    {
+        BulletList[array].MinBullet = 20;
+        BulletList[array].MaxBullet = 100;
+        BulletList[array].isBullet = true;
+    }
+
     public void BulletUse(int type)
     {
         BulletList[type].MinBullet--;
@@ -98,11 +105,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         if (MaxCheck < 0)
         {
             if (_BulletMode == BulletMode.Machinegun)
-            {
-                GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
-                GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
-                GetComponent<PlayerAni>()._State = State.IdleRun;
-            }
+                GetComponent<Machinegun>().MachineDeleteReset();
             return;
         }
 

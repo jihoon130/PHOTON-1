@@ -86,7 +86,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f)
             {
-                if (!isMove || isDie)
+                if (!isMove || isDie || GetComponent<Machinegun>().isMachineRay)
                     return;
 
                 fHorizontal = Input.GetAxisRaw("Horizontal");
@@ -315,6 +315,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             GetComponent<Machinegun>().PV.RPC("GunObjChangeRPC",RpcTarget.All, true, false);
             GetComponent<Machinegun>().isMachineAttack = false;
             CameraCol.instance.CameraReset();
+            GetComponent<PlayerAni>()._State = State.IdleRun;
             GetComponent<Create>()._BulletMake = BulletMake.Attack;
         }
 

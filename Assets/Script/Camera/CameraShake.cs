@@ -11,7 +11,7 @@ public class CameraShake : MonoBehaviour
     public float decreaseFactor = 1.0f;
     public Vector3 originalPos;
     public GameObject ShakeObj;
-    bool CameraShaking;
+    public bool CameraShaking;
 
 
     private void Awake()
@@ -25,13 +25,12 @@ public class CameraShake : MonoBehaviour
     }
     public void Init()
     {
-        
         originalPos = ShakeObj.transform.position;
     }
-    public void ShakeCamera()
+    public void ShakeCamera(float f)
     {
         //gameObject.GetComponent<Came>().islock = true;
-        shakes = 0.1f;
+        shakes = f;
         originalPos = ShakeObj.transform.position;
         CameraShaking = true;
     }

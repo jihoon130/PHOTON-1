@@ -6,6 +6,7 @@ using Photon.Pun;
 public class HIT : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;
+    public float EndTime;
     private float ftime;
 
     private void Awake()
@@ -21,7 +22,7 @@ public class HIT : MonoBehaviourPunCallbacks
     void Update()
     {
         ftime += Time.deltaTime;
-        if(ftime > 2.5f)
+        if(ftime > EndTime)
         {
             Destroy(gameObject);
             ftime = 0.0f;

@@ -85,18 +85,14 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
-                            CameraCol.instance.CameraReset();
-                            GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
-                            _Ani._State = State.IdleRun;
+                            GetComponent<Machinegun>().MachineIdleChange();
                         }
                         else if (_Ani._State == State.IdleRun)
                         {
-                            CameraCol.instance.CameraJoom(3f);
+                            CameraCol.instance.CameraJoom(2.5f);
                             GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(true);
                             _Ani._State = State.Machinegun;
                         }
-                        _BulletManager._BulletMode = BulletManager.BulletMode.Machinegun;
-                        _BulletMake = BulletMake.Machinegun;
                     }
                 }
             }
