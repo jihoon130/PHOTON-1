@@ -52,7 +52,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         if(PV.IsMine)
         {
-            BulletList[0] = new Bullet("Attack", 30, 30, 90);
+            BulletList[0] = new Bullet("Attack", 99, 99, 99);
             BulletList[1] = new Bullet("Machinegun", 20, 20, 100);
         }
     }
@@ -92,11 +92,17 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public void BulletUse(int type)
     {
+        if (_BulletMode == BulletMode.Shot)
+            return;
+
         BulletList[type].MinBullet--;
     }
 
     public void BulletAdd(int type)
     {
+        if (_BulletMode == BulletMode.Shot)
+            return;
+
         int ManyNumber = BulletList[type].BulletMany - BulletList[type].MinBullet;
         int MaxCheck = BulletList[type].MaxBullet - ManyNumber;
 

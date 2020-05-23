@@ -25,6 +25,9 @@ public class AddNickName : MonoBehaviour
         }
         else
         {
+            if (Nick.text.Length > 6)
+                return;
+
             PlayerPrefs.SetString("NickName", Nick.text);
         }
         SceneManager.LoadScene(1);

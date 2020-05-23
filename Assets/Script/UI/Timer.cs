@@ -39,7 +39,7 @@ public class Timer : MonoBehaviourPunCallbacks
     IEnumerator TimeCoroutine()
     {
         isTimer = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(1f);
         if(!EndCheck)
         TimerCheck();
         isTimer = false;

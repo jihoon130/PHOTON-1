@@ -27,6 +27,9 @@ public class ChaningNick : MonoBehaviour
 
    public void ChangeNick()
     {
+        if (Nick2.text.Length > 6)
+            return;
+
         PlayerPrefs.SetString("NickName", Nick2.text);
         PhotonNetwork.NickName = Nick2.text;
         NickC1.SetActive(false);
