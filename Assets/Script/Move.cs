@@ -110,9 +110,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
 
-                gameObject.GetComponentInChildren<TextMesh>().text = NickName;
+               // gameObject.GetComponentInChildren<TextMesh>().text = NickName;
 
-                this.GetComponentInChildren<TextMesh>().text = NickName;
+              //  this.GetComponentInChildren<TextMesh>().text = NickName;
 
         
             }

@@ -17,6 +17,8 @@ public class Create : MonoBehaviourPunCallbacks
 
     public PhotonView PV;
     public Transform StartTf;
+    public Transform MachinegunStartTf;
+
     public GameObject _GunEffect;
     private int GunEffectType;
     private bool isGunTime;
@@ -85,6 +87,7 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
+                            isBullet = false;
                             GetComponent<Machinegun>().MachineIdleChange();
                         }
                         else if (_Ani._State == State.IdleRun)
@@ -150,6 +153,15 @@ public class Create : MonoBehaviourPunCallbacks
         }
 
         isBullet = true;
+    }
+
+    public void BulletMachinegunCreate()
+    {
+        int type = (int)_BulletMake - 1;
+        if (GetComponent<BulletManager>().BulletList[type].isBullet)
+        {
+            InstantiateObject("Machinegun_bullet", MachinegunStartTf.transform.position, RotVector(), type);
+        }
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)

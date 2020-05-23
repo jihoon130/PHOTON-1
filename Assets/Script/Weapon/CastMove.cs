@@ -5,6 +5,9 @@ using Photon.Pun;
 
 public class CastMove : MonoBehaviourPunCallbacks
 {
+    public enum BulletMode { Attack, Machinegun}
+    public BulletMode _BulletMode = BulletMode.Attack;
+
     private Move _Move;
     public float CastSpeed = 70.0f;
     public float Dir = 0.5f;
@@ -41,13 +44,19 @@ public class CastMove : MonoBehaviourPunCallbacks
         if (other.collider.tag == "Ground" || other.collider.tag == "Wall")
         {
             Destroy(gameObject);
+
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
     public void HitEffect(float a, float b, float c)
     {
-        PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+        string effectName = null;
+
+        if (_BulletMode == BulletMode.Attack) effectName = "Hit";
+        else if (_BulletMode == BulletMode.Machinegun) effectName = "MachinegunHit";
+
+        PhotonNetwork.Instantiate(effectName, new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
     }
 
 

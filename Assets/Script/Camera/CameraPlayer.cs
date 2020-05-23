@@ -32,6 +32,8 @@ public class CameraPlayer : MonoBehaviour
     private Quaternion rotation;
     private Vector3 position;
 
+    public float CameraZ = 0.0f;
+
     private void Awake()
     {
         I = this;
@@ -60,7 +62,7 @@ public class CameraPlayer : MonoBehaviour
 
             //카메라 위치 변화 계산
             rotation = Quaternion.Euler(y, x, 0);
-            position = rotation * new Vector3(0.0f, 0.0f, -dist) + target.position + new Vector3(0.0f, InitRotY, 0.0f);
+            position = rotation * new Vector3(0.0f, 0.0f, -dist) + target.position + new Vector3(0.0f, InitRotY, CameraZ);
 
             // 계산된 값을 카메라 rotation에 적용
             transform.rotation = rotation;

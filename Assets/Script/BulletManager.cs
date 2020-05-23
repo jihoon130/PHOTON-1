@@ -30,7 +30,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
     public enum BulletMode { Shot, Machinegun }
     public BulletMode _BulletMode = BulletMode.Shot;
 
-    public Text MinText, MaxText, NameText, ModeText;
+    public Text MinText, MaxText;
 
 
     public Bullet[] BulletList = new Bullet[3];
@@ -49,8 +49,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         MinText = GameObject.Find("Min").GetComponent<Text>();
         MaxText = GameObject.Find("Max").GetComponent<Text>();
-        NameText = GameObject.Find("Name").GetComponent<Text>();
-        ModeText = GameObject.Find("Mode").GetComponent<Text>();
 
         if(PV.IsMine)
         {
@@ -116,12 +114,12 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public void UITextUpdate()
     {
-        if ((int)_BulletMode == 0) ModeName = "단발모드";
+        //if ((int)_BulletMode == 0) ModeName = "단발모드";
 
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
         MaxText.text = BulletList[type].MaxBullet.ToString();
-        NameText.text = BulletList[type].BulletName.ToString();
-        ModeText.text = ModeName;
+        //NameText.text = BulletList[type].BulletName.ToString();
+        //ModeText.text = ModeName;
     }
 }

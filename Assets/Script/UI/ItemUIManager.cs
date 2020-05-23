@@ -6,6 +6,9 @@ public class ItemUIManager : MonoBehaviour
 {
     public GameObject Item1;
 
+    public GameObject BaseWeapon;
+    public GameObject ItemWepaon;
+
     void Start()
     {
         
@@ -18,4 +21,10 @@ public class ItemUIManager : MonoBehaviour
     }
 
     public void ItemUIChange(bool checkd) => Item1.SetActive(checkd);
+
+    public void UIWeaponChange(bool check1, bool check2)
+    {
+        BaseWeapon.SetActive(check1);
+        ItemWepaon.SetActive(check2);
+    }
 }
