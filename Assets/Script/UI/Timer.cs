@@ -27,13 +27,13 @@ public class Timer : MonoBehaviourPunCallbacks
     void Update()
     {
         GameObject[] player2 = GameObject.FindGameObjectsWithTag("Player");
-            if (player2.Length == PhotonNetwork.PlayerList.Length)
-            {
-                if (!isTimer)
-                    StartCoroutine("TimeCoroutine");
+        if (player2.Length == PhotonNetwork.PlayerList.Length)
+        {
+            if (!isTimer)
+                StartCoroutine("TimeCoroutine");
 
-                Timer1();
-            }
+            Timer1();
+        }
     }
 
     IEnumerator TimeCoroutine()
@@ -73,5 +73,12 @@ public class Timer : MonoBehaviourPunCallbacks
             TimerText.text = Minute.ToString() + " : 0" + Second.ToString();
         else
             TimerText.text = Minute.ToString() + " : " + Second.ToString();
+    }
+
+    public bool TimerCheck(int min, int second)
+    {
+        if (Minute == min && Second == second)
+            return true;
+        return false;
     }
 }

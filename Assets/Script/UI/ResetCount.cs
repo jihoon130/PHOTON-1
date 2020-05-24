@@ -13,7 +13,7 @@ public class ResetCount : MonoBehaviourPunCallbacks
     private bool isFind;
     public GameObject ResetUi;
     public Text ResetCountText;
-
+    GameObject d;
 
 
     private void Awake() => PV = GetComponent<PhotonView>();
@@ -24,16 +24,17 @@ public class ResetCount : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        if (GameObject.FindGameObjectWithTag("Player") != null && !isFind)
+        d = GameObject.FindGameObjectWithTag("Player");
+        if (d.GetComponent<Move>().PV.IsMine && !isFind)
         {
-            _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
+            _Move = d.GetComponent<Move>();
             Count = 3;
             isFind = true;
         }
         
         if (isFind)
         {
-            if (_Move.isDie)
+            if (_Move.isDie && _Move.PV.IsMine)
             {
                 if (GameObject.FindGameObjectWithTag("Player") == null)
                     return;
@@ -50,8 +51,7 @@ public class ResetCount : MonoBehaviourPunCallbacks
                     {
                         ResetUi.SetActive(false);
                         Count = 3;
-                     // _Move.ResetPos();
-                       _Move.PV.RPC("ResetPosRPC", RpcTarget.All);
+                        // _Move.ResetPos();
                         time = 0;
                     }
                     time = 0;

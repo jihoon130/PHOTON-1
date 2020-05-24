@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Respawn : MonoBehaviour
 {
-     public bool a = true;
+    public bool a = true;
     public bool f=false;
     float b;
     float c;

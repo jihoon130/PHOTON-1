@@ -20,6 +20,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
     bool kk=false;
+    float TestRpT;
+    bool TestRPB = false;
     // Water
     string chat;
     public GameObject Boonsoo;
@@ -47,13 +49,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private float fJumptime;
     public int score;
     public GameObject RSpawn;
-
+    public GameObject SpawnT;
+    public Text SpawnText;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
+
+        SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
+        
 
         ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
@@ -157,6 +163,20 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 isMove = true;
             }
 
+            if(TestRpT>0.0f)
+            {
+                if (SpawnT)
+                {
+                    SpawnT.SetActive(true);
+                    SpawnT.GetComponentInChildren<Text>().text = TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
+                }
+                TestRpT -= Time.deltaTime;
+            }
+            if(TestRpT<=0.0f && isDie)
+            {
+                ResetPos();
+            }
+
             if(anit>=0.7f)
             {
                 DownR();
@@ -188,18 +208,19 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     }
                 }
             }
-                if (Piguck)
+            if (Piguck)
                 StartCoroutine("DestroyPiguck");
+            else
+                StopCoroutine("DestroyPiguck");
 
 
             if (isDie && RSpawn.GetComponent<Respawn>().f == false)
             {
                 RSpawn.GetComponent<Respawn>().a = false;
                 rb.velocity = Vector3.zero;
-
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.Z) && isGround)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround)
             {
                 kk = true;
                 GooT += 0.5f;
@@ -285,7 +306,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     IEnumerator DestroyPiguck()
     {
-        yield return new WaitForSeconds(100f);
+        yield return new WaitForSeconds(10f);
         Piguck = null;
     }
 
@@ -295,14 +316,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         StartCoroutine("Phoenix");
     }
 
-    [PunRPC]
-    public void ResetPosRPC()
+    public void ResetPos()
     {
         if (Piguck)
         {
-            Piguck.GetComponent<Move>().score += 10;
             PV.RPC("SendMsgRPC", RpcTarget.AllBuffered, Piguck.GetComponent<Move>().PV.Owner.NickName.ToString());
-            Piguck = null;
         }
 
         if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
@@ -314,12 +332,18 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         transform.localPosition = RSpawn.transform.position;
         RSpawn.GetComponent<Respawn>().RePosition();
+
+        SpawnT.SetActive(false);
+        TestRPB = false;
         isDie = false;
     }
 
     [PunRPC]
     void SendMsgRPC(string _msg)
     {
+        Piguck.GetComponent<Move>().score += 10;
+        Piguck = null;
+
         bool isInput = false;
         for (int i = 0; i < ChatText.Length; i++)
             if (ChatText[i].text == "")
@@ -352,6 +376,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
+
     public void MoveTrue() => isMove = true;
     public void MoveFalse() => isMove = false;
 
@@ -367,7 +392,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isGround = true;
     }
 
-    public void DieTrue() => isDie = true;
+    public void DieTrue()
+    {
+        if (TestRPB)
+            return;
+        isDie = true;
+        TestRpT += 3.0f;
+        TestRPB = true;
+    }
     IEnumerator Fade()
     {
         yield return new WaitForSeconds(.5f);
