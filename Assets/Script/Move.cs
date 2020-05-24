@@ -46,7 +46,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool isJumpDown;
     private float fJumptime;
     public int score;
-
+    public GameObject RSpawn;
 
     private void Awake()
     {
@@ -67,6 +67,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             NickName = PlayerPrefs.GetString("NickName");
             Effects[1].GetComponent<ParticleSystem>().Stop();
+            RSpawn = GameObject.Find("RSpawn");
         }
     }
     void Start()
@@ -135,12 +136,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (_PlayerAni._State == State.Jump_End || _PlayerAni._State == State.Jump_Ing)
             {
                 OKE = true;
-               // anit += Time.deltaTime;
+               anit += Time.deltaTime;
             }
             else
             {
                 OKE = false;
-             //   anit = 0.0f;
+             anit = 0.0f;
             }
 
             if(GooT >0.0f)
@@ -154,6 +155,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             {
                 kk = false;
                 isMove = true;
+            }
+
+            if(anit>=0.7f)
+            {
+                DownR();
+                _PlayerAni._State = State.IdleRun;
             }
 
             if (fHorizontal != 0.0f || fVertical != 0.0f && isGround)
@@ -185,13 +192,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 StartCoroutine("DestroyPiguck");
 
 
-            if (isDie)
+            if (isDie && RSpawn.GetComponent<Respawn>().f == false)
             {
+                RSpawn.GetComponent<Respawn>().a = false;
                 rb.velocity = Vector3.zero;
 
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.Z) && isGround && fVertical ==0.0f && fHorizontal==0.0f)
+            if (!kk&&Input.GetKeyDown(KeyCode.Z) && isGround)
             {
                 kk = true;
                 GooT += 0.5f;
@@ -268,6 +276,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    
+
     IEnumerator Phoenix()
     {
         yield return new WaitForSeconds(0.3f);
@@ -302,8 +312,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         rb.velocity = Vector3.zero;
 
-        transform.localPosition = new Vector3(0, 10, Random.Range(-3, 3));
-
+        transform.localPosition = RSpawn.transform.position;
+        RSpawn.GetComponent<Respawn>().RePosition();
         isDie = false;
     }
 
@@ -357,7 +367,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isGround = true;
     }
 
-        
     public void DieTrue() => isDie = true;
     IEnumerator Fade()
     {
