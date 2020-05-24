@@ -68,39 +68,41 @@ public class CastMove : MonoBehaviourPunCallbacks
         if (!this.gameObject)
             return;
 
-        Vector3 pos = transform.position;
-        Vector3 PosA = transform.forward;
-        RaycastHit hit;
+
+
+        //Vector3 pos = transform.position;
+        //Vector3 PosA = transform.forward;
+        //RaycastHit hit;
 
 
 
-        if (Physics.Raycast(pos, PosA, out hit, 0.5f))
-        {
-            if (hit.collider.CompareTag("Attack1"))
-            {
-                if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1))
-                    return;
+        //if (Physics.Raycast(pos, PosA, out hit, 0.5f))
+        //{
+        //    if (hit.collider.CompareTag("Attack1"))
+        //    {
+        //        if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1))
+        //            return;
 
 
-                GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
+        //        GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
 
-                for (int i = 0; i < pu.Length; i++)
-                {
-                    if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == PV.ViewID.ToString().Substring(0, 1))
-                    {
-                        pu2 = pu[i];
-                        pu3 = hit.collider.gameObject;
-                        // Piguck();
+        //        for (int i = 0; i < pu.Length; i++)
+        //        {
+        //            if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == PV.ViewID.ToString().Substring(0, 1))
+        //            {
+        //                pu2 = pu[i];
+        //                pu3 = hit.collider.gameObject;
+        //                // Piguck();
 
-                        if (pu3)
-                            pu3.GetComponentInParent<Move>().Piguck = pu2;
-                        // hit.collider.GetComponent<Move>().Piguck = pu[i];
-                    }
-                }
-                hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
-                Destroy(gameObject);
-                //hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
-            }
-        }
+        //                if (pu3)
+        //                    pu3.GetComponentInParent<Move>().Piguck = pu2;
+        //                // hit.collider.GetComponent<Move>().Piguck = pu[i];
+        //            }
+        //        }
+        //        hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
+        //        Destroy(gameObject);
+        //        //hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
+        //    }
+        //}
     }
 }

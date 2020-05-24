@@ -143,26 +143,26 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        //if(!g && PhotonNetwork.IsMasterClient)
-        //{
-        //    PhotonNetwork.CurrentRoom.IsOpen = false;
-        //    PhotonNetwork.LoadLevel("TaScene");
-        //    g = true;
-        //}
-       
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
-
-        ReadyCount = taggedEnemys.Length;
-
-        if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length-1 && PhotonNetwork.IsMasterClient)
+        if (!g && PhotonNetwork.IsMasterClient)
         {
-            if (ReadyCount == 0)
-                return;
-
-            g = true;
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("TaScene");
+            g = true;
         }
+
+        //GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
+
+        //ReadyCount = taggedEnemys.Length;
+
+        //if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length-1 && PhotonNetwork.IsMasterClient)
+        //{
+        //    if (ReadyCount == 0)
+        //        return;
+
+        //    g = true;
+        //    PhotonNetwork.CurrentRoom.IsOpen = false;
+        //    PhotonNetwork.LoadLevel("TaScene");
+        //}
     }
 
     private void OnFailedToConnect()
@@ -175,5 +175,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
     }
 
+    void OnApplicationPause(bool paused)
+    {
+        if (paused)
+        {
+            PhotonNetwork.ReconnectAndRejoin();
+        }
+    }
 
 }

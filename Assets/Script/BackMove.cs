@@ -49,11 +49,14 @@ public class BackMove : MonoBehaviourPunCallbacks
         //    //  ObjMoveback(collision);
         //}
 
-
+        if(collision.gameObject.CompareTag("Bullet"))
+        {
+            ObjMoveback2(collision);
+        }
 
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
-            SpeedObjMoveback(collision);
+            ObjMoveback3(collision);
         }
         if (collision.gameObject.CompareTag("SniperBullet"))
         {
@@ -73,13 +76,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Water"))
-        {
-            ObjMoveback4(other, 3f);
-        }
-    }
     private void ObjMoveback(Collision collision, float speed = 15.0f)
     {
         Vector3 pushdi = collision.transform.position - transform.position;
@@ -94,16 +90,55 @@ public class BackMove : MonoBehaviourPunCallbacks
         _Move.SpeedSetting();
     }
 
-    private void ObjMoveback2(Collision collision, float speed = 15.0f)
+    public void ObjMoveback2(Collision collision, float speed = 10.0f)
     {
+        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.Euler(0, 0, 0));
+        if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+            return;
+
+        if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+            return;
+
+
+        GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < pu.Length; i++)
+        {
+            if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString().Substring(0,1))
+            {
+                GetComponent<Move>().Piguck = pu[i];
+            }
+        }
+
+        rb.velocity = Vector3.zero;
+        _PlayerAni._State = State.Dmg;
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+        Destroy(collision.gameObject);
     }
 
-    private void ObjMoveback3(Collision collision, float speed = 30.0f)
+    private void ObjMoveback3(Collision collision, float speed = 20.0f)
     {
-        Vector3 pushdi = collision.transform.position - transform.position;
-        pushdi = -pushdi.normalized;
-        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.Euler(0, 0, 0));
+        if (GetComponentInParent<Machinegun>().isMachineRay)
+            return;
+
+        if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+            return;
+
+        GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < pu.Length; i++)
+        {
+            if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString().Substring(0, 1))
+            {
+                GetComponent<Move>().Piguck = pu[i];
+            }
+        }
+
+        rb.velocity = Vector3.zero;
+        _PlayerAni._State = State.Dmg;
+        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+        Destroy(collision.gameObject);
     }
 
     private void ObjMoveback4(Collider collision, float speed = 30.0f)
@@ -131,7 +166,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
-        rb.AddForce(pushdi * 20.0f, ForceMode.Impulse);
+        rb.AddForce(pushdi * 10.0f, ForceMode.Impulse);
     }
 
     [PunRPC]
@@ -150,6 +185,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
-        rb.AddForce(pushdi * 20.0f, ForceMode.Impulse);
+        rb.AddForce(pushdi * 30.0f, ForceMode.Impulse);
     }
 }

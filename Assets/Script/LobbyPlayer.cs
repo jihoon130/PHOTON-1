@@ -60,6 +60,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 d = true;
+                bt.onClick.RemoveListener(() => OKReady());
             }
         }
         else
@@ -72,7 +73,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void OKReady()
     {
-         pv.RPC("ReadyRPC", RpcTarget.All);
+         pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
     }
 
 

@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 6981323630981526395}
   - component: {fileID: 8909421798589661713}
   - component: {fileID: 449987082351799561}
-  - component: {fileID: 6490656316120887134}
   - component: {fileID: 2462609094744813317}
   - component: {fileID: 8233186122126241634}
   - component: {fileID: 4973399566950578820}
   - component: {fileID: -3054893241720505778}
   - component: {fileID: -2101298939563845620}
+  - component: {fileID: 7834841496055833552}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -150,20 +150,6 @@ MonoBehaviour:
   AimY: 0
   Effect1: {fileID: 3592578186698332454}
   testAim: 15
---- !u!114 &6490656316120887134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 152881286895831591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb55b0d5b174ace4eb09d5c3e9f682b0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PV: {fileID: 0}
-  rb: {fileID: 0}
 --- !u!114 &2462609094744813317
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,6 +257,20 @@ MonoBehaviour:
   isMachineAttack: 0
   isMachineRay: 0
   MachinegunStartPoint: {fileID: 5623457254835866025}
+--- !u!114 &7834841496055833552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152881286895831591}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb55b0d5b174ace4eb09d5c3e9f682b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 0}
+  rb: {fileID: 6981323630981526395}
 --- !u!1 &200964563946046520
 GameObject:
   m_ObjectHideFlags: 0
