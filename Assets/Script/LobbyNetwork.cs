@@ -165,6 +165,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    private void OnFailedToConnect()
+    {
+        PhotonNetwork.ReconnectAndRejoin();
+    }
 
     void OnPlayerDisconnected()
     {

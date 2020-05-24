@@ -165,6 +165,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if(TestRpT>0.0f)
             {
+                StopCoroutine("DestroyPiguck");
+                
                 if (SpawnT)
                 {
                     SpawnT.SetActive(true);
