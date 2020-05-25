@@ -189,10 +189,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Effects[0].GetComponent<ParticleSystem>().Play();
             }
-            else 
-            {
+
+            if (!isGround)
                 Effects[0].GetComponent<ParticleSystem>().Stop();
-            }
 
             if (OKE)
             {
@@ -353,9 +352,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void SendMsgRPC(string _msg)
     {
-        Piguck.GetComponent<Move>().score += 10;
-        Piguck = null;
-
+        if (PV.IsMine)
+        {
+            Piguck.GetComponent<Move>().score += 10;
+            Piguck = null;
+        }
         bool isInput = false;
         for (int i = 0; i < ChatText.Length; i++)
             if (ChatText[i].text == "")

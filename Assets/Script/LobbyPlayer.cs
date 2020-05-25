@@ -73,7 +73,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     }
     public void OKReady()
     {
-         pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
+         pv.RPC("ReadyRPC", RpcTarget.All);
     }
 
 

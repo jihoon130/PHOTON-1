@@ -19,7 +19,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-6, 7), 7f, Random.Range(-23, -30)), Quaternion.identity);
+        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-1, 6), 7f, Random.Range(-18, -24)), Quaternion.identity);
     }
 
     // Update is called once per frame
