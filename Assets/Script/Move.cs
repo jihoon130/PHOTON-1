@@ -352,7 +352,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void SendMsgRPC(string _msg)
     {
-        if (PV.IsMine)
+        if (Piguck)
         {
             Piguck.GetComponent<Move>().score += 10;
             Piguck = null;
