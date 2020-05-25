@@ -25,42 +25,9 @@ public class CreateCh : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (play)
-            return;
 
-        Daegi.text = "10초후 게임이 시작됩니다.";
 
-        if (!start)
-        {
-            GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player");
-
-           foreach (GameObject taggedEnemy in taggedEnemys)
-            {
-                  taggedEnemy.GetComponent<Move>().StopT += 0.1f;
-                        int a;
-                         AAA:
-                        a = Random.Range(0, 4);
-                        if (!Spawn1[a])
-                        {
-                        goto AAA;
-                          }
-                taggedEnemy.GetComponent<Transform>().position = Spawn1[a].transform.position;
-                pv.RPC("DestroyRPC", RpcTarget.All, a);
-            }
-
-            start = false;
-            StartCoroutine("GameStart");
-            play = true;
-        }
     }
 
-    [PunRPC]
-    void DestroyRPC(int a) => Destroy(Spawn1[a]);
-
-    IEnumerator GameStart()
-    {
-        yield return new WaitForSeconds(0.1f);
-        Daegi.text = "";
-        timer.SetActive(true);
-    }
+  
 }
