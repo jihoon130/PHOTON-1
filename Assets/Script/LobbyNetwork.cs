@@ -21,10 +21,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     private void Awake()
     {
         pv = GetComponent<PhotonView>();
+        OnLogin();
     }
     private void Start()
     {
-        OnLogin();
     }
     // Update is called once per frame
     void Update()
@@ -83,7 +83,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.GameVersion = this.gameVersion;
         PhotonNetwork.NickName = PlayerPrefs.GetString("NickName");
-        PhotonNetwork.ConnectUsingSettings();
+        if (PhotonNetwork.IsConnected == false)
+            PhotonNetwork.ConnectUsingSettings();
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.SendRate = 60;
         PhotonNetwork.SerializationRate = 30;
@@ -165,7 +166,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         //}
     }
 
-    private void OnFailedToConnect()
+    private void OnDisconnectedFromServer()
     {
         PhotonNetwork.ReconnectAndRejoin();
     }
@@ -174,6 +175,17 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
     }
+
+    private void OnFailedToConnect()
+    {
+        PhotonNetwork.ReconnectAndRejoin();
+    }
+
+    private void OnFailedToConnectToMasterServer()
+    {
+        PhotonNetwork.ReconnectAndRejoin();
+    }
+
 
     void OnApplicationPause(bool paused)
     {

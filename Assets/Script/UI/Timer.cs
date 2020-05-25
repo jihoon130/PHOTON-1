@@ -19,8 +19,8 @@ public class Timer : MonoBehaviourPunCallbacks
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
-        Minute = 2;
-        Second = 59;
+        Minute = 0;
+        Second = 10;
     }
 
     // Update is called once per frame

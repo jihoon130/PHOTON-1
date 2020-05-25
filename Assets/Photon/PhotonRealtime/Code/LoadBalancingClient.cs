@@ -2232,7 +2232,7 @@ namespace Photon.Realtime
             {
                 if (this.LoadBalancingPeer.DebugOut >= DebugLevel.ERROR)
                 {
-                    this.DebugReturn(DebugLevel.ERROR, string.Format("Operation {0} ({1}) not called because client is not connected or not ready yet, client state: {2}", opName, opCode, Enum.GetName(typeof(ClientState), this.State)));
+                  //  this.DebugReturn(DebugLevel.ERROR, string.Format("Operation {0} ({1}) not called because client is not connected or not ready yet, client state: {2}", opName, opCode, Enum.GetName(typeof(ClientState), this.State)));
                 }
                 return false;
             }

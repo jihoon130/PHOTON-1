@@ -156,6 +156,17 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public void GoTitle()
     {
+        PhotonNetwork.Disconnect();
         SceneManager.LoadScene(0);
+    }
+
+
+
+    void OnApplicationPause(bool paused)
+    {
+        if (paused)
+        {
+            PhotonNetwork.ReconnectAndRejoin();
+        }
     }
 }
