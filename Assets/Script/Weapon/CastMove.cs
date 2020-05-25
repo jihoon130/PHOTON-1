@@ -56,7 +56,7 @@ public class CastMove : MonoBehaviourPunCallbacks
         if (_BulletMode == BulletMode.Attack) effectName = "Hit";
         else if (_BulletMode == BulletMode.Machinegun) effectName = "MachinegunHit";
 
-        PhotonNetwork.Instantiate(effectName, new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+        PhotonNetwork.Instantiate(effectName, new Vector3(a, b, c), Quaternion.identity);
     }
 
 

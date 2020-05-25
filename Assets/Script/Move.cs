@@ -179,7 +179,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 ResetPos();
             }
 
-            if(anit>=0.7f)
+            if(anit>=0.5f)
             {
                 DownR();
                 _PlayerAni._State = State.IdleRun;
@@ -279,6 +279,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(OKE && (collision.collider.CompareTag("Wall")|| collision.collider.CompareTag("Ground")))
+        {
+            DownR();
+            _PlayerAni._State = State.IdleRun;
+        }
+    }
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //통신을 보내는 
@@ -334,7 +344,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         transform.localPosition = RSpawn.transform.position;
         RSpawn.GetComponent<Respawn>().RePosition();
-
+        isPhoenix = false;
         SpawnT.SetActive(false);
         TestRPB = false;
         isDie = false;

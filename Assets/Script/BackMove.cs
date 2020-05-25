@@ -54,6 +54,11 @@ public class BackMove : MonoBehaviourPunCallbacks
             ObjMoveback2(collision);
         }
 
+        if(collision.gameObject.CompareTag("SSSS"))
+        {
+            _Move.isPhoenix = true;
+        }
+
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
             ObjMoveback3(collision);
@@ -76,6 +81,8 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
     }
 
+
+
     private void ObjMoveback(Collision collision, float speed = 15.0f)
     {
         Vector3 pushdi = collision.transform.position - transform.position;
@@ -92,7 +99,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     public void ObjMoveback2(Collision collision, float speed = 10.0f)
     {
-        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.Euler(0, 0, 0));
+        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
             return;
 
@@ -118,7 +125,6 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void ObjMoveback3(Collision collision, float speed = 20.0f)
     {
-        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.Euler(0, 0, 0));
         if (GetComponentInParent<Machinegun>().isMachineRay)
             return;
 
