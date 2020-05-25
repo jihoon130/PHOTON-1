@@ -21,16 +21,17 @@ public class DestoryWall : MonoBehaviourPunCallbacks
         }
         if (collision.collider.tag == "Bullet" || collision.collider.tag == "SpeedBullet" || collision.collider.tag == "SniperBullet")
         {
-            collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
+            Destroy(collision.gameObject);
+            //collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
             //Pv.RPC(HitEffectRPC(collision.transform.position);
-            Pv.RPC("HitEffectRPC", RpcTarget.All, collision.transform.position.x, 
-                            collision.transform.position.y, collision.transform.position.z);
+            HitEffect(collision.transform.position.x, collision.transform.position.y, collision.transform.position.z);
+            //Pv.RPC("HitEffectRPC", RpcTarget.All, collision.transform.position.x, 
+                  //          collision.transform.position.y, collision.transform.position.z);
         }
     }
 
 
-    [PunRPC]
-    public void HitEffectRPC(float a, float b, float c)
+    public void HitEffect(float a, float b, float c)
     {
         PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
     }

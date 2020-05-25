@@ -132,7 +132,6 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void EffectOn()
     {
-        Debug.Log("DD");
         Effect1.GetComponent<ParticleSystem>().Play();
     }
     public void EffectOFF()
