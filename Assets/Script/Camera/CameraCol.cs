@@ -45,7 +45,9 @@ public class CameraCol : MonoBehaviour
 
             SaveColor = hit.collider.gameObject.GetComponent<MeshRenderer>().material.color;
             SaveColor.a = 0.1f;
+
             hit.collider.gameObject.GetComponent<MeshRenderer>().material.color = SaveColor;
+            hit.collider.gameObject.GetComponent<MeshRenderer>().rendererPriority = 0;
             //distance = Mathf.Clamp((hit.distance * 0.9f), minDistance, maxDistance);
         }
         else if(SaveObj)

@@ -56,7 +56,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
         if(isMachinegun)
         {
-            if(Input.GetMouseButtonDown(1))
+            if(Input.GetMouseButton(1))
             {
                 GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
@@ -67,6 +67,10 @@ public class Machinegun : MonoBehaviourPunCallbacks
                 GameObject.Find("UI_WeaponManager").GetComponent<ItemUIManager>().UIWeaponChange(false, true);
                 StartCoroutine("KeyTimer");
                 isMachinegun = false;
+            }
+            else
+            {
+                MachineIdleChange();
             }
         }
 
@@ -87,6 +91,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
     public void MachineIdleChange()
     {
+        if (GameObject.Find("MachinegunObject") == null)
+            return;
+
         GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
         ResetArray();
     }

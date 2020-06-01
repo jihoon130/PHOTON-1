@@ -221,7 +221,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 rb.velocity = Vector3.zero;
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay)
             {
                 kk = true;
                 GooT += 0.5f;
@@ -237,7 +237,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     return;
 
 
-                if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround)
+                if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround && !GetComponent<Machinegun>().isMachineRay)
                 {
                     _PlayerAni._State = State.Jump_Start;
                     flRP();

@@ -105,12 +105,8 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         int ManyNumber = BulletList[type].BulletMany - BulletList[type].MinBullet;
         int MaxCheck = BulletList[type].MaxBullet - ManyNumber;
-         
 
-        Debug.Log("MaxCheck : " + MaxCheck);
-        Debug.Log("ManyNumber : " + ManyNumber);
-
-        if (MaxCheck == 0)
+        if (MaxCheck == 0 && BulletList[type].MinBullet < 0)
         {
             if (_BulletMode == BulletMode.Machinegun)
                 GetComponent<Machinegun>().MachineDeleteReset();

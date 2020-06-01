@@ -21,7 +21,7 @@ public class AddNickName : MonoBehaviour
     {
         if (Nick.text == "")
         {
-            PlayerPrefs.SetString("NickName", "무한지훈교도");
+            PlayerPrefs.SetString("NickName", "카우카우짱짱");
         }
         else
         {
