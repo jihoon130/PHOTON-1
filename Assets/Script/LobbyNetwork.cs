@@ -17,10 +17,6 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     bool g=false;
     public GameObject[] Spot;
     public Sprite[] images;
-    public GameObject[] Panels;
-    public InputField RoomName;
-    public GameObject room;
-    public Transform gridTr;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,10 +29,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-        
-
-
-        if (g && !PhotonNetwork.InRoom)
+        if (g)
           return;
 
         if (PhotonNetwork.IsMasterClient)
@@ -100,8 +93,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.JoinLobby();
-     //   PhotonNetwork.JoinRandomRoom();
+        PhotonNetwork.JoinRandomRoom();
     }
     // Update is called once per frame
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -110,49 +102,16 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     }
     public override void OnJoinedRoom()
     {
-        Panels[0].SetActive(false);
-        Panels[1].SetActive(true);
         PhotonNetwork.Instantiate("LobbyCh", transform.position, Quaternion.identity);
 
+
+       
+
+
     }
 
-    public void Test1()
-    {
-        RoomOptions RO = new RoomOptions();
-        RO.MaxPlayers = 4;
-        RO.IsOpen = true;
-        RO.IsVisible = true;
-        PhotonNetwork.JoinOrCreateRoom(RoomName.text, RO, TypedLobby.Default);
-    }
 
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        foreach(GameObject obj in GameObject.FindGameObjectsWithTag("Room"))
-        {
-            Destroy(obj);
-        }
-        foreach(RoomInfo roomInfo in roomList)
-        {
-            GameObject _room = Instantiate(room, gridTr);
-            RoomScript roomDate = _room.GetComponent<RoomScript>();
-            roomDate.roomName = roomInfo.Name;
-            roomDate.maxPlayer = roomInfo.MaxPlayers;
-            roomDate.playerCount = roomInfo.PlayerCount;
-            roomDate.UpdateInfo();
-            roomDate.GetComponent<Button>().onClick.AddListener
-                (
-                delegate
-                {
-                    OnClickRoom(roomDate.roomName);
-                }
-                );
-        }
-    }
 
-    void OnClickRoom(string roomName)
-    {
-        PhotonNetwork.JoinRoom(roomName,null);
-    }
     void OpenR()
     {
         Player = GameObject.FindGameObjectsWithTag("Player1");
