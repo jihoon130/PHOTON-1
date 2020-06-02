@@ -21,6 +21,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public InputField RoomName;
     public GameObject room;
     public Transform gridTr;
+    public InputField ifSnedMsg;
+    public Text msglist;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -227,7 +229,28 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.ReconnectAndRejoin();
     }
 
+    public void OnSendChatMsg()
+    {
+        if (ifSnedMsg.text != "")
+        {
+            string msg = string.Format("[{0}] {1}", PhotonNetwork.LocalPlayer.NickName, ifSnedMsg.text);
+            ifSnedMsg.text = "";
+            pv.RPC("ReceiveMsgRPC", RpcTarget.OthersBuffered, msg);
+            ReceiveMsg(msg);
+        }
 
+    }
+
+    [PunRPC]
+    void ReceiveMsgRPC(string msg)
+    {
+        msglist.text += "\n" + msg;
+    }
+
+    void ReceiveMsg(string msg)
+    {
+        msglist.text += "\n" + msg;
+    }
     void OnApplicationPause(bool paused)
     {
         if (paused)
