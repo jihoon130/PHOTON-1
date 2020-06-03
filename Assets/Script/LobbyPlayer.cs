@@ -116,6 +116,9 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     public void ChangeNick()
     {
+        if (Ready)
+            return;
+
         NickC1 = GameObject.Find("Canvas").GetComponent<ChaningNick>().NickC1;
         NickC1.SetActive(true);
     }

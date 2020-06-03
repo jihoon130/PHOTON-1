@@ -15,7 +15,7 @@ public class Timer : MonoBehaviourPunCallbacks
     bool EndCheck=false;
     public Text TimerText;
     private bool isTimer;
-
+    private bool isBGSound;
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
@@ -29,6 +29,11 @@ public class Timer : MonoBehaviourPunCallbacks
         GameObject[] player2 = GameObject.FindGameObjectsWithTag("Player");
         if (player2.Length == PhotonNetwork.PlayerList.Length)
         {
+            if(!isBGSound)
+            {
+                GameObject.Find("BGSound").GetComponent<AudioSource>().Play();
+                isBGSound = true;
+            }
             if (!isTimer)
                 StartCoroutine("TimeCoroutine");
 

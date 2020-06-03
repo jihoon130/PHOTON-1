@@ -139,6 +139,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
+            if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
+                return;
+
             if (_PlayerAni._State == State.Jump_End || _PlayerAni._State == State.Jump_Ing)
             {
                 OKE = true;
@@ -323,6 +326,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     public void PhoenixTimer()
     {
+        if (isPhoenix)
+            return;
+
         isPhoenix = true;
         StartCoroutine("Phoenix");
     }
@@ -371,23 +377,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             ChatText[ChatText.Length - 1].text = _msg + " 님이" + PV.Owner.NickName.ToString() + " 을 죽임";
         }
     }
-
-    public void SpeedSetting()
-    {
-        if (PV.IsMine)
-        {
-            MoveSpeed = 5;
-            StartCoroutine("SpeedTimer");
-        }
-    }
-
-    IEnumerator SpeedTimer()
-    {
-        yield return new WaitForSeconds(5f);
-        if (PV.IsMine)
-            MoveSpeed = 10;
-    }
-
 
 
     public void MoveTrue() => isMove = true;

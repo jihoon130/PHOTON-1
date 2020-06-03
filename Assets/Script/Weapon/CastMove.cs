@@ -21,17 +21,8 @@ public class CastMove : MonoBehaviourPunCallbacks
         StartCoroutine("DirCheck");
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
-    private void Update()
-    {
-        Attack();
-       // PV.RPC("AttackRPC", RpcTarget.All);
-    }
-
-
-    private void FixedUpdate()
-    {
-        transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
-    }
+    private void Update() => Attack();
+    private void FixedUpdate() => transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
 
     IEnumerator DirCheck()
     {
@@ -41,11 +32,13 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.collider.tag == "Ground" || other.collider.tag == "Wall")
+        if (other.collider.tag == "Ground" || other.collider.tag == "Wall" || other.collider.tag == "Fance")
         {
             Destroy(gameObject);
-
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
+
+            if (other.collider.tag == "Fance")
+                other.collider.GetComponent<FenceObj>().DestroyRPC();
         }
     }
 

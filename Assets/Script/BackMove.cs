@@ -49,23 +49,18 @@ public class BackMove : MonoBehaviourPunCallbacks
         //    //  ObjMoveback(collision);
         //}
 
-        if(collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet"))
         {
             ObjMoveback2(collision);
         }
-
-        if(collision.gameObject.CompareTag("SSSS"))
-        {
-            _Move.isPhoenix = true;
-        }
-
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
-            ObjMoveback3(collision);
+            ObjMoveback2(collision, 20);
         }
-        if (collision.gameObject.CompareTag("SniperBullet"))
+
+        if (collision.gameObject.CompareTag("SSSS"))
         {
-            SpeedObjMoveback(collision, 10f);
+            _Move.isPhoenix = true;
         }
 
         if (b >= 0.1f && collision.gameObject.CompareTag("Wall"))
@@ -92,10 +87,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         //rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
 
     }
-    private void SpeedObjMoveback(Collision collision, float speed = 5.0f)
-    {
-        _Move.SpeedSetting();
-    }
 
     public void ObjMoveback2(Collision collision, float speed = 10.0f)
     {
@@ -119,7 +110,9 @@ public class BackMove : MonoBehaviourPunCallbacks
 
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
+
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+
         Destroy(collision.gameObject);
     }
 
