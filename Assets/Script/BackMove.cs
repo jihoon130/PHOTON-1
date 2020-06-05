@@ -10,10 +10,15 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     public PhotonView PV;
     public Rigidbody rb;
+    public AudioSource Audio;
+    public AudioClip[] audioS;
     float b = 0f;
     bool d;
     // Start is called before the first frame update
-
+    private void Awake()
+    {
+        Audio = GetComponentInChildren<AudioSource>();
+    }
 
     private void Start()
     {
@@ -97,6 +102,11 @@ public class BackMove : MonoBehaviourPunCallbacks
         if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
             return;
 
+
+        int a;
+        a = Random.Range(0, 3);
+        Audio.clip = audioS[a];
+        Audio.Play();
 
         GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
 

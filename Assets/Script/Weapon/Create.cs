@@ -18,6 +18,8 @@ public class Create : MonoBehaviourPunCallbacks
     public PhotonView PV;
     public Transform StartTf;
     public Transform MachinegunStartTf;
+    AudioSource Audio;
+    public AudioClip[] audios;
 
     public GameObject _GunEffect;
     private int GunEffectType;
@@ -39,6 +41,7 @@ public class Create : MonoBehaviourPunCallbacks
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        Audio = GetComponentInChildren<AudioSource>();
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
@@ -147,6 +150,9 @@ public class Create : MonoBehaviourPunCallbacks
         if (GetComponent<Move>().isJumping || isBullet)
             return;
 
+        int a = Random.Range(0, 4);
+        Audio.clip = audios[a];
+        Audio.Play();
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
