@@ -22,6 +22,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject room;
     public Transform gridTr;
     public InputField ifSnedMsg;
+    public ScrollRect sc_rect;
     public Text msglist;
     // Start is called before the first frame update
     private void Awake()
@@ -63,6 +64,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             ReadyButton.GetComponent<Button>().onClick.AddListener(() => CheckReady());
         }
 
+        if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+        {
+            OnSendChatMsg();
+        }
 
         // OpenR();
 
@@ -235,6 +240,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         {
             string msg = string.Format("[{0}] {1}", PhotonNetwork.LocalPlayer.NickName, ifSnedMsg.text);
             ifSnedMsg.text = "";
+            ifSnedMsg.ActivateInputField();
             pv.RPC("ReceiveMsgRPC", RpcTarget.OthersBuffered, msg);
             ReceiveMsg(msg);
         }
@@ -244,12 +250,14 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void ReceiveMsgRPC(string msg)
     {
-        msglist.text += "\n" + msg;
+        msglist.text += msg + "\n";
+        sc_rect.verticalNormalizedPosition = 0.0f;
     }
 
     void ReceiveMsg(string msg)
     {
-        msglist.text += "\n" + msg;
+        msglist.text += msg + "\n";
+        sc_rect.verticalNormalizedPosition = 0.0f;
     }
     void OnApplicationPause(bool paused)
     {
