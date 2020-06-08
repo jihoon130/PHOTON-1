@@ -10,6 +10,9 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public string gameVersion = "1.0";
     PhotonView pv;
     string EnemyNickname;
+    public int count1=0;
+   public string BackGroundColor;
+    public string CharacterCount;
     public GameObject[] Player;
     public bool[] Ready;
     public int ReadyCount = 0;
@@ -36,11 +39,13 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     // Update is called once per frame
     void Update()
     {
-
+        
 
 
         if (g && !PhotonNetwork.InRoom)
             return;
+
+
 
         if (PhotonNetwork.IsMasterClient)
         {
@@ -125,25 +130,70 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void Test1()
     {
+        if (!RoomName)
+            return;
+
         RoomOptions RO = new RoomOptions();
+        RO.CustomRoomProperties = new ExitGames.Client.Photon.Hashtable();
         RO.MaxPlayers = 4;
         RO.IsOpen = true;
         RO.IsVisible = true;
-        PhotonNetwork.JoinOrCreateRoom(RoomName.text, RO, TypedLobby.Default);
+        RO.CustomRoomPropertiesForLobby = new string[3];
+        RO.CustomRoomPropertiesForLobby[0] = "map";
+        RO.CustomRoomPropertiesForLobby[1] = "map1";
+        RO.CustomRoomPropertiesForLobby[2] = "map2";
+        RO.CustomRoomProperties.Add("map", BackGroundColor);
+        RO.CustomRoomProperties.Add("map1", CharacterCount);
+        count1 = Random.Range(0, 10000);
+        RO.CustomRoomProperties.Add("map2", count1.ToString());
+        PhotonNetwork.JoinOrCreateRoom(RoomName.text,  RO, TypedLobby.Default);
     }
 
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Room"))
-        {
-            Destroy(obj);
-        }
+  
+
         foreach (RoomInfo roomInfo in roomList)
         {
+                object ab5;
+                roomInfo.CustomProperties.TryGetValue("map2", out ab5);
+
+            if (roomInfo.PlayerCount == 0)
+            {
+                return;
+            }
+
+
+
+
+
+            foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Room"))
+            {
+                if (obj.GetComponent<RoomScript>().Count2 == ab5.ToString())
+                {
+                    Destroy(obj);
+                }
+         }
+
+          
+
+            object ab1;
+            object ab2;
+            object ab3;
             GameObject _room = Instantiate(room, gridTr);
             RoomScript roomDate = _room.GetComponent<RoomScript>();
+            roomInfo.CustomProperties.TryGetValue("map", out ab1);
+            roomInfo.CustomProperties.TryGetValue("map1", out ab2);
+            roomInfo.CustomProperties.TryGetValue("map2", out ab3);
+            if (ab1==null)
+            roomDate.a = int.Parse(ab1.ToString());
+            if (ab2 == null)
+            roomDate.b = int.Parse(ab2.ToString());
+            roomDate.Count1 = roomList.IndexOf(roomInfo);
             roomDate.roomName = roomInfo.Name;
             roomDate.maxPlayer = roomInfo.MaxPlayers;
+            if(ab3!=null)
+            roomDate.Count2 = ab3.ToString();
             roomDate.playerCount = roomInfo.PlayerCount;
             roomDate.UpdateInfo();
             roomDate.GetComponent<Button>().onClick.AddListener

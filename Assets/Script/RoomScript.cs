@@ -9,7 +9,15 @@ public class RoomScript : MonoBehaviour
     public int playerCount = 0;
     public int maxPlayer = 0;
     public Text roomDateTxt;
-
+    public Image BackGround;
+    public Sprite[] Sprites;
+    public GameObject[] Character;
+    public Text roomNameT;
+    public Text roomCountT;
+    public int a;
+    public int b;
+    public int Count1;
+    public string Count2;
     private void Awake()
     {
         roomDateTxt = GetComponentInChildren<Text>();
@@ -21,8 +29,11 @@ public class RoomScript : MonoBehaviour
 
     public void UpdateInfo()
     {
-
-        roomDateTxt.text = string.Format(" {0} [{1}/{2}]", roomName, playerCount.ToString("00"), maxPlayer);
+        BackGround.sprite = Sprites[a];
+        Character[b].SetActive(true);
+        roomNameT.text = roomName;
+        roomCountT.text = Count1.ToString();
+        roomDateTxt.text = playerCount + "/" + maxPlayer;
 
     }
 }
