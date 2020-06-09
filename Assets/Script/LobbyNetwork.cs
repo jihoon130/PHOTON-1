@@ -146,6 +146,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         RO.CustomRoomProperties.Add("map1", CharacterCount);
         count1 = Random.Range(0, 10000);
         RO.CustomRoomProperties.Add("map2", count1.ToString());
+
+        if(RoomName.text == "")
+        {
+            RoomName.text = "너만오면고";
+        }
+
         PhotonNetwork.JoinOrCreateRoom(RoomName.text,  RO, TypedLobby.Default);
     }
 

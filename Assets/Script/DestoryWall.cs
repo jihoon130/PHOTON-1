@@ -33,7 +33,7 @@ public class DestoryWall : MonoBehaviourPunCallbacks
 
     public void HitEffect(float a, float b, float c)
     {
-        PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.identity);
+        PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(-90f,0f,0f));
     }
 
 }

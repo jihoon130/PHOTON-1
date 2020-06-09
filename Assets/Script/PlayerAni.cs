@@ -38,6 +38,7 @@ public class PlayerAni : MonoBehaviour
 
         AttackMent(_Move.fHorizontal, "VelocityX");
         AttackMent(_Move.fVertical, "VelocityZ");
+        Debug.Log(CurAniTime);
 
         if (_State != State.Machinegun)
         {
@@ -50,7 +51,7 @@ public class PlayerAni : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T))
         {
             //Ani.SetLayerWeight(1, 1.0f);
-            _State = State.IdleRun;
+            _State = State.Machinegun;
         }
             
 
@@ -107,6 +108,7 @@ public class PlayerAni : MonoBehaviour
     }
     public void AniChange(int AniType)
     {
+
         Ani.SetInteger("State", AniType);
     }
 

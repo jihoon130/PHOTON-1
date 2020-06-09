@@ -150,7 +150,7 @@ public class Create : MonoBehaviourPunCallbacks
         if (GetComponent<Move>().isJumping || isBullet)
             return;
 
-        int a = Random.Range(0, 4);
+        int a = Random.Range(0, 3);
         Audio.clip = audios[a];
         Audio.Play();
         int type = (int)_BulletMake - 1;

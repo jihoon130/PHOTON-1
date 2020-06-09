@@ -5,10 +5,20 @@ using UnityEngine.UI;
 public class LobbyUI : MonoBehaviour
 {
     public GameObject CreateRoom;
+    public GameObject Setting1;
+    public GameObject ExitGame;
     public GameObject[] Roomcharacter;
     public Image BackGround;
     public Sprite[] BackGroundColor;
+    public GameObject Hyogwa;
+    public GameObject[] Hyogwa1;
+    public GameObject Baegung;
+    public GameObject[] Baegung1;
+    public Sprite[] Hyogwa2;
+    public GameObject[] Baegung2;
     LobbyNetwork LbNet;
+    bool b=true;
+    bool a = true;
 
     private void Awake()
     {
@@ -17,13 +27,55 @@ public class LobbyUI : MonoBehaviour
 
     public void CreateRoomOpen()
     {
-        CreateRoom.SetActive(true);
+        if (CreateRoom.activeInHierarchy == false)
+        {
+            CreateRoom.SetActive(true);
+            Setting1.SetActive(false);
+            ExitGame.SetActive(false);
+        }
+        else
+        {
+            CreateRoom.SetActive(false);
+        }
+
     }
     public void CreateRoomClose()
     {
         CreateRoom.SetActive(false);
     }
 
+    public void SettingOpen()
+    {
+        if (Setting1.activeInHierarchy == false)
+        {
+            Setting1.SetActive(true);
+            CreateRoom.SetActive(false);
+            ExitGame.SetActive(false);
+        }
+        else
+        {
+            Setting1.SetActive(false);
+        }
+    }
+
+    public void ExitOpen()
+    {
+        if(ExitGame.activeInHierarchy == false)
+        {
+            ExitGame.SetActive(true);
+            Setting1.SetActive(false);
+            CreateRoom.SetActive(false);
+        }
+        else
+        {
+            ExitGame.SetActive(false);
+        }
+    }
+
+    public void ExitClose()
+    {
+        ExitGame.SetActive(false);
+    }
     public void ChangeC1()
     {
         LbNet.CharacterCount = "1";
@@ -76,5 +128,101 @@ public class LobbyUI : MonoBehaviour
     {
         LbNet.BackGroundColor = "3";
         BackGround.sprite = BackGroundColor[3];
+    }
+
+    public void hyogwa1()
+    {
+        Hyogwa.transform.position = Hyogwa1[0].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[1];
+    }
+    public void hyogwa2()
+    {
+        Hyogwa.transform.position = Hyogwa1[1].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void hyogwa3()
+    {
+        Hyogwa.transform.position = Hyogwa1[2].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void hyogwa4()
+    {
+        Hyogwa.transform.position = Hyogwa1[3].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void hyogwa5()
+    {
+        Hyogwa.transform.position = Hyogwa1[4].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void hyogwa6()
+    {
+        Hyogwa.transform.position = Hyogwa1[5].transform.position;
+        Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+
+
+    public void baegung1()
+    {
+        Baegung.transform.position = Baegung1[0].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[1];
+    }
+
+    public void baegung2()
+    {
+        Baegung.transform.position = Baegung1[1].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void baegung3()
+    {
+        Baegung.transform.position = Baegung1[2].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void baegung4()
+    {
+        Baegung.transform.position = Baegung1[3].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void baegung5()
+    {
+        Baegung.transform.position = Baegung1[4].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+    public void baegung6()
+    {
+        Baegung.transform.position = Baegung1[5].transform.position;
+        Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+    }
+
+    public void hyogwazero()
+    {
+        if (b)
+        {
+            b = false;
+            Hyogwa.transform.position = Hyogwa1[0].transform.position;
+            Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[1];
+        }
+        else
+        {
+            b = true;
+            Hyogwa.transform.position = Hyogwa1[5].transform.position;
+            Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
+        }
+    }
+
+    public void baggungzero()
+    {
+        if (a)
+        {
+            a = false;
+            Baegung.transform.position = Baegung1[0].transform.position;
+            Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[1];
+        }
+        else
+        {
+            a = true;
+            Baegung.transform.position = Baegung1[5].transform.position;
+            Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
+        }
     }
 }

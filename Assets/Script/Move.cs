@@ -139,6 +139,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
+         
+
+
+
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
@@ -187,6 +191,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 DownR();
                 _PlayerAni._State = State.IdleRun;
             }
+
+
+            //if(fHorizontal == 0.0f  && fVertical == 0.0f)
+            //{
+            //    _PlayerAni.Ani.SetLayerWeight(1, 0);
+            //}
+            //else
+            //{
+            //    _PlayerAni.Ani.SetLayerWeight(1, 1);
+            //}
+
 
             if (fHorizontal != 0.0f || fVertical != 0.0f && isGround)
             {
@@ -243,6 +258,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround && !GetComponent<Machinegun>().isMachineRay)
                 {
                     _PlayerAni._State = State.Jump_Start;
+                    Jump();
                     flRP();
                     fJumptime = 0;
                     StartCoroutine("Fade");
