@@ -51,6 +51,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject RSpawn;
     public GameObject SpawnT;
     public Text SpawnText;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -139,10 +140,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-         
-
-
-
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
@@ -154,7 +151,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             else
             {
                 OKE = false;
-             anit = 0.0f;
+                anit = 0.0f;
             }
 
             if(GooT >0.0f)
@@ -292,11 +289,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         }
     }
+
     private void Jump()
     {
         rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
-
 
     private void OnCollisionEnter(Collision collision)
     {
