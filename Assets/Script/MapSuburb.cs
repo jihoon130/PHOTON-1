@@ -21,6 +21,8 @@ public class MapSuburb : MonoBehaviourPunCallbacks
     {
         //collision.gameObject.GetComponent<Move>().PV.RPC("ResetPosRPC", RpcTarget.All);
         if(collision.collider.CompareTag("Attack1"))
+        {
             collision.gameObject.GetComponentInParent<Move>().DieTrue();
+        }
     }
 }
