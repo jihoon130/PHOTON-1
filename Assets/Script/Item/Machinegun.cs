@@ -56,7 +56,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
         if(isMachinegun)
         {
-            if (Input.GetMouseButton(1))
+            if(Input.GetMouseButton(1))
             {
                 GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
@@ -74,11 +74,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
             }
         }
 
-        if(isMachineAttack)
-            GetComponent<PlayerAni>()._State = State.Machinegun;
-
-
-        if (isMachineAttack || isMachineRay)
+        if(isMachineAttack || isMachineRay)
         {
             if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0 &&
                 GetComponent<BulletManager>().BulletList[1].MaxBullet <= 0)
@@ -107,7 +103,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
         isMachineAttack = false;
         GameObject.Find("UI_WeaponManager").GetComponent<ItemUIManager>().UIWeaponChange(true, false);
         PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
-        GetComponent<PlayerAni>()._State = State.IdleRun;
         GetComponent<Create>()._BulletMake = BulletMake.Attack;
         GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Shot;
         ResetArray();
@@ -116,7 +111,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
     private void ResetArray()
     {
         CameraCol.instance.CameraReset();
-        //GetComponent<PlayerAni>()._State = State.IdleRun;
+        GetComponent<PlayerAni>()._State = State.IdleRun;
     }
 
     public void EffectStart()
@@ -141,7 +136,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
     IEnumerator KeyTimer()
     {
-        GetComponent<PlayerAni>()._State = State.Machinegun;
         yield return new WaitForSeconds(0.5f);
         isMachineAttack = true;
     }

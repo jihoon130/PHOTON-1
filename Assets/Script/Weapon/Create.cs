@@ -88,7 +88,7 @@ public class Create : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetMouseButton(1))
                     {
-                        //if (_Ani._State == State.IdleRun)
+                        if (_Ani._State == State.IdleRun)
                         {
                             CameraCol.instance.CameraJoom(2.5f);
                             GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(true);

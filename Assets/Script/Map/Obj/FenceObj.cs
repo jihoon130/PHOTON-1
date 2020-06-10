@@ -10,4 +10,6 @@ public class FenceObj : MonoBehaviourPunCallbacks
 
     [PunRPC]
     public void DestroyRPC() => Destroy(this.gameObject);
+
+
 }
