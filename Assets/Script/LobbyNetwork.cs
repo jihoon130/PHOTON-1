@@ -27,6 +27,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public InputField ifSnedMsg;
     public ScrollRect sc_rect;
     public Text msglist;
+    public GameObject MakeRoom;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -152,6 +153,11 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             RoomName.text = "너만오면고";
         }
 
+        if(MakeRoom.activeInHierarchy == true)
+        {
+            MakeRoom.SetActive(false);
+        }
+        
         PhotonNetwork.JoinOrCreateRoom(RoomName.text,  RO, TypedLobby.Default);
     }
 
@@ -230,6 +236,19 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             }
         }
 
+    }
+
+    public void LeftRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+        PhotonNetwork.JoinLobby();
+        GameObject[] LobbyC=GameObject.FindGameObjectsWithTag("Player1");
+        foreach(GameObject LobbyCC in LobbyC)
+        {
+            Destroy(LobbyCC);
+        }
+        Panels[0].SetActive(true);
+        Panels[1].SetActive(false);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

@@ -832,6 +832,7 @@ MonoBehaviour:
   ifSnedMsg: {fileID: 1470146979}
   sc_rect: {fileID: 978024731}
   msglist: {fileID: 363120445}
+  MakeRoom: {fileID: 582552690}
 --- !u!4 &75982855
 Transform:
   m_ObjectHideFlags: 0
@@ -7358,7 +7359,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1498099923}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 75982854}
+        m_MethodName: LeftRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1498099923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9457,7 +9469,7 @@ MonoBehaviour:
   m_Content: {fileID: 457177783}
   m_Horizontal: 1
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135

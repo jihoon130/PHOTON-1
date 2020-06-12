@@ -8,7 +8,7 @@ public class Respawn : MonoBehaviour
     public bool f=false;
     float b;
     float c;
-
+     public  Vector3 RespawnT;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,8 +33,9 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Ground"))
+        if (other.gameObject.CompareTag("Spawn1"))
         {
+            RespawnT = new Vector3(other.gameObject.GetComponentInParent<Transform>().localPosition.x, 5.2f,other.gameObject.GetComponentInParent<Transform>().localPosition.z) ;
             a = true;
             f = true;
         }
@@ -42,7 +43,7 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Ground"))
+        if(other.gameObject.CompareTag("Spawn1"))
         {
             a = false;
         }

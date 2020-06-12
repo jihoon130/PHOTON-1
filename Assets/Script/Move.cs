@@ -190,14 +190,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             }
 
 
-            //if(fHorizontal == 0.0f  && fVertical == 0.0f)
-            //{
-            //    _PlayerAni.Ani.SetLayerWeight(1, 0);
-            //}
-            //else
-            //{
-            //    _PlayerAni.Ani.SetLayerWeight(1, 1);
-            //}
+            if (fHorizontal == 0.0f && fVertical == 0.0f)
+            {
+                _PlayerAni.Ani.SetLayerWeight(1, 0);
+            }
+            else
+            {
+                _PlayerAni.Ani.SetLayerWeight(1, 1);
+            }
 
 
             if (fHorizontal != 0.0f || fVertical != 0.0f && isGround)
@@ -359,8 +359,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         rb.velocity = Vector3.zero;
-
-        transform.localPosition = RSpawn.transform.position;
+        Debug.Log(RSpawn.GetComponent<Respawn>().RespawnT);
+        transform.localPosition = RSpawn.GetComponent<Respawn>().RespawnT;
         RSpawn.GetComponent<Respawn>().RePosition();
         isPhoenix = false;
         SpawnT.SetActive(false);
