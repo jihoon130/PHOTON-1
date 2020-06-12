@@ -83,7 +83,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
 
 
-    private void ObjMoveback(Collision collision, float speed = 15.0f)
+    private void ObjMoveback(Collision collision, float speed = 1500.0f)
     {
         Vector3 pushdi = collision.transform.position - transform.position;
         pushdi = pushdi.normalized;
@@ -93,7 +93,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     }
 
-    public void ObjMoveback2(Collision collision, float speed = 10.0f)
+    public void ObjMoveback2(Collision collision, float speed = 1000.0f)
     {
         PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
@@ -126,7 +126,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         Destroy(collision.gameObject);
     }
 
-    private void ObjMoveback3(Collision collision, float speed = 20.0f)
+    private void ObjMoveback3(Collision collision, float speed = 2000.0f)
     {
         if (GetComponentInParent<Machinegun>().isMachineRay)
             return;
@@ -150,7 +150,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         Destroy(collision.gameObject);
     }
 
-    private void ObjMoveback4(Collider collision, float speed = 30.0f)
+    private void ObjMoveback4(Collider collision, float speed = 3000.0f)
     {
         _PlayerAni._State = State.Dmg;
         Vector3 pushdi = collision.transform.position - transform.position;

@@ -174,7 +174,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
 
 
-            if (fHorizontal == 0.0f && fVertical == 0.0f)
+            if (_PlayerAni&& fHorizontal == 0.0f && fVertical == 0.0f)
             {
                 _PlayerAni.Ani.SetLayerWeight(1, 0);
             }
