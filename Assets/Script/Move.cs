@@ -143,17 +143,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-            if (_PlayerAni._State == State.Jump_End || _PlayerAni._State == State.Jump_Ing)
-            {
-                OKE = true;
-               anit += Time.deltaTime;
-            }
-            else
-            {
-                OKE = false;
-                anit = 0.0f;
-            }
-
             if(GooT >0.0f)
             {
                 GooT -= Time.deltaTime;
@@ -183,11 +172,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 ResetPos();
             }
 
-            if(anit>=0.5f)
-            {
-                DownR();
-                _PlayerAni._State = State.IdleRun;
-            }
 
 
             if (fHorizontal == 0.0f && fVertical == 0.0f)
@@ -208,22 +192,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (!isGround)
                 Effects[0].GetComponent<ParticleSystem>().Stop();
 
-            if (OKE)
-            {
-                RaycastHit hit;
-                Vector3 pos = transform.position;
-                Vector3 dir = -transform.up;
-
-
-                if (Physics.Raycast(pos, dir, out hit, 1f))
-                {
-                    if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall"))
-                    {
-                        DownR();
-                        _PlayerAni._State = State.IdleRun;
-                    }
-                }
-            }
             if (Piguck)
                 StartCoroutine("DestroyPiguck");
             else
@@ -252,35 +220,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     return;
 
 
-                if (!fl && Input.GetKeyDown(KeyCode.Space) && isGround && !GetComponent<Machinegun>().isMachineRay)
-                {
-                    _PlayerAni._State = State.Jump_Start;
-                    Jump();
-                    flRP();
-                    fJumptime = 0;
-                    StartCoroutine("Fade");
-                    isGround = false;
-                }
-
-                if (isJumping)
-                {
-                    _PlayerAni._State = State.Jump_Ing;
-
-                    rb.velocity = new Vector3(0, -800 * Time.deltaTime, 0);
-                    RaycastHit hit;
-                    Vector3 pos = transform.position;
-                    Vector3 dir = -transform.up;
-
-
-                    if (Physics.Raycast(pos, dir, out hit, 0.5f))
-                    {
-                        if (hit.collider.CompareTag("Ground") || hit.collider.CompareTag("Wall"))
-                        {
-                            DownR();
-                        }
-                    }
-                }
-
                 if (Input.GetKeyDown(KeyCode.RightShift))
                 {
                     PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
@@ -295,14 +234,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(OKE && (collision.collider.CompareTag("Wall")|| collision.collider.CompareTag("Ground")))
-        {
-            DownR();
-            _PlayerAni._State = State.IdleRun;
-        }
-    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
