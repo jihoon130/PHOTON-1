@@ -48,7 +48,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
                 RankG[j].SetActive(false);
             }
         }
-
+        UpdateScore();
         PV.RPC("UpdateScoreRPC", RpcTarget.All);
     }
 
@@ -151,7 +151,28 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
         }
     }
+    void UpdateScore()
+    {
+        if (PhotonNetwork.PlayerList.Length != SusoonJung.Length)
+            SusoonJung = GameObject.FindGameObjectsWithTag("Player");
 
+        for (int i = 0; i < SusoonJung.Length - 1; i++)
+        {
+
+            if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
+            {
+                TempObject = SusoonJung[i];
+                SusoonJung[i] = SusoonJung[i + 1];
+                SusoonJung[i + 1] = TempObject;
+            }
+        }
+
+        for (int i = 0; i < SusoonJung.Length; i++)
+        {
+            if (ScoreT[i])
+                ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
+        }
+    }
 
 
     public void GoTitle()

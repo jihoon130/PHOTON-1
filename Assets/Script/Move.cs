@@ -14,6 +14,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool isMove;
     public bool OKE;
     public GameObject Piguck;
+    public string Piguck2;
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 7.0f;
@@ -227,6 +228,21 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             }
 
         }
+        else
+        {
+            if (Piguck2 != "")
+            {
+                GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
+
+                foreach(GameObject objecte in objects)
+                {
+                    if(Piguck2 == objecte.GetComponent<Move>().PV.Owner.ToString())
+                    {
+                        Piguck = objecte;
+                    }
+                }
+            }
+        }
     }
 
     private void Jump()
@@ -244,6 +260,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             stream.SendNext(tr.rotation);
             stream.SendNext(NickName.ToString());
             stream.SendNext(score);
+            if (Piguck)
+            {
+                stream.SendNext(Piguck.GetComponent<Move>().PV.Owner.ToString());
+            }
+            else
+            {
+                stream.SendNext("");
+            }
         }
         //클론이 통신을 받는 
         else
@@ -252,6 +276,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             currRot = (Quaternion)stream.ReceiveNext();
             EnemyNickName = (string)stream.ReceiveNext();
             score2 = (int)stream.ReceiveNext();
+            Piguck2 = (string)stream.ReceiveNext();
         }
     }
 
@@ -298,6 +323,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         TestRPB = false;
         isDie = false;
     }
+
 
     [PunRPC]
     void SendMsgRPC(string _msg)

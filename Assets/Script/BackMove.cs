@@ -12,6 +12,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     public Rigidbody rb;
     public AudioSource Audio;
     public AudioClip[] audioS;
+    public Renderer rd;
     float b = 0f;
     bool d;
     // Start is called before the first frame update
@@ -60,7 +61,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
         if (collision.gameObject.CompareTag("SpeedBullet"))
         {
-            ObjMoveback2(collision, 20);
+            ObjMoveback2(collision, 2000f);
         }
 
         if (collision.gameObject.CompareTag("SSSS"))
@@ -196,4 +197,13 @@ public class BackMove : MonoBehaviourPunCallbacks
     //    pushdi.y = 0f;
     //    rb.AddForce(pushdi * 30.0f, ForceMode.Impulse);
     //}
+
+    public void hitOn()
+    {
+        rd.material.SetFloat("_Damaged", 1.0f);
+    }
+    public void hitOff()
+    {
+        rd.material.SetFloat("_Damaged", 0.0f);
+    }
 }
