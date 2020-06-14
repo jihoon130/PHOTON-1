@@ -172,7 +172,14 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
             if (roomInfo.PlayerCount == 0)
             {
-                return;
+                foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Room"))
+                {
+                    if (obj.GetComponent<RoomScript>().roomName == roomInfo.Name)
+                    {
+                        Destroy(obj);
+                    }
+                }
+                    return;
             }
 
 

@@ -49,7 +49,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
         UpdateScore();
-        PV.RPC("UpdateScoreRPC", RpcTarget.All);
     }
 
     public void EndScore()

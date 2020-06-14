@@ -98,8 +98,10 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+        {
+            Destroy(collision.gameObject);
             return;
-
+        }
         if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
             return;
 

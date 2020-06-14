@@ -164,7 +164,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (SpawnT)
                 {
                     SpawnT.SetActive(true);
-                    SpawnT.GetComponentInChildren<Text>().text = TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
+                    SpawnT.GetComponentInChildren<Text>().text =  "너무 상심하지마요 상대가 '나'잖아" + "\n"+TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
                 }
                 TestRpT -= Time.deltaTime;
             }
