@@ -30,6 +30,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     private Vector3 currPos;
     public GameObject[] Effects;
     private Rigidbody rb;
+    public ParticleSystem Balsa;
     private Quaternion currRot;
     private Quaternion targetRotation;
     // Move
@@ -376,6 +377,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         yield return new WaitForSeconds(.5f);
         isJumping = true;
+    }
+
+    public void EfOn()
+    {
+        Balsa.Play();
     }
 
     private void flRP() => fl = true;
