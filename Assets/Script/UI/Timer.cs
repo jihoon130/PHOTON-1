@@ -8,14 +8,23 @@ public class Timer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
 
+    public GameObject StartUiObj, InGameUiObj;
+
     public int Minute { get; set; }
     public int Second { get; set; }
 
 
     bool EndCheck=false;
     public Text TimerText;
+
     private bool isTimer;
     private bool isBGSound;
+
+    // Start ----
+    public bool isStart;
+    private bool isStartCheck = false;
+    private int m_nStartCount = 3;
+
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
@@ -29,7 +38,14 @@ public class Timer : MonoBehaviourPunCallbacks
         GameObject[] player2 = GameObject.FindGameObjectsWithTag("Player");
         if (player2.Length == PhotonNetwork.PlayerList.Length)
         {
-            if(!isBGSound)
+            //if(!isStartCheck)
+            //{
+            //    GameObjChange(StartUiObj, true);
+            //    StartCoroutine("StartCounting");
+            //    isStartCheck = true;
+            //}
+
+            if (!isBGSound)
             {
                 GameObject.Find("BGSound").GetComponent<AudioSource>().Play();
                 isBGSound = true;
@@ -40,6 +56,30 @@ public class Timer : MonoBehaviourPunCallbacks
             Timer1();
         }
     }
+
+    IEnumerator StartCounting()
+    {
+        while(true)
+        {
+            if (m_nStartCount < 1)
+            {
+                GameObjChange(StartUiObj, false);
+                GameObjChange(InGameUiObj, true);
+                isStart = true;
+                StopCoroutine("StartCounting");
+            }
+
+            yield return new WaitForSeconds(1f);
+            m_nStartCount--;
+            Debug.Log(m_nStartCount);
+        }
+    }
+
+    private void StartCount()
+    {
+    }
+
+    private void GameObjChange(GameObject g, bool isCheck) => g.SetActive(isCheck);
 
     IEnumerator TimeCoroutine()
     {

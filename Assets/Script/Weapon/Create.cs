@@ -86,7 +86,7 @@ public class Create : MonoBehaviourPunCallbacks
 
                 if (GetComponent<Machinegun>().isMachineAttack )
                 {
-                    if (Input.GetMouseButton(1))
+                    if (Input.GetMouseButton(0))
                     {
                         //if (_Ani._State == State.IdleRun)
                         {

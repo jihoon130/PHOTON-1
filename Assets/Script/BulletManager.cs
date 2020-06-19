@@ -50,7 +50,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         MinText = GameObject.Find("Min").GetComponent<Text>();
         MaxText = GameObject.Find("Max").GetComponent<Text>();
 
-        if(PV.IsMine)
+        if (PV.IsMine)
         {
             BulletList[0] = new Bullet("Attack", 99, 99, 99);
             BulletList[1] = new Bullet("Machinegun", 20, 20, 100);
