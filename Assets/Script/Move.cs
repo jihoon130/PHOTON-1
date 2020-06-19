@@ -53,6 +53,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject RSpawn;
     public GameObject SpawnT;
     public Text SpawnText;
+    // Sound
+    AudioSource Audio;
+    public AudioClip[] audios;
+
+    //  0 - 구르기
 
     private void Awake()
     {
@@ -62,7 +67,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         _PlayerAni = GetComponent<PlayerAni>();
 
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
-        
+
+        Audio = GetComponentInChildren<AudioSource>();
 
         ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
@@ -89,6 +95,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    private void SoundPlayer(int type)
+    {
+        Audio.clip = audios[type];
+        Audio.Play();
+    }
     private void FixedUpdate()
     {
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
@@ -208,6 +219,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay)
             {
+                SoundPlayer(0);
                 kk = true;
                 GooT += 0.5f;
             }
