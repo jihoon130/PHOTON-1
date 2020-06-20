@@ -60,6 +60,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     IEnumerator EndS()
     {
         yield return new WaitForSeconds(1f);
+        GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(1);
         EndSco[0].SetActive(true);
         yield return new WaitForSeconds(2f);
         EndSco[0].SetActive(false);
@@ -76,6 +77,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         Cursor.visible = true;
         EndSco[6].SetActive(true);
         EndSco[5].SetActive(true);
+        GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(2);
     }
 
 

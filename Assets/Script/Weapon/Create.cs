@@ -88,6 +88,7 @@ public class Create : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetMouseButton(0))
                     {
+                        
                         //if (_Ani._State == State.IdleRun)
                         {
                             CameraCol.instance.CameraJoom(2.5f);
@@ -99,11 +100,14 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
+                            SoundStop(3);
                             isBullet = false;
                             GetComponent<Machinegun>().MachineIdleChange();
                         }
                     }
                 }
+                else
+                    SoundStop(3);
             }
 
             if (GunEffectType != 0)
@@ -168,8 +172,11 @@ public class Create : MonoBehaviourPunCallbacks
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
+            SoundPlayer(3);
             InstantiateObject("Machinegun_bullet", MachinegunStartTf.transform.position, RotVector(), type);
         }
+        else
+            return;
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
@@ -199,5 +206,16 @@ public class Create : MonoBehaviourPunCallbacks
     }
 
 
+    private void SoundPlayer(int type)
+    {
+
+        Audio.clip = audios[type];
+        Audio.Play();
+    }
+    private void SoundStop(int type)
+    {
+        if (Audio.clip == audios[type])
+            Audio.Stop();
+    }
 
 }

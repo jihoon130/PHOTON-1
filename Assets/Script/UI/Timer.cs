@@ -8,7 +8,9 @@ public class Timer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
 
-    public GameObject StartUiObj, InGameUiObj;
+    public GameObject StartUiObj, InGameUiObj, StartImage, CountBG;
+    public GameObject[] StartCountImage;
+
 
     public int Minute { get; set; }
     public int Second { get; set; }
@@ -23,13 +25,18 @@ public class Timer : MonoBehaviourPunCallbacks
     // Start ----
     public bool isStart;
     private bool isStartCheck = false;
-    private int m_nStartCount = 3;
+    private bool isStartImage;
+    private int m_nStartCount;
+    private float XZ = 2f;
+    private float StartX = -1250f;
+
 
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
         Minute = 2;
         Second = 59;
+        m_nStartCount = 2;
     }
 
     // Update is called once per frame
@@ -38,49 +45,81 @@ public class Timer : MonoBehaviourPunCallbacks
         GameObject[] player2 = GameObject.FindGameObjectsWithTag("Player");
         if (player2.Length == PhotonNetwork.PlayerList.Length)
         {
-            //if(!isStartCheck)
-            //{
-            //    GameObjChange(StartUiObj, true);
-            //    StartCoroutine("StartCounting");
-            //    isStartCheck = true;
-            //}
-
-            if (!isBGSound)
+            if(!isStartCheck)
             {
-                GameObject.Find("BGSound").GetComponent<AudioSource>().Play();
-                isBGSound = true;
+                GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(3);
+                CountBG.SetActive(true);
+                GameObjChange(StartUiObj, true);
+                InGameUiObj.transform.localPosition = new Vector2(2000, 1000);
+                StartCountInit();
+                isStartCheck = true;
             }
-            if (!isTimer)
-                StartCoroutine("TimeCoroutine");
-
-            Timer1();
+            StartCountUpdate();
+            StartImageUpdate();
         }
     }
-
-    IEnumerator StartCounting()
+    private void StartCountUpdate()
     {
-        while(true)
+        if (m_nStartCount < 0)
         {
-            if (m_nStartCount < 1)
-            {
-                GameObjChange(StartUiObj, false);
-                GameObjChange(InGameUiObj, true);
-                isStart = true;
-                StopCoroutine("StartCounting");
-            }
+            CountBG.SetActive(false);
+            StartImage.SetActive(true);
+            isStartImage = true;
+            return;
+        }
 
-            yield return new WaitForSeconds(1f);
+        StartCountImage[m_nStartCount].transform.localScale = new Vector2(XZ, XZ);
+
+        if (StartCountImage[m_nStartCount].transform.localScale.x > 1 && StartCountImage[m_nStartCount].transform.localScale.y > 1)
+        {
+            XZ -= 2f * Time.deltaTime;
+        }
+        else
+        {
+            StartCountImage[m_nStartCount].SetActive(false);
             m_nStartCount--;
-            Debug.Log(m_nStartCount);
+            XZ = 2f;
+
+            GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(3);
+
+            if (m_nStartCount > -1)
+                StartCountInit();
         }
     }
-
-    private void StartCount()
+    private void StartImageUpdate()
     {
+        if (!isStartImage)
+            return;
+        
+        StartImage.transform.localPosition = new Vector2(StartX, 0);
+
+        StartX += 5000 * Time.deltaTime;
+        if(StartX > 1250)
+        {
+            StartImage.SetActive(false);
+            StartInit();
+            isStartImage = false;
+        }
     }
+    private void StartCountInit() => StartCountImage[m_nStartCount].SetActive(true);
+    private void StartInit()
+    {
+        
+        if (!isBGSound)
+        {
+            GameObject.Find("BGSound").GetComponent<AudioSource>().Play();
+            isBGSound = true;
+        }
+        if (!isTimer)
+            StartCoroutine("TimeCoroutine");
 
+        Timer1();
+
+        GameObjChange(StartUiObj, false);
+        InGameUiObj.transform.localPosition = new Vector2(0, 0);
+        isStart = true;
+    }
     private void GameObjChange(GameObject g, bool isCheck) => g.SetActive(isCheck);
-
     IEnumerator TimeCoroutine()
     {
         isTimer = true;
@@ -89,15 +128,15 @@ public class Timer : MonoBehaviourPunCallbacks
         TimerCheck();
         isTimer = false;
     }
-
     void TimerCheck()
     {
         if (Minute <= 0 && Second <= 0)
         {
             Minute = 0;
             Second = 0;
-
+            GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(0);
             GameObject.Find("ScoreManager").GetComponent<ScoreManager>().EndScore();
+            InGameUiObj.SetActive(false);
             EndCheck = true;
             return;
         }
@@ -111,7 +150,6 @@ public class Timer : MonoBehaviourPunCallbacks
             Second = 59;
         }
     }
-
     void Timer1()
     {
         if (Second <= 9)
@@ -119,7 +157,6 @@ public class Timer : MonoBehaviourPunCallbacks
         else
             TimerText.text = Minute.ToString() + " : " + Second.ToString();
     }
-
     public bool TimerCheck(int min, int second)
     {
         if (Minute == min && Second == second)

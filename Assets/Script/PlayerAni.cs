@@ -38,7 +38,6 @@ public class PlayerAni : MonoBehaviour
 
         AttackMent(_Move.fHorizontal, "VelocityX");
         AttackMent(_Move.fVertical, "VelocityZ");
-        Debug.Log(CurAniTime);
 
         if (_State != State.Machinegun)
         {

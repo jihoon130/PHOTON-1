@@ -59,7 +59,8 @@ public class MachineGunCreate : MonoBehaviourPunCallbacks
         if (RSpawn.GetComponent<Respawn>().f == false)
             RSpawn.GetComponent<Respawn>().a = false;
 
-        PhotonNetwork.Instantiate("Machine_gun_Item", RSpawn.transform.position, Quaternion.Euler(90, 0, 0));
+        Vector3 spawn = new Vector3(RSpawn.transform.position.x, RSpawn.transform.position.y + 2f, RSpawn.transform.position.z);
+        PhotonNetwork.Instantiate("Machine_gun_Item", spawn, Quaternion.Euler(90, 0, 0));
 
         RSpawn.GetComponent<Respawn>().RePosition();
         StartCoroutine("TimerCreate");

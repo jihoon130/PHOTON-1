@@ -24,7 +24,12 @@ public class AimS : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(GameObject.Find("EndScore"))
+        if (GameObject.Find("TimerManger").GetComponent<Timer>().isStart)
+            GetComponent<Image>().enabled = true;
+        else
+            GetComponent<Image>().enabled = false;
+
+        if (GameObject.Find("EndScore"))
         {
             Destroy(this.gameObject);
         }

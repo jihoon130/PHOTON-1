@@ -59,8 +59,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     //  0 - 구르기
 
+    private Timer Timers;
+
     private void Awake()
     {
+        Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
@@ -105,7 +108,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
         if (PV.IsMine)
         {
-            if (StopT <= 0.0f)
+            if (StopT <= 0.0f && Timers.isStart)
             {
                 if (!isMove || isDie || GetComponent<Machinegun>().isMachineRay)
                     return;
@@ -153,6 +156,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
+            if (!Timers.isStart)
+                return;
+
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
