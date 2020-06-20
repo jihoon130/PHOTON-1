@@ -63,8 +63,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
                 PV.RPC("GunObjChangeRPC", RpcTarget.All, false, true);
 
-                GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
-                GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(false, true);
+                GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(false, true);
+                //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
+                //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(false, true);
                 StartCoroutine("KeyTimer");
                 isMachinegun = false;
             }
@@ -99,18 +100,31 @@ public class Machinegun : MonoBehaviourPunCallbacks
             return;
 
         GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(false);
+        
         ResetArray();
     }
     public void MachineDeleteReset()
     {
         isMachineRay = false;
         isMachineAttack = false;
+        GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(true, false);
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(true, false);
+        GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
+
         PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
         GetComponent<PlayerAni>()._State = State.IdleRun;
         GetComponent<Create>()._BulletMake = BulletMake.Attack;
         GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Shot;
         ResetArray();
+    }
+
+    public void PlayerDie()
+    {
+        if (!isMachinegun)
+            return;
+
+        isMachinegun = false;
+        GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
     }
 
     private void ResetArray()
@@ -132,7 +146,11 @@ public class Machinegun : MonoBehaviourPunCallbacks
     private void RayCastBullet()
     {
         if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0)
+        {
+            GetComponent<Create>().ReloadBulletImage.SetActive(true);
+            GetComponent<Create>().SoundStop(3);
             return;
+        }
 
         EffectStart();
 

@@ -30,7 +30,6 @@ public class Timer : MonoBehaviourPunCallbacks
     private float XZ = 2f;
     private float StartX = -1250f;
 
-
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {

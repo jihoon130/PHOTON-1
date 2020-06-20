@@ -332,6 +332,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             GetComponent<Machinegun>().MachineDeleteReset();
         }
+        GetComponent<Machinegun>().PlayerDie();
 
         rb.velocity = Vector3.zero;
         Debug.Log(RSpawn.GetComponent<Respawn>().RespawnT);

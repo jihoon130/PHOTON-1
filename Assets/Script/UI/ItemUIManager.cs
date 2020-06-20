@@ -9,6 +9,8 @@ public class ItemUIManager : MonoBehaviour
     public GameObject BaseWeapon;
     public GameObject ItemWepaon;
 
+    public GameObject[] SelectLine; // 0 base / 1 Item
+
     void Start()
     {
         
@@ -26,5 +28,10 @@ public class ItemUIManager : MonoBehaviour
     {
         BaseWeapon.SetActive(check1);
         ItemWepaon.SetActive(check2);
+    }
+    public void UISelectChange(bool check1, bool check2)
+    {
+        SelectLine[0].SetActive(check1);
+        SelectLine[1].SetActive(check2);
     }
 }

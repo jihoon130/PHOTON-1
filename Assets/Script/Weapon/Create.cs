@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public enum BulletMake
@@ -30,8 +31,15 @@ public class Create : MonoBehaviourPunCallbacks
     public GameObject Effect1;
     private float fTime;
 
+
+    // 재장전
+    private bool isReload;
+    public GameObject ReloadBulletImage; // 리로드출력 이미지
+    public GameObject ReloadBG; // 재장전 백그라운드
+    public Image ReloadImg; // 재장전 게이지
+
     // Sniper
-    
+
     private Camera cam;
 
     private bool isBullet;
@@ -47,7 +55,24 @@ public class Create : MonoBehaviourPunCallbacks
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         Effect1.GetComponent<ParticleSystem>().Stop();
     }
-    // Update is called once per frame
+
+    private void ReloadUpdate()
+    {
+        if (!isReload)
+            return;
+
+        ReloadImg.fillAmount += 1f * Time.deltaTime;
+
+        if(ReloadImg.fillAmount >= 1.0f)
+        {
+            int type = (int)_BulletMake - 1;
+            GetComponent<BulletManager>().BulletAdd(type);
+            ReloadBulletImage.SetActive(false);
+            ReloadBG.SetActive(false);
+            isReload = false;
+        }
+
+    }
     void Update()
     {
         if (!GetComponent<Move>().PV.IsMine)
@@ -57,13 +82,19 @@ public class Create : MonoBehaviourPunCallbacks
              AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
         AimY = Mathf.Clamp(AimY, -110f, 110f);
 
+        ReloadUpdate();
 
         if (GetComponent<Move>().StopT <= 0.0f)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R) && GetComponent<Machinegun>().isMachineAttack && !isReload)
             {
-                int type = (int)_BulletMake - 1;
-                GetComponent<BulletManager>().BulletAdd(type);
+                if (GetComponent<BulletManager>().BulletList[1].MinBullet >= 20)
+                    return;
+
+                ReloadBulletImage.SetActive(true);
+                ReloadBG.SetActive(true);
+                ReloadImg.fillAmount = 0.0f;
+                isReload = true;
             }
 
             fTime += Time.deltaTime;
@@ -157,6 +188,7 @@ public class Create : MonoBehaviourPunCallbacks
         int a = Random.Range(0, 3);
         Audio.clip = audios[a];
         Audio.Play();
+
         int type = (int)_BulletMake - 1;
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
@@ -173,10 +205,9 @@ public class Create : MonoBehaviourPunCallbacks
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             SoundPlayer(3);
+
             InstantiateObject("Machinegun_bullet", MachinegunStartTf.transform.position, RotVector(), type);
         }
-        else
-            return;
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
@@ -208,11 +239,10 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void SoundPlayer(int type)
     {
-
         Audio.clip = audios[type];
         Audio.Play();
     }
-    private void SoundStop(int type)
+    public void SoundStop(int type)
     {
         if (Audio.clip == audios[type])
             Audio.Stop();
