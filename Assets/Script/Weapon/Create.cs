@@ -33,7 +33,7 @@ public class Create : MonoBehaviourPunCallbacks
 
 
     // 재장전
-    private bool isReload;
+    public bool isReload;
     public GameObject ReloadBulletImage; // 리로드출력 이미지
     public GameObject ReloadBG; // 재장전 백그라운드
     public Image ReloadImg; // 재장전 게이지
@@ -91,6 +91,7 @@ public class Create : MonoBehaviourPunCallbacks
                 if (GetComponent<BulletManager>().BulletList[1].MinBullet >= 20)
                     return;
 
+                SoundPlayer(6);
                 ReloadBulletImage.SetActive(true);
                 ReloadBG.SetActive(true);
                 ReloadImg.fillAmount = 0.0f;
@@ -117,9 +118,8 @@ public class Create : MonoBehaviourPunCallbacks
 
                 if (GetComponent<Machinegun>().isMachineAttack )
                 {
-                    if (Input.GetMouseButton(0))
+                    if (Input.GetMouseButton(0) && !isReload)
                     {
-                        
                         //if (_Ani._State == State.IdleRun)
                         {
                             CameraCol.instance.CameraJoom(2.5f);
@@ -237,7 +237,7 @@ public class Create : MonoBehaviourPunCallbacks
     }
 
 
-    private void SoundPlayer(int type)
+    public void SoundPlayer(int type)
     {
         Audio.clip = audios[type];
         Audio.Play();

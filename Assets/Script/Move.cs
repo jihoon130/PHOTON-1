@@ -223,7 +223,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 rb.velocity = Vector3.zero;
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay && !GetComponent<Create>().isReload)
             {
                 SoundPlayer(0);
                 kk = true;

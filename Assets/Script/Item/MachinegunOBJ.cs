@@ -19,7 +19,7 @@ public class MachinegunOBJ : MonoBehaviourPunCallbacks
 
     void Update()
     {
-        
+
     }
 
     public void AttackChang(bool attack)

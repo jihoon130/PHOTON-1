@@ -58,6 +58,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             if (Input.GetMouseButton(1))
             {
+                GetComponent<Create>().SoundPlayer(5);
                 GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
 
@@ -171,6 +172,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
             if (isMachinegun || GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Machinegun)
                 return;
 
+            GetComponent<Create>().SoundPlayer(4);
             isMachinegun = true;
             GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(true);
             GetComponent<BulletManager>().BulletListAdd(1);
