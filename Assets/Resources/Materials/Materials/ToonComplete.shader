@@ -13,9 +13,6 @@
 		_RimColor("Rim Color", Color) = (1,1,1,1)
 		_RimAmount("Rim Amount", Range(0, 1)) = 0.716
 			_RimThreshold("Rim Threshold", Range(0, 1)) = 0.1		
-		_Damaged("_Damaged", Range(0,1)) = 0
-	  [HDR]
-		_DamColor("_Damage Color",Color) = (1, 0, 0, 1)
 	}
 	SubShader
 	{
@@ -74,21 +71,15 @@
 			float _Glossiness;		
 
 			float4 _RimColor;
-			float4 _DamColor;
 			float _RimAmount;
 			float _RimThreshold;	
-			float _Damaged;
-
 
 			float4 frag (v2f i) : SV_Target
 			{
 				float3 normal = normalize(i.worldNormal);
-				float3 normal2 = normalize(i.worldNormal);
 				float3 viewDir = normalize(i.viewDir);
-				float3 viewDir2 = normalize(i.viewDir);
 
 					float NdotL = dot(_WorldSpaceLightPos0, normal);
-					float NdotL2 = dot(_WorldSpaceLightPos0, normal);
 
 				float shadow = SHADOW_ATTENUATION(i);
 				float lightIntensity = smoothstep(0, 0.01, NdotL * shadow);	
@@ -105,13 +96,9 @@
 				rimIntensity = smoothstep(_RimAmount - 0.01, _RimAmount + 0.01, rimIntensity);
 				float4 rim = rimIntensity * _RimColor;
 
-				float rimDam = 1 - dot(viewDir2, normal2);
-				float rimDamIn = (pow(rimDam, 1.5));
-				float4 rimDamage = rimDamIn * _DamColor * _Damaged;
-
 				float4 sample = tex2D(_MainTex, i.uv);
 
-				return (light + _AmbientColor + specular + rim + rimDamage ) * _Color * sample;
+				return (light + _AmbientColor + specular + rim) * _Color * sample;
 			}
 			ENDCG
 		}
