@@ -18,6 +18,8 @@ public class RoomScript : MonoBehaviour
     public int b;
     public int Count1;
     public string Count2;
+    public bool GameStart=false;
+    public Image[] StartImage;
     private void Awake()
     {
         roomDateTxt = GetComponentInChildren<Text>();
@@ -34,6 +36,12 @@ public class RoomScript : MonoBehaviour
         roomNameT.text = roomName;
         roomCountT.text = Count1.ToString();
         roomDateTxt.text = playerCount + "/" + maxPlayer;
+
+        if(GameStart)
+        {
+            StartImage[0].gameObject.SetActive(true);
+            StartImage[1].gameObject.SetActive(false);
+        }
 
     }
 }

@@ -214,6 +214,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             if(ab3!=null)
             roomDate.Count2 = ab3.ToString();
             roomDate.playerCount = roomInfo.PlayerCount;
+
+            if(roomInfo.IsOpen == false)
+            {
+                roomDate.GameStart = true;
+            }
+
             roomDate.UpdateInfo();
             roomDate.GetComponent<Button>().onClick.AddListener
                 (

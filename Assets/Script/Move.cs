@@ -20,6 +20,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float MoveSpeed = 7.0f;
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
+    int ChatCount=0;
     public GameObject[] RespawnG;
     bool kk=false;
     float TestRpT;
@@ -57,7 +58,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
-
+  public  Queue<string> ChatList = new Queue<string>();
     //  0 - 구르기
 
     private Timer Timers;
@@ -367,19 +368,40 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Piguck.GetComponent<Move>().score += 10;
             Piguck = null;
         }
-        bool isInput = false;
-        for (int i = 0; i < ChatText.Length; i++)
-            if (ChatText[i].text == "")
-            {
-                isInput = true;
-                ChatText[i].text = _msg + " ---> " +PV.Owner.NickName.ToString();
-                break;
-            }
-        if (!isInput) // 꽉차면 한칸씩 위로 올림
+
+        ChatList.Enqueue(_msg);
+
+        if(ChatCount ==3)
         {
-            for (int i = 1; i < ChatText.Length; i++) ChatText[i - 1].text = ChatText[i].text;
-            ChatText[ChatText.Length - 1].text = _msg + " 님이" + PV.Owner.NickName.ToString() + " 을 죽임";
+            ChatCount = 0;
         }
+
+
+                if(ChatText[ChatCount].GetComponentInParent<KillLog>().deleteT <= 0.1f)
+                {
+                    ChatText[ChatCount].GetComponentInParent<KillLog>().deleteT = 3.0f;
+                    ChatText[ChatCount].text = ChatList.Dequeue();
+                    ++ChatCount;
+                }
+                else
+                {
+                    ChatText[ChatCount].GetComponent<KillLog>().ResetT();
+                    ChatText[ChatCount].GetComponentInParent<KillLog>().deleteT = 3.0f;
+                    ChatText[ChatCount].text = ChatList.Dequeue();
+                    ++ChatCount;
+                }
+        //for (int i = 0; i < ChatText.Length; i++)
+        //{
+        //    if(ChatCount ==  ChatText.Length)
+        //    {
+        //        ChatCount = 0;
+        //    }
+
+        //        ChatText[ChatCount].GetComponentInParent<KillLog>().deleteT = 3.0f;
+        //        ChatText[ChatCount].text = _msg;
+        //        ++ChatCount;
+        //        break;
+        //}
     }
 
 

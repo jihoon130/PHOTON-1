@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class CreateCh : MonoBehaviourPunCallbacks
 {
     public GameObject[] Spawn1;
+    public Text[] ChatT;
+    public GameObject[] I;
     PhotonView pv;
     bool start = false;
     bool play = false;
@@ -27,7 +29,13 @@ public class CreateCh : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-
+        for(int i=0;i<ChatT.Length;i++)
+        {
+            if(ChatT[i].text != "")
+            {
+                I[i].SetActive(true);
+            }
+        }
 
     }
 
