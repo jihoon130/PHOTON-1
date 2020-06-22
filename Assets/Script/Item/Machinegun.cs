@@ -148,7 +148,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
     {
         if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0)
         {
-            GetComponent<Create>().ReloadBulletImage.SetActive(true);
             GetComponent<Create>().SoundStop(3);
             return;
         }

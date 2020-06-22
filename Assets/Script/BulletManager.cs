@@ -12,7 +12,7 @@ public struct Bullet
     public int MinBullet { get; set; }
     public int MaxBullet { get; set; }
     public bool isBullet { get; set; }
-
+    
     public Bullet(string name, int many, int min, int max, bool check = true)
     {
         this.BulletName = name;
@@ -122,6 +122,14 @@ public class BulletManager : MonoBehaviourPunCallbacks
         BulletList[type].MaxBullet -= ManyNumber;
         BulletList[type].MinBullet += ManyNumber;
         BulletList[type].isBullet = true;
+    }
+    public bool MaxBulletCheck(int type)
+    {
+        int nMaxBulletCheck = int.Parse(MaxText.text);
+
+        if (nMaxBulletCheck <= 0)
+            return true;
+        return false;
     }
 
     public void UITextUpdate()

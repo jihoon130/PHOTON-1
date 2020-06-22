@@ -39,18 +39,20 @@ public class MapColor : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < Mapdata.Length; i++)
         {
+          
             if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 3)
             {
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
-                    Mapdata[i].obj[z].material = ChangeMt[0];
+                    Debug.Log(Mapdata[i].obj[z].materials[1].name);
+                    Mapdata[i].obj[z].materials[1] = ChangeMt[1];
                 }
             }
             else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second)
             {
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
-                    Mapdata[i].obj[z].material = ChangeMt[1];
+                    Mapdata[i].obj[z].materials[1] = ChangeMt[1];
                 }
             }
         }

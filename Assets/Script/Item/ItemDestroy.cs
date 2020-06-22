@@ -11,7 +11,7 @@ public class ItemDestroy : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (transform.position.y < 2.8f)
+        if (transform.position.y < 4.15f)
             PV.RPC("DestroyRPC", RpcTarget.All);
     }
     [PunRPC]

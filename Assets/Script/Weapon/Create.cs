@@ -88,8 +88,10 @@ public class Create : MonoBehaviourPunCallbacks
         {
             if (Input.GetKeyDown(KeyCode.R) && GetComponent<Machinegun>().isMachineAttack && !isReload)
             {
-                if (GetComponent<BulletManager>().BulletList[1].MinBullet >= 20)
+                if (GetComponent<BulletManager>().BulletList[1].MinBullet >= 20 ||
+                    GetComponent<BulletManager>().MaxBulletCheck(1))
                     return;
+
 
                 SoundPlayer(6);
                 ReloadBulletImage.SetActive(true);
