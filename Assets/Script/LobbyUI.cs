@@ -71,6 +71,10 @@ public class LobbyUI : MonoBehaviour
             ExitGame.SetActive(false);
         }
     }
+    public void EndGame()
+    {
+        Application.Quit();
+    }
 
     public void ExitClose()
     {
