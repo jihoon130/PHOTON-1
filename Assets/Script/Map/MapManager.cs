@@ -74,10 +74,10 @@ public class MapManager : MonoBehaviourPunCallbacks
                 {
                     mapDatas[i].MapZ -= 5 * Time.deltaTime;
 
-                    if (mapDatas[i].MapZ < -8f)
-                        mapDatas[i].MapZ = -8f;
+                    if (mapDatas[i].MapZ < -3.5f)
+                        mapDatas[i].MapZ = -3.5f;
                 }
-                else if (mapDatas[i].Dir == "Up")
+                else if (mapDatas[i].Dir == "UP")
                 {
                     mapDatas[i].MapZ += 5 * Time.deltaTime;
 

@@ -214,6 +214,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 29705762}
   m_CullTransparentMesh: 0
+--- !u!23 &32627734 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5577729681069832438, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &44221803
 GameObject:
   m_ObjectHideFlags: 0
@@ -5481,6 +5487,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 626459753}
   m_PrefabAsset: {fileID: 0}
+--- !u!23 &632195491 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6003324077952716827, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &632346454
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6331,6 +6343,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1338082845797398191, guid: 7335979cbe31adc4486cd2c401005365,
     type: 3}
   m_PrefabInstance: {fileID: 773740223}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &777792603 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7101646927803161180, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &787191882
 GameObject:
@@ -8289,6 +8307,12 @@ Transform:
   m_Father: {fileID: 867944903}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!23 &1002093134 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7490932806483604499, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1011096044
 GameObject:
   m_ObjectHideFlags: 0
@@ -9195,6 +9219,12 @@ Transform:
   m_Father: {fileID: 1161116250}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1199562048 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6961794360125676704, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1202371714
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14218,6 +14248,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &1751977118 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2458773390094439510, guid: 256bed54b12700549af5d43e739d50bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3091400870206453090}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1756045540
 GameObject:
   m_ObjectHideFlags: 0
@@ -17631,6 +17667,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 2039670052032352898, guid: 256bed54b12700549af5d43e739d50bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.12
+      objectReference: {fileID: 0}
     - target: {fileID: 2045737804497420345, guid: 256bed54b12700549af5d43e739d50bf,
         type: 3}
       propertyPath: m_TagString
@@ -19025,15 +19066,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f4a7203f8f0954785103bc5383e852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ChangeMt:
+  RedMat:
   - {fileID: 2100000, guid: ad7ce727a68a61f4897679b81da7b344, type: 2}
+  - {fileID: 2100000, guid: ad7ce727a68a61f4897679b81da7b344, type: 2}
+  ChangeMt:
+  - {fileID: 2100000, guid: 38c3b4ed8277a71468ce80c9501157e5, type: 2}
   - {fileID: 2100000, guid: 81a2adf9a48798f4da503399af5f0558, type: 2}
   Mapdata:
   - Min: 2
-    Second: 55
+    Second: 45
     obj:
     - {fileID: 3091400870206453122}
     - {fileID: 3091400870206453117}
+  - Min: 2
+    Second: 25
+    obj:
+    - {fileID: 1751977118}
+    - {fileID: 1002093134}
+  - Min: 2
+    Second: 5
+    obj:
+    - {fileID: 32627734}
+    - {fileID: 1199562048}
+  - Min: 1
+    Second: 55
+    obj:
+    - {fileID: 632195491}
+    - {fileID: 3091400870206453117}
+  - Min: 1
+    Second: 30
+    obj:
+    - {fileID: 1751977118}
+    - {fileID: 1199562048}
+    - {fileID: 3091400870206453117}
+    - {fileID: 777792603}
+  - Min: 1
+    Second: 10
+    obj:
+    - {fileID: 1002093134}
+    - {fileID: 3091400870206453122}
+    - {fileID: 632195491}
+  - Min: 0
+    Second: 50
+    obj:
+    - {fileID: 1751977118}
+    - {fileID: 32627734}
+  - Min: 0
+    Second: 35
+    obj:
+    - {fileID: 1199562048}
+  - Min: 0
+    Second: 15
+    obj:
+    - {fileID: 1751977118}
+    - {fileID: 1002093134}
+    - {fileID: 3091400870206453122}
+    - {fileID: 3091400870206453117}
+    - {fileID: 777792603}
   PV: {fileID: 0}
 --- !u!4 &4024350193191187230 stripped
 Transform:

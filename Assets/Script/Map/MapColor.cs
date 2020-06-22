@@ -13,7 +13,9 @@ public struct MapData
 }
 public class MapColor : MonoBehaviourPunCallbacks
 {
+    public Material[] RedMat;
     public Material[] ChangeMt;
+    
 
     public MapData[] Mapdata;
     public PhotonView PV;
@@ -44,15 +46,14 @@ public class MapColor : MonoBehaviourPunCallbacks
             {
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
-                    Debug.Log(Mapdata[i].obj[z].materials[1].name);
-                    Mapdata[i].obj[z].materials[1] = ChangeMt[1];
+                    Mapdata[i].obj[z].materials = RedMat;
                 }
             }
             else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second)
             {
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
-                    Mapdata[i].obj[z].materials[1] = ChangeMt[1];
+                    Mapdata[i].obj[z].materials = ChangeMt;
                 }
             }
         }
