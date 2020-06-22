@@ -177,10 +177,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-            if(GooT >0.0f)
+            if (GooT > 0.0f)
             {
                 GooT -= Time.deltaTime;
-                transform.Translate(Vector3.forward * Time.deltaTime*10);
+                transform.Translate(new Vector3(Vector3.forward.x, 0f, Vector3.forward.z) * Time.deltaTime * 10);
                 isMove = false;
                 _PlayerAni._State = State.Dash;
             }
@@ -190,25 +190,25 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 isMove = true;
             }
 
-            if(TestRpT>0.0f)
+            if (TestRpT > 0.0f)
             {
                 StopCoroutine("DestroyPiguck");
-                
+
                 if (SpawnT)
                 {
                     SpawnT.SetActive(true);
-                    SpawnT.GetComponentInChildren<Text>().text =  "너무 상심하지마요 상대가 '나'잖아" + "\n"+TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
+                    SpawnT.GetComponentInChildren<Text>().text = "너무 상심하지마요 상대가 '나'잖아" + "\n" + TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
                 }
                 TestRpT -= Time.deltaTime;
             }
-            if(TestRpT<=0.0f && isDie)
+            if (TestRpT <= 0.0f && isDie)
             {
                 ResetPos();
             }
 
 
 
-            if (_PlayerAni&& fHorizontal == 0.0f && fVertical == 0.0f)
+            if (_PlayerAni && fHorizontal == 0.0f && fVertical == 0.0f)
             {
                 _PlayerAni.Ani.SetLayerWeight(1, 0);
             }
@@ -222,9 +222,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             {
                 Effects[0].GetComponent<ParticleSystem>().Play();
             }
-
-            if (!isGround)
+            else
+            {
                 Effects[0].GetComponent<ParticleSystem>().Stop();
+            }
 
             if (Piguck)
                 StartCoroutine("DestroyPiguck");

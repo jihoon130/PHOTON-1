@@ -102,7 +102,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 439384587326229971}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
@@ -162,7 +162,6 @@ GameObject:
   - component: {fileID: -8068567506541823021}
   - component: {fileID: -6856774399068742508}
   - component: {fileID: 6640492779850474079}
-  - component: {fileID: 409032836111163479}
   - component: {fileID: -276536682063248475}
   m_Layer: 9
   m_Name: Player
@@ -444,20 +443,6 @@ MonoBehaviour:
   isMachineAttack: 0
   isMachineRay: 0
   MachinegunStartPoint: {fileID: 3690574229359099362}
---- !u!136 &409032836111163479
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 556713908172675668}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-276536682063248475
 MonoBehaviour:
   m_ObjectHideFlags: 0

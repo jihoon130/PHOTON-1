@@ -54,23 +54,30 @@ public class BackMove : MonoBehaviourPunCallbacks
         //    //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
         //    //  ObjMoveback(collision);
         //}
-
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            ObjMoveback2(collision);
+        }
+        if (collision.gameObject.CompareTag("SpeedBullet"))
+        {
+            ObjMoveback2(collision, 2000f);
+        }
 
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            ObjMoveback2(other);
-        }
-        if (other.gameObject.CompareTag("SpeedBullet"))
-        {
-            ObjMoveback2(other, 2000f);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.CompareTag("Bullet"))
+    //    {
+    //        ObjMoveback2(other);
+    //    }
+    //    if (other.gameObject.CompareTag("SpeedBullet"))
+    //    {
+    //        ObjMoveback2(other, 2000f);
+    //    }
+    //}
 
-    private void ObjMoveback(Collider collision, float speed = 1500.0f)
+    private void ObjMoveback(Collision collision, float speed = 1500.0f)
     {
         Vector3 pushdi = collision.transform.position - transform.position;
         pushdi = pushdi.normalized;
@@ -80,7 +87,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     }
 
-    public void ObjMoveback2(Collider collision, float speed = 1000.0f)
+    public void ObjMoveback2(Collision collision, float speed = 1000.0f)
     {
         PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
