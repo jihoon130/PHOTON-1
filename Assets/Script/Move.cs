@@ -8,9 +8,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public PhotonView PV;
     public PlayerAni _PlayerAni;
+    public GameObject camera2;
     // ID
     public int PVGetID;
     public int score2;
+    public bool GameEndok=false;
+    public Vector3 repo;
     public bool isMove;
     public bool OKE;
     public GameObject Piguck;
@@ -65,6 +68,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+        camera2 = GameObject.Find("RespawnM");
         Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
@@ -202,10 +206,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 }
                 TestRpT -= Time.deltaTime;
             }
-            if (TestRpT <= 0.0f && isDie)
-            {
-                ResetPos();
-            }
+            //if (TestRpT <= 0.0f && isDie)
+            //{
+            //    ResetPos();
+            //}
 
 
 
@@ -239,7 +243,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 rb.velocity = Vector3.zero;
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay && !GetComponent<Create>().isReload)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay && !GetComponent<Create>().isReload && !isDie)
             {
                 SoundPlayer(0);
                 kk = true;
@@ -277,6 +281,28 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     }
                 }
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (!PV.IsMine || GameEndok)
+            return;
+
+        if(collision.gameObject.name =="Sea")
+        {
+            if (transform.position.x != -39.8f)
+            transform.position = new Vector3(-39.8f, 0.0f, Random.Range(20.0f, 34.0f));
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            camera2.transform.GetChild(4).gameObject.SetActive(true);
+        }
+        else
+        {
+            isDie = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            camera2.transform.GetChild(4).gameObject.SetActive(false);
         }
     }
 
@@ -351,11 +377,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         GetComponent<Machinegun>().PlayerDie();
 
         rb.velocity = Vector3.zero;
-        int abc = Random.Range(0, 4);
-        transform.position = RespawnG[abc].transform.position;
+        transform.position = repo;
         isPhoenix = false;
         SpawnT.SetActive(false);
         TestRPB = false;
+        camera2.transform.GetChild(4).gameObject.SetActive(false);
         isDie = false;
     }
 
@@ -422,10 +448,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     public void DieTrue()
     {
-        if (TestRPB)
+        if (TestRPB || isDie)
             return;
+
         isDie = true;
-        TestRpT += 3.0f;
         TestRPB = true;
     }
     IEnumerator Fade()

@@ -30,10 +30,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     {
         PV = GetComponent<PhotonView>();
 
-        Score = new int[5];
         NickName = new string[5];
         InvokeRepeating("ScoreUpdate", 0f, 0.1f);
 
+        Score = new int[50];
 
 
 
@@ -59,6 +59,12 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     IEnumerator EndS()
     {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Player");
+        foreach(GameObject gameObject in gameObjects)
+        {
+            gameObject.GetComponent<Move>().GameEndok = true;
+        }
+
         yield return new WaitForSeconds(1f);
         GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(1);
         EndSco[0].SetActive(true);
