@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class ChangeCh : MonoBehaviour
 {
     public GameObject[] Charater;
-    public GameObject sprite;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +19,6 @@ public class ChangeCh : MonoBehaviour
 
   public  void ChangeCharater1()
     {
-                sprite.transform.position = Charater[0].transform.position;
                 Charater[0].SetActive(false);
                 Charater[1].SetActive(true);
                 Charater[2].SetActive(true);
@@ -38,7 +36,6 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater2()
     {
-        sprite.transform.position = Charater[1].transform.position;
         Charater[0].SetActive(true);
         Charater[1].SetActive(false);
         Charater[2].SetActive(true);
@@ -56,7 +53,6 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater3()
     {
-        sprite.transform.position = Charater[2].transform.position;
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);
         Charater[2].SetActive(false);
@@ -74,7 +70,6 @@ public class ChangeCh : MonoBehaviour
     }
    public void ChangeCharater4()
     {
-        sprite.transform.position = Charater[3].transform.position;
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);
         Charater[2].SetActive(true);

@@ -20,6 +20,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public float MoveSpeed = 7.0f;
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
+    public GameObject[] RespawnG;
     bool kk=false;
     float TestRpT;
     bool TestRPB = false;
@@ -87,6 +88,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Effects[1].GetComponent<ParticleSystem>().Stop();
             RSpawn = GameObject.Find("RSpawn");
         }
+
+        for(int i=0;i<4;i++)
+        {
+            RespawnG[i] = GameObject.Find("R" + i.ToString());
+        }
     }
     void Start()
     {
@@ -147,8 +153,17 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10.0f);
-            tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
+            if (Vector3.Distance(tr.position, currPos) >= 20.0f)
+            {
+                tr.position = currPos;
+                tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 100.0f);
+            }
+            else
+            {
+                tr.position = new Vector3(tr.position.x,currPos.y,tr.position.z);
+                tr.position = Vector3.Lerp(tr.position, currPos, Time.deltaTime * 10.0f);
+                tr.rotation = Quaternion.Lerp(tr.rotation, currRot, Time.deltaTime * 10.0f);
+            }
             gameObject.GetComponentInChildren<TextMesh>().text = EnemyNickName;
         }
     }
@@ -217,9 +232,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 StopCoroutine("DestroyPiguck");
 
 
-            if (isDie && RSpawn.GetComponent<Respawn>().f == false)
+            if (isDie)
             {
-                RSpawn.GetComponent<Respawn>().a = false;
                 rb.velocity = Vector3.zero;
             }
 
@@ -335,9 +349,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         GetComponent<Machinegun>().PlayerDie();
 
         rb.velocity = Vector3.zero;
-        Debug.Log(RSpawn.GetComponent<Respawn>().RespawnT);
-        transform.localPosition = RSpawn.GetComponent<Respawn>().RespawnT;
-        RSpawn.GetComponent<Respawn>().RePosition();
+        int abc = Random.Range(0, 4);
+        transform.position = RespawnG[abc].transform.position;
         isPhoenix = false;
         SpawnT.SetActive(false);
         TestRPB = false;

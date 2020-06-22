@@ -249,6 +249,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.LeaveRoom();
         PhotonNetwork.JoinLobby();
+        msglist.text = "";
         GameObject[] LobbyC=GameObject.FindGameObjectsWithTag("Player1");
         foreach(GameObject LobbyCC in LobbyC)
         {

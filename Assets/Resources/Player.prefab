@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: -6856774399068742508}
   - component: {fileID: 6640492779850474079}
   - component: {fileID: 409032836111163479}
+  - component: {fileID: -276536682063248475}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -240,6 +241,11 @@ MonoBehaviour:
   MoveSpeed: 7
   AngleSpeed: 0.1
   daepoT: 0
+  RespawnG:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Boonsoo: {fileID: 0}
   scoreM: {fileID: 0}
   Effects:
@@ -452,6 +458,21 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &-276536682063248475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556713908172675668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
 --- !u!1 &557214145986010693
 GameObject:
   m_ObjectHideFlags: 0
