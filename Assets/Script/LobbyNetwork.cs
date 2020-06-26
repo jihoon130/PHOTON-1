@@ -63,7 +63,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             ReadyButton.GetComponent<Button>().enabled = false;
         }
 
-        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && PhotonNetwork.PlayerList.Length >= 2) // 2   빌드시 수정
+        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && PhotonNetwork.PlayerList.Length >= 1) // 2   빌드시 수정
         {
             ReadyButton.GetComponent<Button>().enabled = true;
             ReadyButton.GetComponent<Image>().color = new Color(255, 255, 255);
@@ -281,26 +281,26 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        //if (!g && PhotonNetwork.IsMasterClient)
-        //{
-        //    PhotonNetwork.CurrentRoom.IsOpen = false;
-        //    PhotonNetwork.LoadLevel("TaScene");
-        //    g = true;
-        //}
-
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
-
-        ReadyCount = taggedEnemys.Length;
-
-        if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length - 1 && PhotonNetwork.IsMasterClient)
+        if (!g && PhotonNetwork.IsMasterClient)
         {
-            if (ReadyCount == 0)
-                return;
-
-            g = true;
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("TaScene");
+            g = true;
         }
+
+        //GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
+
+        //ReadyCount = taggedEnemys.Length;
+
+        //if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length - 1 && PhotonNetwork.IsMasterClient)
+        //{
+        //    if (ReadyCount == 0)
+        //        return;
+
+        //    g = true;
+        //    PhotonNetwork.CurrentRoom.IsOpen = false;
+        //    PhotonNetwork.LoadLevel("TaScene");
+        //}
     }
 
     private void OnDisconnectedFromServer()

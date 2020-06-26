@@ -17,6 +17,8 @@ public class Create : MonoBehaviourPunCallbacks
     private BulletManager _BulletManager;
 
     public PhotonView PV;
+    public float BulletSpeed = 50f;
+    public float BulletDir = 0.3f;
     public Transform StartTf;
     public Transform MachinegunStartTf;
     AudioSource Audio;
@@ -195,7 +197,7 @@ public class Create : MonoBehaviourPunCallbacks
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             if (_BulletMake == BulletMake.Attack)
-                InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
+              InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
         }
 
         isBullet = true;
@@ -215,7 +217,10 @@ public class Create : MonoBehaviourPunCallbacks
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
         GetComponent<BulletManager>().BulletUse(type);
-        PhotonNetwork.Instantiate(objname, vStartPos, Quaternion.Euler(vStartRot));
+      GameObject _bullet = PhotonNetwork.Instantiate(objname, vStartPos, Quaternion.Euler(vStartRot));
+        CastMove _bulletScript = _bullet.GetComponent<CastMove>();
+        _bulletScript.CastSpeed = BulletSpeed;
+        _bulletScript.Dir = BulletDir;
     }
 
     private Vector3 RotVector(float z = 90f)
