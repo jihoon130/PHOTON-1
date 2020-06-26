@@ -29,6 +29,8 @@ public class CameraPlayer : MonoBehaviour
     public float yMinLimit = -2f;
     public float yMaxLimit = 15f;
 
+    public float Camera_X = 0f;
+
     private Quaternion rotation;
     private Vector3 position;
 
