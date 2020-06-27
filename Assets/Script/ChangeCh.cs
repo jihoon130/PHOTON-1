@@ -5,10 +5,12 @@ using UnityEngine.UI;
 public class ChangeCh : MonoBehaviour
 {
     public GameObject[] Charater;
-    // Start is called before the first frame update
+
+    private SelectPlayer SelectPoint;
+    
     void Start()
     {
-        
+        SelectPoint = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>();
     }
 
     // Update is called once per frame
@@ -19,6 +21,8 @@ public class ChangeCh : MonoBehaviour
 
   public  void ChangeCharater1()
     {
+        SelectPoint.CharacterName = "Blue";
+
                 Charater[0].SetActive(false);
                 Charater[1].SetActive(true);
                 Charater[2].SetActive(true);
@@ -36,6 +40,8 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater2()
     {
+        SelectPoint.CharacterName = "Green";
+
         Charater[0].SetActive(true);
         Charater[1].SetActive(false);
         Charater[2].SetActive(true);
@@ -53,6 +59,8 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater3()
     {
+        SelectPoint.CharacterName = "Orange";
+
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);
         Charater[2].SetActive(false);
@@ -70,6 +78,8 @@ public class ChangeCh : MonoBehaviour
     }
    public void ChangeCharater4()
     {
+        SelectPoint.CharacterName = "Pink";
+
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);
         Charater[2].SetActive(true);
