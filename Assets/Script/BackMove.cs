@@ -63,26 +63,22 @@ public class BackMove : MonoBehaviourPunCallbacks
             ObjMoveback2(collision, 2000f);
         }
 
+
+
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.gameObject.CompareTag("Bullet"))
-    //    {
-    //        ObjMoveback2(other);
-    //    }
-    //    if (other.gameObject.CompareTag("SpeedBullet"))
-    //    {
-    //        ObjMoveback2(other, 2000f);
-    //    }
-    //}
-
-    private void ObjMoveback(Collision collision, float speed = 1500.0f)
+    private void OnTriggerEnter(Collider other)
     {
-        Vector3 pushdi = collision.transform.position - transform.position;
-        pushdi = pushdi.normalized;
-        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+        if (other.gameObject.CompareTag("Pok"))
+        {
+            Debug.Log("FF");
+            ObjMoveback5(other, 5000f);
+        }
+    }
 
+    public void ObjMoveback(Collision collision, float speed = 1500.0f)
+    {
+        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
         //rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
 
     }
@@ -113,6 +109,31 @@ public class BackMove : MonoBehaviourPunCallbacks
                 GetComponent<Move>().Piguck = pu[i];
             }
         }
+
+        rb.velocity = Vector3.zero;
+        _PlayerAni._State = State.Dmg;
+
+        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+
+        Destroy(collision.gameObject);
+    }
+
+    public void ObjMoveback5(Collider collision, float speed = 1000.0f)
+    {
+        //PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
+        //if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+        //{
+        //    Destroy(collision.gameObject);
+        //    return;
+        //}
+        //if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+        //    return;
+
+
+        int a;
+        a = Random.Range(0, 2);
+        Audio.clip = audioS[a];
+        Audio.Play();
 
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;

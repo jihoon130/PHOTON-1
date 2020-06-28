@@ -6,26 +6,35 @@ using Photon.Pun;
 public class GreandeTimer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
-    Rigidbody rb;
-
+public    Rigidbody rb;
+    public float rs = 0f;
+    bool a = false;
+    float t = 5.0f;
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        
+    }
     void Start()
     {
         StartCoroutine("DestroyTimer");
-        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        //rb.AddForce(transform.forward * 15, ForceMode.Impulse);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        int floorMask = LayerMask.GetMask("Ground");
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 500f,floorMask))
+        
+
+        if(rs != 0f && !a)
         {
-            Vector3 playerToMouse = hit.point - transform.position;
-            playerToMouse.y = 0f;
-            Quaternion newRot = Quaternion.LookRotation(playerToMouse);
-            rb.MoveRotation(newRot);
+            transform.rotation = Quaternion.Euler(0, rs, 0);
+            if(t<=0.1f)
+            {
+                t = 0f;
+            }
+            if(t!=0f)
+            t -= Time.deltaTime;
+            transform.Translate(Vector3.forward * Time.deltaTime * t);
+       
         }
 
     }
