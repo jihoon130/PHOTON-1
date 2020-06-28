@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using DG.Tweening;
 public class GreandeTimer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
 public    Rigidbody rb;
-    public float rs = 0f;
+    public Vector3 rs;
     bool a = false;
     float t = 5.0f;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        
     }
     void Start()
     {
@@ -22,22 +21,20 @@ public    Rigidbody rb;
 
     private void Update()
     {
-        
 
-        if(rs != 0f && !a)
+        if (rs.x != 0f && !a)
         {
-            transform.rotation = Quaternion.Euler(0, rs, 0);
-            if(t<=0.1f)
-            {
-                t = 0f;
-            }
-            if(t!=0f)
-            t -= Time.deltaTime;
-            transform.Translate(Vector3.forward * Time.deltaTime * t);
-       
+            Vector3 ros = new Vector3(rs.x, rs.y + 0.2f, rs.z);
+
+            transform.DOMove(ros, 0.5f);
+         // transform.position = new Vector3(rs.x,rs.y,rs.z);
+            a=true;
         }
 
+
     }
+
+
     IEnumerator DestroyTimer()
     {
         yield return new WaitForSeconds(3f);
@@ -50,4 +47,11 @@ public    Rigidbody rb;
         GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", Photon.Pun.RpcTarget.All);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.collider.CompareTag("Ground"))
+        {
+            transform.position = transform.position;
+        }
+    }
 }

@@ -88,10 +88,10 @@ public class Grenade : MonoBehaviourPunCallbacks
 
         if (GetComponent<BulletManager>().BulletList[2].isBullet)
         {
-            GameObject go =  PhotonNetwork.Instantiate("Grenade", CreatePos.position, Quaternion.Euler(0f,trs.rotation.y,0f)) ;
+            GameObject go = PhotonNetwork.Instantiate("Grenade", CreatePos.position, Quaternion.Euler(0f,trs.rotation.eulerAngles.y,0f)) ;
             GreandeTimer go2 = go.GetComponent<GreandeTimer>();
-            
-            go2.rs = trs.rotation.eulerAngles.y;
+
+            go2.rs = CreatePos.gameObject.GetComponent<Cameratest>().pos;
             GetComponent<BulletManager>().BulletUse(2);
         }
 
