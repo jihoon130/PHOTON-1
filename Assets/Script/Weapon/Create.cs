@@ -8,7 +8,8 @@ public enum BulletMake
 {
     None,
     Attack,
-    Machinegun
+    Machinegun,
+    Grenade
 }
 public class Create : MonoBehaviourPunCallbacks
 {
@@ -108,7 +109,7 @@ public class Create : MonoBehaviourPunCallbacks
 
             if (GetComponent<Move>().isMove)
             {
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
                     GunEffectType = 2;
                     _Ani._State = State.Attack;
@@ -197,7 +198,7 @@ public class Create : MonoBehaviourPunCallbacks
         if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             if (_BulletMake == BulletMake.Attack)
-              InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
+                InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
         }
 
         isBullet = true;

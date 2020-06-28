@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class CastMove : MonoBehaviourPunCallbacks
 {
-    public enum BulletMode { Attack, Machinegun}
+    public enum BulletMode { Attack, Machinegun, Grenade}
     public BulletMode _BulletMode = BulletMode.Attack;
 
     private Move _Move;
@@ -26,7 +26,11 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     IEnumerator DirCheck()
     {
+        if (_BulletMode == BulletMode.Grenade)
+            StopCoroutine("DirCheck");
+
         yield return new WaitForSeconds(Dir);
+
         Destroy(gameObject);
     }
 
@@ -34,6 +38,9 @@ public class CastMove : MonoBehaviourPunCallbacks
     {
         if (other.collider.tag == "Ground" || other.collider.tag == "Wall" || other.collider.tag == "Fance")
         {
+            if (_BulletMode == BulletMode.Grenade)
+                return;
+
             Destroy(gameObject);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
@@ -44,6 +51,9 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     public void HitEffect(float a, float b, float c)
     {
+        if (_BulletMode == BulletMode.Grenade)
+            return;
+
         string effectName = null;
 
         if (_BulletMode == BulletMode.Attack) effectName = "Hit";

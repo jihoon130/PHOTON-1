@@ -168,13 +168,13 @@ public class Machinegun : MonoBehaviourPunCallbacks
     {
         if(collision.gameObject.tag == "Machiengun" && PV.IsMine)
         {
-            if (isMachinegun || GetComponent<BulletManager>()._BulletMode == BulletManager.BulletMode.Machinegun)
+            if (GetComponent<BulletManager>().isGetItemCheck())
                 return;
 
             GetComponent<Create>().SoundPlayer(4);
             isMachinegun = true;
             GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(true);
-            GetComponent<BulletManager>().BulletListAdd(1);
+            GetComponent<BulletManager>().BulletListAdd(1, 20, 100);
             collision.gameObject.GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }

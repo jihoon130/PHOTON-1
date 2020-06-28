@@ -81,7 +81,6 @@
     <Compile Include="Assets\Script\AimS.cs" />
     <Compile Include="Assets\Script\BackMove.cs" />
     <Compile Include="Assets\Script\Bubble\Bubble.cs" />
-    <Compile Include="Assets\Script\BulletManager.cs" />
     <Compile Include="Assets\Script\Camera\CameraCol.cs" />
     <Compile Include="Assets\Script\Camera\CameraFind.cs" />
     <Compile Include="Assets\Script\Camera\CameraPlayer.cs" />
@@ -94,6 +93,9 @@
     <Compile Include="Assets\Script\DestoryPok.cs" />
     <Compile Include="Assets\Script\DestoryWall.cs" />
     <Compile Include="Assets\Script\HIT.cs" />
+    <Compile Include="Assets\Script\Item\Grenade\GreandeTimer.cs" />
+    <Compile Include="Assets\Script\Item\Grenade\Grenade.cs" />
+    <Compile Include="Assets\Script\Item\Grenade\GrenadeEffect.cs" />
     <Compile Include="Assets\Script\Item\ItemDestroy.cs" />
     <Compile Include="Assets\Script\Item\MachineGunCreate.cs" />
     <Compile Include="Assets\Script\Item\Machinegun.cs" />
@@ -121,10 +123,12 @@
     <Compile Include="Assets\Script\UI\ResetCount.cs" />
     <Compile Include="Assets\Script\UI\RobbyIconBG.cs" />
     <Compile Include="Assets\Script\UI\Timer.cs" />
+    <Compile Include="Assets\Script\Weapon\BulletManager.cs" />
     <Compile Include="Assets\Script\Weapon\CastMove.cs" />
     <Compile Include="Assets\Script\Weapon\Create.cs" />
     <Compile Include="Assets\Script\scollviewscript.cs" />
     <None Include="Assets\hit_sphere_dummy\shaders\JP_RimNHalo.shader" />
+    <None Include="Assets\Effect\JIHO_FX\Shaders\Shad_AddtiveHDR.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
     <None Include="Assets\Effect\JIHO_FX\Shaders\Shad_ScrollRimLight.shader" />
     <None Include="Assets\Effect\JIHO_FX\Shaders\Shad_SimpleRimLight.shader" />

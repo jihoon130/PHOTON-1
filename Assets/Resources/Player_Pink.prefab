@@ -11006,6 +11006,7 @@ GameObject:
   - component: {fileID: 2727779024818924636}
   - component: {fileID: 6534122993102343860}
   - component: {fileID: 8049107322186133004}
+  - component: {fileID: 632429230495750328}
   m_Layer: 0
   m_Name: Player_Pink
   m_TagString: Player
@@ -11310,6 +11311,18 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!114 &632429230495750328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2880613682950660193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce6b991e2a494a34ab2847f6c7e37c9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2881100793691251824
 GameObject:
   m_ObjectHideFlags: 0
@@ -51951,15 +51964,15 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: -5964593852626423973, guid: 52d38e82d997e0642acf68305db746c7, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 52d38e82d997e0642acf68305db746c7, type: 3}
---- !u!1 &8629119989674743781 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5228153385887780057, guid: 52d38e82d997e0642acf68305db746c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 4561842015273343804}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4727534075527554550 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9139343050853465802, guid: 52d38e82d997e0642acf68305db746c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 4561842015273343804}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8629119989674743781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5228153385887780057, guid: 52d38e82d997e0642acf68305db746c7,
     type: 3}
   m_PrefabInstance: {fileID: 4561842015273343804}
   m_PrefabAsset: {fileID: 0}

@@ -12,7 +12,8 @@ public enum State
     Jump_Ing,
     Jump_End,
     Dash,
-    Machinegun
+    Machinegun,
+    Greande
 }
 public class PlayerAni : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class PlayerAni : MonoBehaviour
         AttackMent(_Move.fHorizontal, "VelocityX");
         AttackMent(_Move.fVertical, "VelocityZ");
 
-        if (_State != State.Machinegun)
+        if (_State != State.Machinegun || _State != State.Greande)
         {
             if (Ani.GetCurrentAnimatorStateInfo(0).normalizedTime < CurAniTime)
             {
@@ -101,6 +102,11 @@ public class PlayerAni : MonoBehaviour
             case State.Machinegun:
                 {
                     AniChange(14);
+                }
+                break;
+            case State.Greande:
+                {
+                    AniChange(15);
                 }
                 break;
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ItemUIManager : MonoBehaviour
 {
-    public GameObject Item1;
+    public GameObject[] Item;
 
     public GameObject BaseWeapon;
     public GameObject ItemWepaon;
@@ -22,7 +22,7 @@ public class ItemUIManager : MonoBehaviour
         
     }
 
-    public void ItemUIChange(bool checkd) => Item1.SetActive(checkd);
+    public void ItemUIChange(bool checkd, int array = 0) => Item[array].SetActive(checkd);
 
     public void UIWeaponChange(bool check1, bool check2)
     {
