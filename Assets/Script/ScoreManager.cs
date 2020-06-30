@@ -143,7 +143,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < SusoonJung.Length - 1; i++)
         {
-
             if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
             {
                 TempObject = SusoonJung[i];
@@ -165,7 +164,6 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < SusoonJung.Length - 1; i++)
         {
-
             if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
             {
                 TempObject = SusoonJung[i];

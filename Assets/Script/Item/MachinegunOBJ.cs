@@ -7,10 +7,15 @@ public class MachinegunOBJ : MonoBehaviourPunCallbacks
     public PhotonView PV;
     private Animator Ani;
 
+    public ParticleSystem[] effect;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
         Ani = GetComponent<Animator>();
+
+        for (int i = 0; i < effect.Length; i++)
+            effect[i].Stop();
     }
     void Start()
     {

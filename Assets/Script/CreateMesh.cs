@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CreateMesh : MonoBehaviour
 {
-  public  SkinnedMeshRenderer skin;
+    
+    public  SkinnedMeshRenderer skin;
     MeshCollider mesh;
+   public bool a=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,8 +17,11 @@ public class CreateMesh : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Mesh mesh1 = new Mesh();
-        skin.BakeMesh(mesh1);
-        mesh.sharedMesh = mesh1;
+        if (!a)
+        {
+            Mesh mesh1 = new Mesh();
+            skin.BakeMesh(mesh1);
+            mesh.sharedMesh = mesh1;
+        }
     }
 }

@@ -27,6 +27,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject[] RespawnG;
     bool kk=false;
     float TestRpT;
+    private CapsuleCollider kimsunwoo;
     bool TestRPB = false;
     // Water
     string chat;
@@ -43,8 +44,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public Text[] ChatText;
     public  float anit =0.0f;
     public float fHorizontal;
+    private CreateMesh cm;
     public float fVertical;
     bool fl = false;
+    public Transform nickt;
     public float StopT = 0.0f;
     public bool isPhoenix;
     public bool isDie;
@@ -57,6 +60,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public int score;
     public GameObject RSpawn;
     public GameObject SpawnT;
+    public Create Moogi;
     public Text SpawnText;
     // Sound
     AudioSource Audio;
@@ -68,16 +72,20 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+        kimsunwoo = GetComponent<CapsuleCollider>();
+        cm = GetComponentInChildren<CreateMesh>();
         camera2 = GameObject.Find("RespawnM");
         Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
         rb = GetComponent<Rigidbody>();
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
-
+        
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
 
         Audio = GetComponentInChildren<AudioSource>();
+
+        
 
         ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
@@ -184,6 +192,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (GooT > 0.0f)
             {
+                kimsunwoo.enabled = true;
+                cm.a = true;
                 GooT -= Time.deltaTime;
                 transform.Translate(new Vector3(Vector3.forward.x, 0f, Vector3.forward.z) * Time.deltaTime * 10);
                 isMove = false;
@@ -191,6 +201,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             }
             else
             {
+                kimsunwoo.enabled = false;
+                cm.a = false;
                 kk = false;
                 isMove = true;
             }
@@ -212,9 +224,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             //}
 
 
+            if(Input.GetKeyDown(KeyCode.Z))
+            {
+                GetComponent<Grenade>().DeleteGreade();
+                GetComponent<Machinegun>().MachineDeleteReset();
+            }
+
 
             if (_PlayerAni && fHorizontal == 0.0f && fVertical == 0.0f)
             {
+                //kimsunwoo.enabled = false;
                 _PlayerAni.Ani.SetLayerWeight(1, 0);
             }
             else

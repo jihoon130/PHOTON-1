@@ -71,7 +71,6 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.CompareTag("Pok"))
         {
-            Debug.Log("FF");
             ObjMoveback5(other, 5000f);
         }
     }
@@ -140,7 +139,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
 
-        Destroy(collision.gameObject);
+        //Destroy(collision.gameObject);
     }
 
     private void ObjMoveback3(Collision collision, float speed = 2000.0f)

@@ -48,7 +48,6 @@ public class Create : MonoBehaviourPunCallbacks
     private bool isBullet;
 
     public float testAim;
-
     void Awake()
     {
         PV = GetComponent<PhotonView>();

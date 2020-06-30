@@ -64,9 +64,19 @@ public class Grenade : MonoBehaviourPunCallbacks
             }
         }
     }
-    private void DeleteGreade()
+
+    public bool isItemCheck()
+    {
+        if (isGreande || isGreandeAttack)
+            return true;
+        return false;
+    }
+
+    public void DeleteGreade()
     {
         isDelete = true;
+
+        isGreande = false;
 
         PV.RPC("ObjChangeRPC", RpcTarget.All, true, false);
         GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Shot;
@@ -75,8 +85,8 @@ public class Grenade : MonoBehaviourPunCallbacks
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(true, false);
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false, 1);
         isGreandeAttack = false;
+
         isDelete = false;
-        
     }
 
     public void CraeteCrenade()

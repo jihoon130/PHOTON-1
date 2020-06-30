@@ -95,6 +95,13 @@ public class Machinegun : MonoBehaviourPunCallbacks
         }
     }
 
+    public bool isItemCheck()
+    {
+        if (isMachinegun || isMachineAttack)
+            return true;
+        return false;
+    }
+
     public void MachineIdleChange()
     {
         if (GameObject.Find("MachinegunObject") == null)
@@ -106,6 +113,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
     }
     public void MachineDeleteReset()
     {
+        isMachinegun = false;
         isMachineRay = false;
         isMachineAttack = false;
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(true, false);

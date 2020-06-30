@@ -14,11 +14,11 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
+        PV = GetComponent<PhotonView>();
     }
     void Start()
     {
-        StartCoroutine("DestroyTimer");
+        //StartCoroutine("DestroyTimer");
     }
 
     private void Update()
@@ -35,21 +35,26 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
 
     IEnumerator DestroyTimer()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.5f);
         ObjectDestroys();
     }
 
     public void ObjectDestroys()
     {
-        PhotonNetwork.Instantiate("Grenade_Boom", this.transform.position, Quaternion.identity);
-        GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", Photon.Pun.RpcTarget.All);
+        if (PV.IsMine)
+        {
+            PhotonNetwork.Instantiate("Grenade_Boom", this.transform.position, Quaternion.identity);
+            GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", Photon.Pun.RpcTarget.All);
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.collider.CompareTag("Ground"))
-        {
+       // if(collision.collider.CompareTag("Ground"))
+      //  {
             transform.position = transform.position;
-        }
+     //   }
+
+        StartCoroutine("DestroyTimer");
     }
 }

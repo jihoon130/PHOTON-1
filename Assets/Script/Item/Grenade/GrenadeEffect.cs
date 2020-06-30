@@ -28,4 +28,13 @@ public class GrenadeEffect : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(2.5f);
         Destroy(this.gameObject);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Wall"))
+        {
+            Destroy(other.gameObject);
+        }
+    }
+
 }
