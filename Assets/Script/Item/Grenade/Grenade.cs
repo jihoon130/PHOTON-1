@@ -14,8 +14,6 @@ public class Grenade : MonoBehaviourPunCallbacks
     private bool isGreandeAttack;
     private bool isBullet;
     public Transform trs;
-    public GameObject Camera1;
-    GameObject boom;
 
     private void Awake()
     {

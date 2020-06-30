@@ -6,13 +6,15 @@ using DG.Tweening;
 public class GreandeTimer : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
-public    Rigidbody rb;
+    public Rigidbody rb;
     public Vector3 rs;
     bool a = false;
     float t = 5.0f;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+
     }
     void Start()
     {
@@ -21,23 +23,19 @@ public    Rigidbody rb;
 
     private void Update()
     {
-
         if (rs.x != 0f && !a)
         {
-            Vector3 ros = new Vector3(rs.x, rs.y + 0.2f, rs.z);
+            Vector3 ros = new Vector3(rs.x, rs.y + 0.3f, rs.z);
 
-            transform.DOMove(ros, 0.5f);
-         // transform.position = new Vector3(rs.x,rs.y,rs.z);
-            a=true;
+            transform.DOMove(ros, 0.3f);
+            // transform.position = new Vector3(rs.x,rs.y,rs.z);
+            a = true;
         }
-
-
     }
-
 
     IEnumerator DestroyTimer()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2.5f);
         ObjectDestroys();
     }
 

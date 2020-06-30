@@ -22,7 +22,13 @@ public class CastMove : MonoBehaviourPunCallbacks
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
     private void Update() => Attack();
-    private void FixedUpdate() => transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
+    private void FixedUpdate()
+    {
+        if(_BulletMode == BulletMode.Grenade)
+            transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
+        else
+            transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
+    }
 
     IEnumerator DirCheck()
     {
