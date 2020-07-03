@@ -84,7 +84,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     public void ObjMoveback2(Collision collision, float speed = 1000.0f)
     {
-        PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("water_hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
         {
             Destroy(collision.gameObject);

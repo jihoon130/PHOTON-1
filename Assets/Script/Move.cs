@@ -237,7 +237,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.Z))
+            if(Input.GetKeyDown(KeyCode.LeftControl))
             {
                 GetComponent<Grenade>().DeleteGreade();
                 GetComponent<Machinegun>().MachineDeleteReset();
