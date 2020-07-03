@@ -33,9 +33,9 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Spawn1"))
+        if (other.gameObject.CompareTag("Ground"))
         {
-            RespawnT = new Vector3(other.gameObject.GetComponentInParent<Transform>().localPosition.x, 5.2f,other.gameObject.GetComponentInParent<Transform>().localPosition.z) ;
+            RespawnT = new Vector3(transform.position.x, 4.9f,transform.position.z) ;
             a = true;
             f = true;
         }
@@ -43,7 +43,7 @@ public class Respawn : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Spawn1"))
+        if(other.gameObject.CompareTag("Ground"))
         {
             a = false;
         }

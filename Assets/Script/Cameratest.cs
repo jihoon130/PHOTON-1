@@ -18,7 +18,6 @@ public class Cameratest : MonoBehaviour
         int floorMask = LayerMask.GetMask("Ground");
         if(Physics.Raycast(transform.position,transform.forward,out hit,500f,floorMask))
         {
-            Debug.Log(hit);
             pos = hit.point;
         }
 
