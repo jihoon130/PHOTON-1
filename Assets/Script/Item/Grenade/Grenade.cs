@@ -14,7 +14,7 @@ public class Grenade : MonoBehaviourPunCallbacks
     private bool isGreandeAttack;
     private bool isBullet;
     public Transform trs;
-
+    public GameObject[] Boom;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -96,10 +96,15 @@ public class Grenade : MonoBehaviourPunCallbacks
 
         if (GetComponent<BulletManager>().BulletList[2].isBullet)
         {
-            GameObject go = PhotonNetwork.Instantiate("Grenade", CreatePos.position, Quaternion.Euler(0f,trs.rotation.eulerAngles.y,0f)) ;
-            GreandeTimer go2 = go.GetComponent<GreandeTimer>();
+            for(int i=0;i<Boom.Length;i++)
+            {
+                if(Boom[i].activeInHierarchy==false)
+                {
+                    PV.RPC("InitBoomRPC", RpcTarget.All, i);
+                    break;
+                }
+            }
 
-            go2.rs = CreatePos.gameObject.GetComponent<Cameratest>().pos;
             GetComponent<BulletManager>().BulletUse(2);
         }
 
@@ -133,4 +138,10 @@ public class Grenade : MonoBehaviourPunCallbacks
         GrenadeObj.SetActive(gun2);
     }
 
+
+    [PunRPC]
+    void InitBoomRPC(int i)
+    {
+        Boom[i].SetActive(true);
+    }
 }

@@ -8,9 +8,18 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
     public PhotonView PV;
     public Rigidbody rb;
     public Vector3 rs;
-    bool a = false;
     float t = 5.0f;
+    public GameObject startPos;
 
+
+    private void OnEnable()
+    {
+        transform.position = startPos.transform.position;
+        Debug.Log(startPos.GetComponent<Cameratest>().pos);
+        rs = startPos.GetComponent<Cameratest>().pos;
+        Vector3 ros = new Vector3(rs.x, rs.y + 0.3f, rs.z);
+        transform.DOMove(ros, 0.3f);
+    }
 
     private void Awake()
     {
@@ -20,18 +29,6 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
     void Start()
     {
         //StartCoroutine("DestroyTimer");
-    }
-
-    private void Update()
-    {
-        if (rs.x != 0f && !a)
-        {
-            Vector3 ros = new Vector3(rs.x, rs.y + 0.3f, rs.z);
-
-           transform.DOMove(ros, 0.3f);
-            // transform.position = new Vector3(rs.x,rs.y,rs.z);
-            a = true;
-        }
     }
 
     IEnumerator DestroyTimer()

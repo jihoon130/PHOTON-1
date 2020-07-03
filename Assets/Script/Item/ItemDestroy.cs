@@ -15,5 +15,5 @@ public class ItemDestroy : MonoBehaviourPunCallbacks
             PV.RPC("DestroyRPC", RpcTarget.All);
     }
     [PunRPC]
-    public void DestroyRPC() => Destroy(this.gameObject);
+    public void DestroyRPC() => gameObject.SetActive(false);
 }
