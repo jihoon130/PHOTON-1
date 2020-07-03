@@ -18,6 +18,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool OKE;
     public GameObject Piguck;
     public string Piguck2;
+  public  bool dieOk = false;
     public string NickName;
     public string EnemyNickName;
     public float MoveSpeed = 7.0f;
@@ -39,6 +40,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public ParticleSystem Balsa;
     private Quaternion currRot;
     private Quaternion targetRotation;
+    public GameObject Canvas1;
     // Move
     private Transform tr;
     public Text[] ChatText;
@@ -72,6 +74,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+        Canvas1 = GameObject.Find("GameCanvas");
         kimsunwoo = GetComponent<CapsuleCollider>();
         cm = GetComponentInChildren<CreateMesh>();
         camera2 = GameObject.Find("RespawnM");
@@ -224,6 +227,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             //}
 
 
+            if(dieOk)
+            {
+                float time = Canvas1.transform.GetChild(7).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
+                if (time <= 0.0f)
+                {
+                    repo = GameObject.Find("MachineGunSpawn").GetComponent<Respawn>().RespawnT;
+                    ResetPos();
+                }
+            }
+
             if(Input.GetKeyDown(KeyCode.Z))
             {
                 GetComponent<Grenade>().DeleteGreade();
@@ -308,16 +321,24 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (!PV.IsMine || GameEndok)
             return;
 
-        if(collision.gameObject.name =="Sea")
+        if(collision.gameObject.name =="Sea" && !dieOk)
         {
-            if (transform.position.x != -39.8f)
+            dieOk = true;
+            Canvas1.transform.GetChild(6).gameObject.SetActive(true);
+            Canvas1.transform.GetChild(7).gameObject.SetActive(true);
             transform.position = new Vector3(-39.8f, 0.0f, Random.Range(20.0f, 34.0f));
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
+
+           
         }
-        else
+
+        if(collision.gameObject.CompareTag("Ground") && dieOk)
         {
+            Canvas1.transform.GetChild(6).gameObject.SetActive(false);
+            Canvas1.transform.GetChild(7).gameObject.SetActive(false);
+            dieOk = false;
             isDie = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

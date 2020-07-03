@@ -7,6 +7,7 @@ public class AimS : MonoBehaviour
     private Vector3 ScreenCenter;
     RaycastHit hit;
     Image sp;
+    Move move;
     public float y;
     // Start is called before the first frame update
     private void Awake()
@@ -14,6 +15,7 @@ public class AimS : MonoBehaviour
         if (!transform.root.GetComponent<Move>().PV.IsMine)
             gameObject.SetActive(false);
         sp = GetComponent<Image>();
+        move = GetComponentInParent<Move>();
     }
     void Start()
     {
@@ -34,14 +36,23 @@ public class AimS : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        if (move.dieOk == false)
+        {
+            if (y <= 550f && y >= 336f)
+                y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
 
-       if (y <= 550f && y >= 336f)
-            y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
-
-       y = Mathf.Clamp(y, 336f, 550f);
+            y = Mathf.Clamp(y, 336f, 550f);
+        }
 
         transform.position = new Vector3(transform.position.x, y, transform.position.z);
         ScreenCenter.y = y;
+
+        if(move.dieOk == true)
+        {
+            sp.color = new Color(255, 255, 255, 0);
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(ScreenCenter);
         if(Physics.Raycast(ray,out hit))
         {

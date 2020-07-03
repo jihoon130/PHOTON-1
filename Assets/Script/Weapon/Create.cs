@@ -24,7 +24,7 @@ public class Create : MonoBehaviourPunCallbacks
     public Transform MachinegunStartTf;
     AudioSource Audio;
     public AudioClip[] audios;
-
+    Move move;
     public GameObject _GunEffect;
     private int GunEffectType;
     private bool isGunTime;
@@ -51,6 +51,7 @@ public class Create : MonoBehaviourPunCallbacks
     void Awake()
     {
         PV = GetComponent<PhotonView>();
+        move = GetComponent<Move>();
         Audio = GetComponentInChildren<AudioSource>();
         _Ani = GetComponent<PlayerAni>();
         _BulletManager = GetComponent<BulletManager>();
@@ -77,16 +78,18 @@ public class Create : MonoBehaviourPunCallbacks
     }
     void Update()
     {
-        if (!GetComponent<Move>().PV.IsMine)
+        if (!move.PV.IsMine)
             return;
 
-        if (AimY <= 110f && AimY >= -110f)
-             AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
-        AimY = Mathf.Clamp(AimY, -110f, 110f);
-
+        if (move.dieOk == false)
+        {
+            if (AimY <= 110f && AimY >= -110f)
+                AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+            AimY = Mathf.Clamp(AimY, -110f, 110f);
+        }
         ReloadUpdate();
 
-        if (GetComponent<Move>().StopT <= 0.0f)
+        if (move.StopT <= 0.0f)
         {
             if (Input.GetKeyDown(KeyCode.R) && GetComponent<Machinegun>().isMachineAttack && !isReload)
             {
@@ -106,7 +109,7 @@ public class Create : MonoBehaviourPunCallbacks
             if (fTime > 0.2f) fTime = 0;
 
 
-            if (GetComponent<Move>().isMove)
+            if (move.isMove)
             {
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {

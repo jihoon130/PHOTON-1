@@ -6,6 +6,8 @@ public class RespawnCamera : MonoBehaviour
 {
     Move CharaterMove;
     Camera ca;
+    bool OKCursor=false;
+    public Texture2D[] cursor;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,10 +32,23 @@ public class RespawnCamera : MonoBehaviour
         {
             if(hit.collider.CompareTag("Ground"))
             {
-                if(CharaterMove && Input.GetMouseButtonDown(0))
+                if (!OKCursor)
+                {
+                    Cursor.SetCursor(cursor[0], new Vector2(cursor[0].width /4, cursor[0].height / 4), CursorMode.Auto);
+                    OKCursor = true;
+                }
+                if (CharaterMove && Input.GetMouseButtonDown(0))
                 {
                     CharaterMove.repo = hit.point;
                     CharaterMove.ResetPos();
+                }
+            }
+            else
+            {
+                if (OKCursor)
+                {
+                    Cursor.SetCursor(cursor[1], new Vector2(cursor[1].width / 4, cursor[1].height / 4), CursorMode.Auto);
+                    OKCursor = false;
                 }
             }
 
