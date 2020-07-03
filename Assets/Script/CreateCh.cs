@@ -10,6 +10,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
     public Text[] ChatT;
     public GameObject[] I;
     PhotonView pv;
+    bool a = false;
     bool start = false;
     bool play = false;
     float StartT = 0.0f;
@@ -28,15 +29,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
         if (PlayerGetName == "Blue" || PlayerGetName == "Orange")
             PlayerGetName = "Green";
 
-        for (int i = 0; i < Spawn1.Length; i++)
-        {
-            if (Spawn1[i])
-            {
-                PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[i].transform.position, Quaternion.identity);
-                Spawn1[i] = null;
-                break; 
-            }
-        }
+        PhotonNetwork.Instantiate("Player_"+PlayerGetName, Spawn1[ab].transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -49,6 +42,8 @@ public class CreateCh : MonoBehaviourPunCallbacks
                 I[i].SetActive(true);
             }
         }
+
+
 
     }
 

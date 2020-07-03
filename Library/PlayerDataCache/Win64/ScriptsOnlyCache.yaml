@@ -45,6 +45,7 @@ ScriptsOnlyBuild:
     - SelectPlayer
     - Step1
     - Step2
+    - Step3
     - Timer
     - UnityEngine.UI.LetterSpacing
     - scollviewscript
@@ -355,6 +356,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14782}
     - Class: 114
       Script: {instanceID: 14818}
+    - Class: 114
+      Script: {instanceID: 69208}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -1189,7 +1192,7 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAsset
   - hash:
       serializedVersion: 2
-      Hash: 4a0e6a97aec0d7539232e9f338cc61a7
+      Hash: c0cf1edcf46ae041daf3dc1db5cfc7cf
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CreateCh
@@ -2351,6 +2354,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 100e941a16b8739cc0fa91f43a4afabb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: Step3
   platform: 19
   scenePathNames:
   - Assets/Scenes/StartPage.unity
