@@ -11,6 +11,7 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
     bool a = false;
     float t = 5.0f;
 
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -27,7 +28,7 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
         {
             Vector3 ros = new Vector3(rs.x, rs.y + 0.3f, rs.z);
 
-            transform.DOMove(ros, 0.3f);
+           transform.DOMove(ros, 0.3f);
             // transform.position = new Vector3(rs.x,rs.y,rs.z);
             a = true;
         }
@@ -50,10 +51,10 @@ public class GreandeTimer : MonoBehaviourPunCallbacks
 
     private void OnCollisionEnter(Collision collision)
     {
-       // if(collision.collider.CompareTag("Ground"))
-      //  {
-            transform.position = transform.position;
-     //   }
+        if(collision.collider.CompareTag("Ground") || collision.collider.CompareTag("Wall"))
+        {
+        transform.DOKill();
+        }
 
         StartCoroutine("DestroyTimer");
     }
