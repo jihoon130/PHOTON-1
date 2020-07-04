@@ -28,13 +28,15 @@ public class Create : MonoBehaviourPunCallbacks
     public GameObject _GunEffect;
     private int GunEffectType;
     private bool isGunTime;
+    int count = 0;
+    int count1 = 0;
     private float fGunTimer;
     public float AimY;
     private PlayerAni _Ani;
     public GameObject Effect1;
     private float fTime;
-
-
+    public GameObject[] DefaultBullet;
+    public GameObject[] MachinegunBulletM;
     // 재장전
     public bool isReload;
     public GameObject ReloadBulletImage; // 리로드출력 이미지
@@ -213,17 +215,63 @@ public class Create : MonoBehaviourPunCallbacks
         {
             SoundPlayer(3);
 
-            InstantiateObject("Machinegun_bullet", MachinegunStartTf.transform.position, RotVector(), type);
+            InstantiateObject2("Machinegun_bullet", MachinegunStartTf.transform.position, RotVector(), type);
         }
     }
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
         GetComponent<BulletManager>().BulletUse(type);
-      GameObject _bullet = PhotonNetwork.Instantiate(objname, vStartPos, Quaternion.Euler(vStartRot));
-        CastMove _bulletScript = _bullet.GetComponent<CastMove>();
-        _bulletScript.CastSpeed = BulletSpeed;
-        _bulletScript.Dir = BulletDir;
+        for (int i = count; i < DefaultBullet.Length; i++)
+        {
+            if(!DefaultBullet[i].activeSelf)
+            {
+                PV.RPC("DefaultBulletOnRPC", RpcTarget.All, i);
+                DefaultBullet[i].transform.position = vStartPos;
+                DefaultBullet[i].transform.eulerAngles = vStartRot;
+                DefaultBullet[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
+                DefaultBullet[i].GetComponent<CastMove>().Dir = BulletDir;
+                count++;
+                if (count == DefaultBullet.Length)
+                    count = 0;
+                break;
+            }
+        }
+    }
+
+
+
+    private void InstantiateObject2(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
+    {
+        
+        GetComponent<BulletManager>().BulletUse(type);
+        for (int i = count1; i < MachinegunBulletM.Length; i++)
+        {
+            if (!MachinegunBulletM[i].activeSelf)
+            {
+                PV.RPC("MachinegunBulletOnRPC", RpcTarget.All, i);
+                MachinegunBulletM[i].transform.position = vStartPos;
+                MachinegunBulletM[i].transform.eulerAngles = vStartRot;
+                MachinegunBulletM[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
+                MachinegunBulletM[i].GetComponent<CastMove>().Dir = 1f;
+                count1++;
+                if (count1 == MachinegunBulletM.Length)
+                    count1 = 0;
+                break;
+            }
+        }
+    }
+
+    [PunRPC]
+    void DefaultBulletOnRPC(int i)
+    {
+        DefaultBullet[i].SetActive(true);
+    }
+
+    [PunRPC]
+    void MachinegunBulletOnRPC(int i)
+    {
+        MachinegunBulletM[i].SetActive(true);
     }
 
     private Vector3 RotVector(float z = 90f)

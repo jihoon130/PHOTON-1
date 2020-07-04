@@ -46,7 +46,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public Text[] ChatText;
     public  float anit =0.0f;
     public float fHorizontal;
-    private CreateMesh cm;
+  //  private CreateMesh cm;
     public float fVertical;
     bool fl = false;
     public Transform nickt;
@@ -76,7 +76,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         Canvas1 = GameObject.Find("GameCanvas");
         kimsunwoo = GetComponent<CapsuleCollider>();
-        cm = GetComponentInChildren<CreateMesh>();
+        //cm = GetComponentInChildren<CreateMesh>();
         camera2 = GameObject.Find("RespawnM");
         Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
         rb = GetComponent<Rigidbody>();
@@ -195,8 +195,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (GooT > 0.0f)
             {
-                kimsunwoo.enabled = true;
-                cm.a = true;
+              //  cm.a = true;
                 GooT -= Time.deltaTime;
                 transform.Translate(new Vector3(Vector3.forward.x, 0f, Vector3.forward.z) * Time.deltaTime * 10);
                 isMove = false;
@@ -204,8 +203,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             }
             else
             {
-                kimsunwoo.enabled = false;
-                cm.a = false;
+              //  cm.a = false;
                 kk = false;
                 isMove = true;
             }

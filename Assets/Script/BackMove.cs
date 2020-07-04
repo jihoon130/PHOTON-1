@@ -54,14 +54,7 @@ public class BackMove : MonoBehaviourPunCallbacks
         //    //  collision.gameObject.GetComponent<CastMove>().PV.RPC("DestroyRPC", RpcTarget.All);
         //    //  ObjMoveback(collision);
         //}
-        if (collision.gameObject.CompareTag("Bullet"))
-        {
-            ObjMoveback2(collision);
-        }
-        if (collision.gameObject.CompareTag("SpeedBullet"))
-        {
-            ObjMoveback2(collision, 2000f);
-        }
+
 
 
 
@@ -69,6 +62,15 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Bullet"))
+        {
+            ObjMoveback2(other);
+        }
+        if (other.gameObject.CompareTag("SpeedBullet"))
+        {
+            ObjMoveback2(other, 2000f);
+        }
+
         if (other.gameObject.CompareTag("Pok"))
         {
             ObjMoveback5(other, 5000f);
@@ -82,7 +84,7 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     }
 
-    public void ObjMoveback2(Collision collision, float speed = 1000.0f)
+    public void ObjMoveback2(Collider collision, float speed = 1000.0f)
     {
         PhotonNetwork.Instantiate("water_hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)

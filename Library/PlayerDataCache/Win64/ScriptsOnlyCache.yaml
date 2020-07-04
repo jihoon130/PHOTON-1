@@ -16,6 +16,7 @@ ScriptsOnlyBuild:
     - CreateCh
     - CreateMesh
     - FenceObj
+    - FrameCheck
     - GreandeTimer
     - Grenade
     - GrenadeEffect
@@ -60,6 +61,8 @@ ScriptsOnlyBuild:
     - Photon.Pun.Demo.PunBasics.PlayerUI
     - Photon.Pun.Demo.SlotRacer.PlayerControl
     - Photon.Pun.Demo.SlotRacer.Utils.SplineWalker
+    PhotonUnityNetworking.Editor.dll:
+    - Photon.Pun.PunSceneSettings
     PhotonUnityNetworking.dll:
     - Photon.Pun.PhotonAnimatorView
     - Photon.Pun.PhotonRigidbodyView
@@ -512,6 +515,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 14804}
     - Class: 114
       Script: {instanceID: 14822}
+    - Class: 114
+      Script: {instanceID: 50902}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -625,7 +630,7 @@ ScriptsOnlyBuild:
     className: RegionListView
   - hash:
       serializedVersion: 2
-      Hash: f3a03b65142a2d176dd2232e15436b95
+      Hash: 24f37bd3ee8e3502398d9f128e6c32cb
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Create
@@ -1747,7 +1752,7 @@ ScriptsOnlyBuild:
     className: RobbyIconBG
   - hash:
       serializedVersion: 2
-      Hash: 14e605a6a7e0387b8605c76b4d63edfa
+      Hash: 3276ee2f5ebc9a05c6f1756611041482
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: CastMove
@@ -1879,7 +1884,7 @@ ScriptsOnlyBuild:
     className: IntInputField
   - hash:
       serializedVersion: 2
-      Hash: 1d6e7b7555955e47366d002ba2f0aa9d
+      Hash: 105b34c3ce002e57f39319d486837c74
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GreandeTimer
@@ -2053,7 +2058,7 @@ ScriptsOnlyBuild:
     className: ChaningNick
   - hash:
       serializedVersion: 2
-      Hash: 778aaafb8ba611d7f86a9d10cc920238
+      Hash: 644f2363926a2ebf694df41a46c1c4a8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Grenade
@@ -2357,6 +2362,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: FrameCheck
   platform: 19
   scenePathNames:
   - Assets/Scenes/StartPage.unity

@@ -7,27 +7,45 @@ public class CastMove : MonoBehaviourPunCallbacks
 {
     public enum BulletMode { Attack, Machinegun, Grenade}
     public BulletMode _BulletMode = BulletMode.Attack;
-
+    public GameObject Parent;
     private Move _Move;
     public float CastSpeed = 70.0f;
     public float Dir = 0.5f;
     public PhotonView PV;
     public GameObject pu2;
     public GameObject pu3;
+    public bool a=false;
+    public GameObject Water;
+    public GameObject hit;
+    private void OnEnable()
+    {
+        transform.SetParent(null);
+        StartCoroutine("DirCheck");
+
+    }
 
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-        StartCoroutine("DirCheck");
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
     }
-    private void Update() => Attack();
+
+    private void Update()
+    {
+    }
+
     private void FixedUpdate()
     {
-        if(_BulletMode == BulletMode.Grenade)
+
+
+        if (_BulletMode == BulletMode.Grenade)
             transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
         else
             transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
+    }
+
+    void FixedUpdate2()
+    {
     }
 
     IEnumerator DirCheck()
@@ -36,23 +54,27 @@ public class CastMove : MonoBehaviourPunCallbacks
             StopCoroutine("DirCheck");
 
         yield return new WaitForSeconds(Dir);
-
-        Destroy(gameObject);
+        PV.RPC("ActiveOff", RpcTarget.All);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.collider.tag == "Ground" || other.collider.tag == "Wall" || other.collider.tag == "Fance")
+        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance")
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;
 
-            Destroy(gameObject);
+            PV.RPC("ActiveOff", RpcTarget.All);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
-            if (other.collider.tag == "Fance")
-                other.collider.GetComponent<FenceObj>().DestroyRPC();
+            if (other.tag == "Fance")
+                other.GetComponent<FenceObj>().DestroyRPC();
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        
     }
 
     public void HitEffect(float a, float b, float c)
@@ -65,53 +87,25 @@ public class CastMove : MonoBehaviourPunCallbacks
         if (_BulletMode == BulletMode.Attack) effectName = "Hit";
         else if (_BulletMode == BulletMode.Machinegun) effectName = "water_hit";
 
-        PhotonNetwork.Instantiate(effectName, new Vector3(a, b, c), Quaternion.identity);
+        if(effectName == "water_hit")
+        {
+            Water.transform.position = new Vector3(a, b, c);
+            Water.GetComponent<ParticleSystem>().Play();
+        }
+        else if(effectName == "Hit")
+        {
+            hit.transform.position = new Vector3(a, b, c);
+            hit.GetComponent<ParticleSystem>().Play();
+        }
+
     }
 
-
-
-  //  [PunRPC]
-    void Attack()
+    [PunRPC]
+    void ActiveOff()
     {
-
-        if (!this.gameObject)
-            return;
-
-
-
-        //Vector3 pos = transform.position;
-        //Vector3 PosA = transform.forward;
-        //RaycastHit hit;
-
-
-
-        //if (Physics.Raycast(pos, PosA, out hit, 0.5f))
-        //{
-        //    if (hit.collider.CompareTag("Attack1"))
-        //    {
-        //        if (PV.ViewID.ToString().Substring(0, 1) == hit.collider.GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1))
-        //            return;
-
-
-        //        GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
-
-        //        for (int i = 0; i < pu.Length; i++)
-        //        {
-        //            if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == PV.ViewID.ToString().Substring(0, 1))
-        //            {
-        //                pu2 = pu[i];
-        //                pu3 = hit.collider.gameObject;
-        //                // Piguck();
-
-        //                if (pu3)
-        //                    pu3.GetComponentInParent<Move>().Piguck = pu2;
-        //                // hit.collider.GetComponent<Move>().Piguck = pu[i];
-        //            }
-        //        }
-        //        hit.collider.GetComponent<BackMove>().Back1(transform.position.x, transform.position.y, transform.position.z);
-        //        Destroy(gameObject);
-        //        //hit.collider.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z);
-        //    }
-        //}
+        transform.SetParent(Parent.transform);
+        gameObject.SetActive(false);
+        
     }
+
 }

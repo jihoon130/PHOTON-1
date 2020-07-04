@@ -16602,6 +16602,7 @@ GameObject:
   - component: {fileID: 1728208350}
   - component: {fileID: 1728208349}
   - component: {fileID: 1728208348}
+  - component: {fileID: 1728208351}
   m_Layer: 0
   m_Name: Progam
   m_TagString: Untagged
@@ -16653,7 +16654,6 @@ MonoBehaviour:
   - {fileID: 855436780}
   - {fileID: 1693107042}
   - {fileID: 794909212}
-  Player: []
   I:
   - {fileID: 429382744}
   - {fileID: 304995186}
@@ -16681,6 +16681,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1728208351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728208347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9feb6c935ed0e2489c15e0cae819900, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1732156629
 GameObject:
   m_ObjectHideFlags: 0

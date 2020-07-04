@@ -117,11 +117,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _BulletMode: 1
+  Parent: {fileID: 0}
   CastSpeed: 50
   Dir: 1
   PV: {fileID: 0}
   pu2: {fileID: 0}
   pu3: {fileID: 0}
+  a: 0
+  Water: {fileID: 0}
+  hit: {fileID: 0}
 --- !u!114 &1044766772660999905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,7 +172,7 @@ MeshCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3728313785089160286}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 3
   m_Convex: 1
