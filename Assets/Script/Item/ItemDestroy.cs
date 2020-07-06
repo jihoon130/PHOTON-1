@@ -11,8 +11,10 @@ public class ItemDestroy : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-        if (transform.position.y < 4.15f)
+        if (transform.position.y < 5f)
+        {
             PV.RPC("DestroyRPC", RpcTarget.All);
+        }
     }
     [PunRPC]
     public void DestroyRPC() => gameObject.SetActive(false);

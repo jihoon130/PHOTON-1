@@ -25,39 +25,33 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: kr
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - ActiveOff
+  - BackRPC
   - ClickRpc
   - ColorChangeRPC
   - CreateCheck
+  - DefaultBulletOnRPC
   - DestroyRpc
   - DestroyRPC
   - DestroySpaceship
   - Fire
   - GunEffectTypeObj
   - GunObjChangeRPC
+  - InitBoomRPC
+  - MachinegunBulletOnRPC
   - ObjChangeRPC
+  - OFFRPC
   - ReadyRPC
   - ReceiveMsgRPC
   - RespawnSpaceship
   - SendMsgRPC
   - UpdateScoreRPC
-  - SpawnRPC
-  - PLUSRPC
-  - InitBoomRPC
-  - ActiveOff
-  - DefaultBulletOnRPC
-  - MachinegunBulletOnRPC
-  - BackRPC
-  - BACKRPC
-  - ObjMoveback2RPC
-  - BactchRPC
-  - OnRPC
-  - OFFRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0
