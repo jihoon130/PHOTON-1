@@ -6,7 +6,7 @@ using Photon.Pun;
 public class GrenadeEffect : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
-
+    public GameObject Parent;
 
     private CapsuleCollider CapColl;
 

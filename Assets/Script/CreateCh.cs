@@ -23,13 +23,15 @@ public class CreateCh : MonoBehaviourPunCallbacks
     void Start()
     {
         //   PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-1, 6), 7f, Random.Range(-18, -24)), Quaternion.identity);
-        int ab = Random.Range(0, 4);
+        
         string PlayerGetName = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>().CharacterName;
 
         if (PlayerGetName == "Blue" || PlayerGetName == "Orange")
             PlayerGetName = "Green";
 
-        PhotonNetwork.Instantiate("Player_"+PlayerGetName, Spawn1[ab].transform.position, Quaternion.identity);
+        int ab = Random.Range(0, 4);
+                PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[ab].transform.position, Quaternion.identity);
+             
     }
 
     // Update is called once per frame

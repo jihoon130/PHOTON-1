@@ -17,6 +17,8 @@ public class CastMove : MonoBehaviourPunCallbacks
     public bool a=false;
     public GameObject Water;
     public GameObject hit;
+    public float bss=1000f;
+    public GameObject other1;
     private void OnEnable()
     {
         transform.SetParent(null);
@@ -28,6 +30,15 @@ public class CastMove : MonoBehaviourPunCallbacks
     {
         PV = GetComponent<PhotonView>();
         _Move = GameObject.FindGameObjectWithTag("Player").GetComponent<Move>();
+
+        if(CompareTag("Bullet"))
+        {
+            bss = 1000f;
+        }
+        else if(CompareTag("SpeedBullet"))
+        {
+            bss = 2000f;
+        }
     }
 
     private void Update()
@@ -70,6 +81,22 @@ public class CastMove : MonoBehaviourPunCallbacks
             if (other.tag == "Fance")
                 other.GetComponent<FenceObj>().DestroyRPC();
         }
+
+        if(other.tag == "Player")
+        {
+            if (_BulletMode == BulletMode.Grenade)
+                return;
+
+            other.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All,
+                transform.position.x, 
+                transform.position.y, 
+                transform.position.z,
+                bss,
+                Parent.GetComponent<Move>().PV.Owner.ToString());
+            PV.RPC("ActiveOff", RpcTarget.All);
+            //other.GetComponent<BackMove>().ObjMoveback2(this.gameObject, 1000f);
+            HitEffect(transform.position.x, transform.position.y, transform.position.z);
+        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -105,7 +132,11 @@ public class CastMove : MonoBehaviourPunCallbacks
     {
         transform.SetParent(Parent.transform);
         gameObject.SetActive(false);
-        
     }
 
+
+    public void OFF()
+    {
+        PV.RPC("ActiveOff", RpcTarget.All);
+    }
 }

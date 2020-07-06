@@ -62,14 +62,15 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            ObjMoveback2(other);
-        }
-        if (other.gameObject.CompareTag("SpeedBullet"))
-        {
-            ObjMoveback2(other, 2000f);
-        }
+        //if (other.gameObject.CompareTag("Bullet"))
+        //{
+        //    //PV.RPC("BackRPC", RpcTarget.All, other.transform.position.x, other.transform.position.y, other.transform.position.z);
+        //    ObjMoveback2(other);
+        //}
+        //if (other.gameObject.CompareTag("SpeedBullet"))
+        //{
+        //    ObjMoveback2(other, 2000f);
+        //}
 
         if (other.gameObject.CompareTag("Pok"))
         {
@@ -84,12 +85,11 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     }
 
-    public void ObjMoveback2(Collider collision, float speed = 1000.0f)
+    public void ObjMoveback2(GameObject obj, float speed = 1000.0f)
     {
-        PhotonNetwork.Instantiate("water_hit", collision.transform.position, Quaternion.identity);
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
         {
-            Destroy(collision.gameObject);
+            //collision.GetComponent<CastMove>().PV.RPC("ActiveOff", RpcTarget.All);
             return;
         }
         if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
@@ -101,22 +101,12 @@ public class BackMove : MonoBehaviourPunCallbacks
         Audio.clip = audioS[a];
         Audio.Play();
 
-        GameObject[] pu = GameObject.FindGameObjectsWithTag("Player");
-
-        for (int i = 0; i < pu.Length; i++)
-        {
-            if (pu[i].GetComponentInParent<Move>().PV.ViewID.ToString().Substring(0, 1) == collision.gameObject.GetComponent<CastMove>().PV.ViewID.ToString().Substring(0,1))
-            {
-                GetComponent<Move>().Piguck = pu[i];
-            }
-        }
-
+    
+        GetComponent<Move>().Piguck = obj.GetComponent<CastMove>().Parent;
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
-
-        rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
-
-        Destroy(collision.gameObject);
+        rb.AddForce(obj.transform.forward * speed, ForceMode.Impulse);
+        obj.GetComponent<CastMove>().PV.RPC("ActiveOff", RpcTarget.All);
     }
 
     public void ObjMoveback5(Collider collision, float speed = 1000.0f)
@@ -135,7 +125,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         a = Random.Range(0, 2);
         Audio.clip = audioS[a];
         Audio.Play();
-
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
 
@@ -171,9 +160,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     private void ObjMoveback4(Collider collision, float speed = 3000.0f)
     {
         _PlayerAni._State = State.Dmg;
-        Vector3 pushdi = collision.transform.position - transform.position;
-        pushdi = -pushdi.normalized;
-        rb.AddForce(pushdi * speed, ForceMode.Impulse);
+       
     }
 
     //public void Back1(float a, float b, float c)
@@ -196,24 +183,32 @@ public class BackMove : MonoBehaviourPunCallbacks
     //    rb.AddForce(pushdi * 10.0f, ForceMode.Impulse);
     //}
 
-    //[PunRPC]
-    //public void BackRPC(float a, float b, float c)
-    //{
-    //    PhotonNetwork.Instantiate("Hit", new Vector3(a, b, c), Quaternion.Euler(0, 0, 0));
+    [PunRPC]
+    public void BackRPC(float a, float b, float c,float d, string e)
+    {
+        if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+        {
+            //collision.GetComponent<CastMove>().PV.RPC("ActiveOff", RpcTarget.All);
+            return;
+        }
+        if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+            return;
 
-    //    if (GetComponentInParent<Machinegun>().isMachineRay)
-    //        return;
 
-    //    if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
-    //        return;
+        int f;
+        f = Random.Range(0, 2);
+        Audio.clip = audioS[f];
+        Audio.Play();
 
-    //    _PlayerAni._State = State.Dmg;
-    //    rb.velocity = Vector3.zero;
-    //    Vector3 pushdi = new Vector3(a, b, c) - transform.position;
-    //    pushdi = -pushdi.normalized;
-    //    pushdi.y = 0f;
-    //    rb.AddForce(pushdi * 30.0f, ForceMode.Impulse);
-    //}
+        rb.velocity = Vector3.zero;
+        _PlayerAni._State = State.Dmg;
+        GetComponent<Move>().Piguck2 = e;
+
+        Vector3 pushdi = new Vector3(a, b, c) - transform.position;
+        pushdi = -pushdi.normalized;
+        pushdi.y = 0f;
+        rb.AddForce(pushdi * 1000.0f, ForceMode.Impulse);
+    }
 
     public void hitOn()
     {

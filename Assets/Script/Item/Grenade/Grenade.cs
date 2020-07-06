@@ -101,6 +101,7 @@ public class Grenade : MonoBehaviourPunCallbacks
                 if(Boom[i].activeInHierarchy==false)
                 {
                     PV.RPC("InitBoomRPC", RpcTarget.All, i);
+                    Boom[i].transform.SetParent(null);
                     break;
                 }
             }

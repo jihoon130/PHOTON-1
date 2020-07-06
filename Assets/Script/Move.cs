@@ -185,6 +185,20 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
     private void Update()
     {
+        if (Piguck2 != "")
+        {
+            GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
+
+            foreach (GameObject objecte in objects)
+            {
+                if (Piguck2 == objecte.GetComponent<Move>().PV.Owner.ToString())
+                {
+                    Piguck = objecte;
+                    Piguck2 = null;
+                }
+            }
+        }
+
         if (PV.IsMine)
         {
             if (!Timers.isStart)
@@ -299,18 +313,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            if (Piguck2 != "")
-            {
-                GameObject[] objects = GameObject.FindGameObjectsWithTag("Player");
-
-                foreach(GameObject objecte in objects)
-                {
-                    if(Piguck2 == objecte.GetComponent<Move>().PV.Owner.ToString())
-                    {
-                        Piguck = objecte;
-                    }
-                }
-            }
+            
         }
     }
 
