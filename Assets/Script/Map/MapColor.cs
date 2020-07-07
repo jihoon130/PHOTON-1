@@ -13,6 +13,8 @@ public struct MapData
 }
 public class MapColor : MonoBehaviourPunCallbacks
 {
+    private UIPopUp popUp;
+
     public Material[] RedMat;
     public Material[] ChangeMt;
     
@@ -25,6 +27,7 @@ public class MapColor : MonoBehaviourPunCallbacks
     {
         PV = GetComponent<PhotonView>();
         timer = GameObject.Find("TimerManger").GetComponent<Timer>();
+        popUp = GameObject.Find("Map_POPUP").GetComponent<UIPopUp>();
     }
     void Start()
     {
@@ -41,9 +44,14 @@ public class MapColor : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < Mapdata.Length; i++)
         {
-          
-            if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 3)
+
+            if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 5)
             {
+                popUp.MoveXValue(890);
+            }
+            else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 3)
+            {
+                
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
                     Mapdata[i].obj[z].materials = RedMat;
@@ -51,6 +59,7 @@ public class MapColor : MonoBehaviourPunCallbacks
             }
             else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second)
             {
+                popUp.MoveXValue(1300);
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
                     Mapdata[i].obj[z].materials = ChangeMt;

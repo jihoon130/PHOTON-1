@@ -13,6 +13,8 @@ public enum BulletMake
 }
 public class Create : MonoBehaviourPunCallbacks
 {
+    private AimS aims;
+
     public BulletMake _BulletMake = BulletMake.Attack;
 
     private BulletManager _BulletManager;
@@ -59,6 +61,7 @@ public class Create : MonoBehaviourPunCallbacks
         _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         Effect1.GetComponent<ParticleSystem>().Stop();
+        aims = GetComponentInChildren<AimS>();
     }
 
     private void ReloadUpdate()
@@ -115,11 +118,13 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
+                    aims.AimAttack(true);
                     GunEffectType = 2;
                     _Ani._State = State.Attack;
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
+                    aims.AimAttack(false);
                     isBullet = false;
                     GunEffectType = 0;
                 }

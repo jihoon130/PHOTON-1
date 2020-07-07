@@ -4,8 +4,11 @@ using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
 using UnityEngine.UI;
+
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
+    public string punID;
+
     public PhotonView PV;
     public PlayerAni _PlayerAni;
     public GameObject camera2;
@@ -64,6 +67,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject SpawnT;
     public Create Moogi;
     public Text SpawnText;
+    public GameObject kimsunwoo2;
+    public GameObject kimsunwoo3;
+    public Vector3 kimsunwoo7;
+    public bool kimsunwoo4;
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
@@ -87,7 +94,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
 
         Audio = GetComponentInChildren<AudioSource>();
-
+        kimsunwoo2 = GetComponentInChildren<TextMesh>().gameObject;
         
 
         ChatText = new Text[3];
@@ -313,7 +320,22 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            
+            if(!kimsunwoo4)
+            {
+                GameObject[] kimsunwoo5 = GameObject.FindGameObjectsWithTag("Player");
+
+                foreach(GameObject kimsunwoo6 in kimsunwoo5)
+                {
+                    if (kimsunwoo6.GetComponent<Move>().PV.IsMine)
+                    {
+                        kimsunwoo3 = kimsunwoo6;
+                        kimsunwoo4 = true;
+                    }
+                }
+            }
+
+
+            kimsunwoo2.transform.rotation = Quaternion.Slerp(kimsunwoo2.transform.rotation,kimsunwoo3.transform.rotation, Time.deltaTime * 50f);
         }
     }
 

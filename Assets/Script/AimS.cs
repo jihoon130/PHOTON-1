@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class AimS : MonoBehaviour
 {
+    private Animator AimAni;
+
     private Vector3 ScreenCenter;
     RaycastHit hit;
     Image sp;
@@ -16,11 +18,13 @@ public class AimS : MonoBehaviour
             gameObject.SetActive(false);
         sp = GetComponent<Image>();
         move = GetComponentInParent<Move>();
+        AimAni = GetComponent<Animator>();
     }
     void Start()
     {
         y = 400.0f;
         ScreenCenter = new Vector3(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+        AimAttack(false);
     }
 
     // Update is called once per frame
@@ -66,4 +70,5 @@ public class AimS : MonoBehaviour
             }
         }
     }
+    public void AimAttack(bool check) => AimAni.SetBool("Attack", check);
 }
