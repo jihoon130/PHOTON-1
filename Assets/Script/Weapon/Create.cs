@@ -119,7 +119,6 @@ public class Create : MonoBehaviourPunCallbacks
                     GetComponent<BulletManager>().MaxBulletCheck(1))
                     return;
 
-
                 SoundPlayer(6);
                 ReloadBulletImage.SetActive(true);
                 ReloadBG.SetActive(true);
@@ -151,6 +150,7 @@ public class Create : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetMouseButton(0) && !isReload)
                     {
+                        aims.AimAttack(true);
                         //if (_Ani._State == State.IdleRun)
                         {
                             CameraCol.instance.CameraJoom(2.5f);
@@ -162,6 +162,7 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
+                            aims.AimAttack(false);
                             SoundStop(3);
                             isBullet = false;
                             GetComponent<Machinegun>().MachineIdleChange();

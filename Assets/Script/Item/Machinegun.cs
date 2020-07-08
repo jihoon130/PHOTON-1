@@ -24,10 +24,12 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
     public Transform MachinegunStartPoint;
 
+    private AimS Aim;
     private float timer;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+        Aim = GetComponentInChildren<AimS>();
     }
     void Start()
     {
@@ -58,6 +60,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             if (Input.GetMouseButton(1))
             {
+                Aim.AimState(1);
+                
+
                 GetComponent<Create>().SoundPlayer(5);
                 GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
@@ -68,6 +73,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
                 //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
                 //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(false, true);
                 StartCoroutine("KeyTimer");
+
                 isMachinegun = false;
             }
             else
@@ -113,6 +119,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
     }
     public void MachineDeleteReset()
     {
+        Aim.AimState(0); 
         isMachinegun = false;
         isMachineRay = false;
         isMachineAttack = false;

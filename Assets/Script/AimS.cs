@@ -10,7 +10,9 @@ public class AimS : MonoBehaviour
     RaycastHit hit;
     Image sp;
     Move move;
+    private Create _Create;
     public float y;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -18,6 +20,7 @@ public class AimS : MonoBehaviour
             gameObject.SetActive(false);
         sp = GetComponent<Image>();
         move = GetComponentInParent<Move>();
+        _Create = GetComponentInParent<Create>();
         AimAni = GetComponent<Animator>();
     }
     void Start()
@@ -51,13 +54,12 @@ public class AimS : MonoBehaviour
         //transform.position = new Vector3(transform.position.x, y, transform.position.z);
         //ScreenCenter.y = y;
 
-        if(move.dieOk == true)
+        if (move.dieOk == true)
         {
             sp.color = new Color(255, 255, 255, 0);
             return;
         }
-
-       
     }
     public void AimAttack(bool check) => AimAni.SetBool("Attack", check);
+    public void AimState(int type) => AimAni.SetInteger("State", type);
 }
