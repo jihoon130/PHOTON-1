@@ -24,12 +24,14 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
     public Transform MachinegunStartPoint;
 
-    private AimS Aim;
     private float timer;
+
+
+    private Command _Command;
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-        Aim = GetComponentInChildren<AimS>();
+        _Command = GetComponent<Command>();
     }
     void Start()
     {
@@ -60,11 +62,10 @@ public class Machinegun : MonoBehaviourPunCallbacks
         {
             if (Input.GetMouseButton(1))
             {
-                Aim.AimState(1);
-                
+                _Command.Aim.AimState(1);
 
                 GetComponent<Create>().SoundPlayer(5);
-                GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Machinegun;
+                _Command.Bulletmanager._BulletMode = BulletManager.BulletMode.Machinegun;
                 GetComponent<Create>()._BulletMake = BulletMake.Machinegun;
 
                 PV.RPC("GunObjChangeRPC", RpcTarget.All, false, true);
@@ -88,13 +89,13 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
         if (isMachineAttack || isMachineRay)
         {
-            if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0 &&
-                GetComponent<BulletManager>().BulletList[1].MaxBullet <= 0)
+            if (_Command.Bulletmanager.BulletList[1].MinBullet <= 0 &&
+                _Command.Bulletmanager.BulletList[1].MaxBullet <= 0)
             {
                 MachineDeleteReset();
             }
-            else if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0 &&
-                     GetComponent<BulletManager>().BulletList[1].MaxBullet > 0)
+            else if (_Command.Bulletmanager.BulletList[1].MinBullet <= 0 &&
+                     _Command.Bulletmanager.BulletList[1].MaxBullet > 0)
             {
                 MachineIdleChange();
             }
@@ -119,7 +120,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
     }
     public void MachineDeleteReset()
     {
-        Aim.AimState(0); 
         isMachinegun = false;
         isMachineRay = false;
         isMachineAttack = false;
@@ -130,7 +130,8 @@ public class Machinegun : MonoBehaviourPunCallbacks
         PV.RPC("GunObjChangeRPC", RpcTarget.All, true, false);
         GetComponent<PlayerAni>()._State = State.IdleRun;
         GetComponent<Create>()._BulletMake = BulletMake.Attack;
-        GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Shot;
+        _Command.Bulletmanager._BulletMode = BulletManager.BulletMode.Shot;
+        _Command.Aim.AimState(0);
         ResetArray();
     }
 
@@ -161,7 +162,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
     }
     private void RayCastBullet()
     {
-        if (GetComponent<BulletManager>().BulletList[1].MinBullet <= 0)
+        if (_Command.Bulletmanager.BulletList[1].MinBullet <= 0)
         {
             GetComponent<Create>().SoundStop(3);
             return;
@@ -183,13 +184,13 @@ public class Machinegun : MonoBehaviourPunCallbacks
     {
         if(collision.gameObject.tag == "Machiengun" && PV.IsMine)
         {
-            if (GetComponent<BulletManager>().isGetItemCheck())
+            if (_Command.Bulletmanager.isGetItemCheck())
                 return;
 
             GetComponent<Create>().SoundPlayer(4);
             isMachinegun = true;
             GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(true);
-            GetComponent<BulletManager>().BulletListAdd(1, 20, 100);
+            _Command.Bulletmanager.BulletListAdd(1, 20, 100);
             collision.gameObject.GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }
