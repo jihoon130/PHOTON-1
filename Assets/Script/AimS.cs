@@ -40,16 +40,16 @@ public class AimS : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        if (move.dieOk == false)
-        {
-            if (y <= 550f && y >= 336f)
-                y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+        //if (move.dieOk == false)
+        //{
+        //    if (y <= 550f && y >= 336f)
+        //        y += Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
 
-            y = Mathf.Clamp(y, 336f, 550f);
-        }
+        //    y = Mathf.Clamp(y, 336f, 550f);
+        //}
 
-        transform.position = new Vector3(transform.position.x, y, transform.position.z);
-        ScreenCenter.y = y;
+        //transform.position = new Vector3(transform.position.x, y, transform.position.z);
+        //ScreenCenter.y = y;
 
         if(move.dieOk == true)
         {
@@ -57,18 +57,7 @@ public class AimS : MonoBehaviour
             return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(ScreenCenter);
-        if(Physics.Raycast(ray,out hit))
-        {
-            if (hit.collider.name == "Player(Clone)" && !hit.collider.gameObject.GetComponent<Move>().PV.IsMine)
-            {
-                sp.color = new Color(255, 0, 0);
-            }
-            else
-            {
-                sp.color = new Color(255, 255, 255);
-            }
-        }
+       
     }
     public void AimAttack(bool check) => AimAni.SetBool("Attack", check);
 }

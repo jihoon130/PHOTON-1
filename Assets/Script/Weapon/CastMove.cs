@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
+using DG.Tweening;
 public class CastMove : MonoBehaviourPunCallbacks
 {
     public enum BulletMode { Attack, Machinegun, Grenade}
@@ -19,11 +19,12 @@ public class CastMove : MonoBehaviourPunCallbacks
     public GameObject hit;
     public float bss=1000f;
     public GameObject other1;
+    public Vector3 sd;
     private void OnEnable()
     {
         transform.SetParent(null);
+        transform.DOMove(sd, 0.5f);
         StartCoroutine("DirCheck");
-
     }
 
     private void Awake()
@@ -43,16 +44,19 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     private void Update()
     {
+     
     }
-
+    private void Start()
+    {
+    }
     private void FixedUpdate()
     {
 
 
-        if (_BulletMode == BulletMode.Grenade)
-            transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
-        else
-            transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
+        //if (_BulletMode == BulletMode.Grenade)
+        //    transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
+        //else
+        //    transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
     }
 
     void FixedUpdate2()
@@ -70,7 +74,7 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance")
+        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance" || other.gameObject.layer == 11)
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;

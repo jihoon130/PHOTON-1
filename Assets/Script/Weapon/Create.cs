@@ -36,6 +36,7 @@ public class Create : MonoBehaviourPunCallbacks
     public float AimY;
     private PlayerAni _Ani;
     public GameObject Effect1;
+    public Image sp;
     private float fTime;
     public GameObject[] DefaultBullet;
     public GameObject[] MachinegunBulletM;
@@ -44,6 +45,7 @@ public class Create : MonoBehaviourPunCallbacks
     public GameObject ReloadBulletImage; // 리로드출력 이미지
     public GameObject ReloadBG; // 재장전 백그라운드
     public Image ReloadImg; // 재장전 게이지
+    RaycastHit hit;
 
     // Sniper
 
@@ -85,6 +87,21 @@ public class Create : MonoBehaviourPunCallbacks
     {
         if (!move.PV.IsMine)
             return;
+
+        
+
+        if (Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward,out hit,200f, (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Ground"))))
+        {
+            if(hit.collider.CompareTag("Player"))
+            {
+                sp.color = new Color(255, 0, 0);
+            }
+            else
+            {
+                sp.color = new Color(255, 255, 255);
+            }
+        }
+    
 
         if (move.dieOk == false)
         {
@@ -226,16 +243,20 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
+        if (!hit.collider)
+            return;
+
         GetComponent<BulletManager>().BulletUse(type);
         for (int i = count; i < DefaultBullet.Length; i++)
         {
             if(!DefaultBullet[i].activeSelf)
             {
+                DefaultBullet[i].GetComponent<CastMove>().sd = hit.point;
                 PV.RPC("DefaultBulletOnRPC", RpcTarget.All, i);
                 DefaultBullet[i].transform.position = vStartPos;
-                DefaultBullet[i].transform.eulerAngles = vStartRot;
+                // DefaultBullet[i].transform.eulerAngles = vStartRot;
                 DefaultBullet[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
-                DefaultBullet[i].GetComponent<CastMove>().Dir = BulletDir;
+                DefaultBullet[i].GetComponent<CastMove>().Dir = 4.0f;
                 count++;
                 if (count == DefaultBullet.Length)
                     count = 0;
@@ -248,12 +269,15 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void InstantiateObject2(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
-        
+        if (!hit.collider)
+            return;
+
         GetComponent<BulletManager>().BulletUse(type);
         for (int i = count1; i < MachinegunBulletM.Length; i++)
         {
             if (!MachinegunBulletM[i].activeSelf)
             {
+                MachinegunBulletM[i].GetComponent<CastMove>().sd = hit.point;
                 PV.RPC("MachinegunBulletOnRPC", RpcTarget.All, i);
                 MachinegunBulletM[i].transform.position = vStartPos;
                 MachinegunBulletM[i].transform.eulerAngles = vStartRot;
