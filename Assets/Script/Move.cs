@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
 using UnityEngine.UI;
-
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public string punID;
