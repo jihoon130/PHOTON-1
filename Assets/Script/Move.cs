@@ -251,7 +251,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 float time = Canvas1.transform.GetChild(7).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
                 if (time <= 0.0f)
                 {
-                    repo = GameObject.Find("MachineGunSpawn").GetComponent<Respawn>().RespawnT;
+                    repo = RespawnG[Random.Range(0,4)].transform.position;
+                    repo.y = 4.896467f;
                     ResetPos();
                 }
             }

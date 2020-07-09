@@ -42,26 +42,6 @@ public class CastMove : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Update()
-    {
-     
-    }
-    private void Start()
-    {
-    }
-    private void FixedUpdate()
-    {
-
-
-        //if (_BulletMode == BulletMode.Grenade)
-        //    transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
-        //else
-        //    transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
-    }
-
-    void FixedUpdate2()
-    {
-    }
 
     IEnumerator DirCheck()
     {
