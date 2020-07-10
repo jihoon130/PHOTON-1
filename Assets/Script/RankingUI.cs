@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class RankingUI : MonoBehaviour
 {
-  public  PlayerDB pd;
-    private void OnEnable()
-    {
-        pd.Ranking();
-    }
+  //public  PlayerDB pd;
+  //  private void OnEnable()
+  //  {
+  //      pd.Ranking();
+  //  }
 }
