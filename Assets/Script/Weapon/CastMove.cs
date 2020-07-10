@@ -24,7 +24,6 @@ public class CastMove : MonoBehaviourPunCallbacks
     {
         transform.SetParent(null);
         transform.DOMove(sd, 0.5f);
-        StartCoroutine("DirCheck");
     }
 
     private void Awake()
@@ -42,28 +41,32 @@ public class CastMove : MonoBehaviourPunCallbacks
         }
     }
 
-
-    IEnumerator DirCheck()
+    private void Update()
     {
-        if (_BulletMode == BulletMode.Grenade)
-            StopCoroutine("DirCheck");
-
-        yield return new WaitForSeconds(Dir);
-        PV.RPC("ActiveOff", RpcTarget.All);
+       if(transform.position == sd)
+        {
+            OFF();
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance" || other.gameObject.layer == 11)
+        if (!PV.IsMine)
+            return;
+
+        if (other.tag == "Ground" || other.tag == "Wall" || other.tag =="Fance" || other.gameObject.layer==11)
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;
 
-            PV.RPC("ActiveOff", RpcTarget.All);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
             if (other.tag == "Fance")
                 other.GetComponent<FenceObj>().DestroyRPC();
+
+            OFF();
+            transform.SetParent(Parent.transform);
+            this.gameObject.SetActive(false);
         }
 
         if(other.tag == "Player")
@@ -77,16 +80,17 @@ public class CastMove : MonoBehaviourPunCallbacks
                 transform.position.z,
                 bss,
                 Parent.GetComponent<Move>().PV.Owner.ToString());
-            PV.RPC("ActiveOff", RpcTarget.All);
+            OFF();
             //other.GetComponent<BackMove>().ObjMoveback2(this.gameObject, 1000f);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
+            transform.SetParent(Parent.transform);
+            this.gameObject.SetActive(false);
         }
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        
-    }
+
+
+
 
     public void HitEffect(float a, float b, float c)
     {
@@ -114,13 +118,14 @@ public class CastMove : MonoBehaviourPunCallbacks
     [PunRPC]
     void ActiveOff()
     {
+        HitEffect(transform.position.x, transform.position.y, transform.position.z);
         transform.SetParent(Parent.transform);
-        gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
-
-    public void OFF()
+    void OFF()
     {
         PV.RPC("ActiveOff", RpcTarget.All);
     }
+
 }

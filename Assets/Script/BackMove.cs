@@ -106,7 +106,6 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
         rb.AddForce(obj.transform.forward * speed, ForceMode.Impulse);
-        obj.GetComponent<CastMove>().PV.RPC("ActiveOff", RpcTarget.All);
     }
 
     public void ObjMoveback5(Collider collision, float speed = 1000.0f)
