@@ -9,7 +9,7 @@ using MongoDB.Driver;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
-
+using UnityEngine.UI;
 
 
 public class entity
@@ -25,8 +25,9 @@ public class PlayerDB : MonoBehaviour
     private MongoDatabase db;
     private MongoCollection Players;
     public string ip;
-    public List<String> si;
-    public List<string> so;
+    public Text RakingText;
+    public Dictionary<string, int> oo = new Dictionary<string, int>();
+    public int UserScore;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +39,8 @@ public class PlayerDB : MonoBehaviour
         Players = db.GetCollection<entity>("joljak");
         isOK();
         AddPlayer();
-        UpdateDB(ip, 2000);
+        InvokeRepeating("GetScore", 1.0f, 0.1f);
+        Ranking();
     }
 
     public void InsertDate(string cot, int dis)
@@ -50,15 +52,52 @@ public class PlayerDB : MonoBehaviour
 
     public void AddPlayer()
     {
-        string l = si.Find(player => player == ip);
-        if(l == null)
+        int Score2;
+        if(!oo.TryGetValue(ip,out Score2))
         {
-            InsertDate(ip, 1000);
-            isOK();
+                InsertDate(ip, 1000);
+                isOK();
         }
-
     }
-    public static string GetIP(ADDRESSFAM Addfam)
+
+    public void GetScore()
+    {
+        int Score2;
+        if (oo.TryGetValue(ip, out Score2))
+        {
+                UserScore = Score2;
+                CancelInvoke("GetScore");
+        }
+    }
+
+    public void Ranking()
+    {
+        int count = 1;
+        oo = oo.OrderBy(node => node.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        foreach (var d in oo)
+        {
+            
+            var sl = Players.FindAllAs<BsonDocument>();
+            foreach (var v in sl)
+            {
+                BsonValue key;
+                if (v.TryGetValue("ID", out key))
+                {
+                    BsonValue key1;
+                    if (v.TryGetValue("NickName", out key1))
+                    {
+                        if(key.ToString() == d.Key)
+                        {
+                            RakingText.text += count +  "등"+"\t\t\t"+ key1.ToString() + "\t\t\t"+ d.Value + "\n";
+                            count++;
+                        }
+                    }
+                }
+            }
+        }
+     }
+
+        public static string GetIP(ADDRESSFAM Addfam)
     {
         if (Addfam == ADDRESSFAM.IPv6 && !Socket.OSSupportsIPv6)
         {
@@ -114,15 +153,11 @@ public class PlayerDB : MonoBehaviour
             BsonValue key;
             if (v.TryGetValue("ID", out key))
             {
-                si.Add(key.ToString());
-            }
-        }
-        foreach (var v in sl)
-        {
-            BsonValue key;
-            if (v.TryGetValue("Score", out key))
-            {
-                so.Add(key.ToString());
+                BsonValue key1;
+                if (v.TryGetValue("Score", out key1))
+                {
+                    oo.Add(key.ToString(), int.Parse(key1.ToString()));
+                }
             }
         }
     }
