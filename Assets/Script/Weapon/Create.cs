@@ -256,7 +256,6 @@ public class Create : MonoBehaviourPunCallbacks
                 DefaultBullet[i].GetComponent<CastMove>().sd = hit.point;
                 DefaultBullet[i].transform.position = vStartPos;
                 PV.RPC("DefaultBulletOnRPC", RpcTarget.All, i);
-                // DefaultBullet[i].transform.eulerAngles = vStartRot;
                 DefaultBullet[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
                 count++;
                 if (count == DefaultBullet.Length)
@@ -265,8 +264,6 @@ public class Create : MonoBehaviourPunCallbacks
             }
         }
     }
-
-
         
 
     private void InstantiateObject2(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
@@ -297,6 +294,7 @@ public class Create : MonoBehaviourPunCallbacks
     void DefaultBulletOnRPC(int i)
     {
         DefaultBullet[i].SetActive(true);
+
     }
 
     [PunRPC]

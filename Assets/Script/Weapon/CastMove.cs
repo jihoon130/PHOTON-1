@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using DG.Tweening;
-public class CastMove : MonoBehaviourPunCallbacks
+public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
 {
     public enum BulletMode { Attack, Machinegun, Grenade}
     public BulletMode _BulletMode = BulletMode.Attack;
@@ -20,9 +20,11 @@ public class CastMove : MonoBehaviourPunCallbacks
     public float bss=1000f;
     public GameObject other1;
     public Vector3 sd;
+    public Vector3 currPos;
     private void OnEnable()
     {
         transform.SetParent(null);
+        if(PV.IsMine)
         transform.DOMove(sd, 0.5f);
     }
 
@@ -47,6 +49,9 @@ public class CastMove : MonoBehaviourPunCallbacks
         {
             OFF();
         }
+
+        if (!PV.IsMine)
+            transform.position = currPos;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -89,7 +94,19 @@ public class CastMove : MonoBehaviourPunCallbacks
     }
 
 
-
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        //통신을 보내는 
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        //클론이 통신을 받는 
+        else
+        {
+            currPos = (Vector3)stream.ReceiveNext();
+        }
+    }
 
 
     public void HitEffect(float a, float b, float c)
