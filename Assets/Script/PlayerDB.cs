@@ -25,6 +25,7 @@ public class PlayerDB : MonoBehaviour
     private MongoDatabase db;
     private MongoCollection Players;
     public string ip;
+    public Text[] TopPlayer;
     public Text RakingText;
     public Dictionary<string, int> oo = new Dictionary<string, int>();
     public int UserScore;
@@ -40,7 +41,6 @@ public class PlayerDB : MonoBehaviour
         isOK();
         AddPlayer();
         InvokeRepeating("GetScore", 1.0f, 0.1f);
-        Ranking();
     }
 
     public void InsertDate(string cot, int dis)
@@ -73,7 +73,7 @@ public class PlayerDB : MonoBehaviour
     public void Ranking()
     {
         int count = 1;
-        oo = oo.OrderBy(node => node.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        oo = oo.OrderByDescending(node => node.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
         foreach (var d in oo)
         {
             
@@ -88,8 +88,26 @@ public class PlayerDB : MonoBehaviour
                     {
                         if(key.ToString() == d.Key)
                         {
-                            RakingText.text += count +  "등"+"\t\t\t"+ key1.ToString() + "\t\t\t"+ d.Value + "\n";
-                            count++;
+                            switch(count)
+                            {
+                                case 1:
+                                TopPlayer[0].text = key1.ToString() + "\n" + d.Value;
+                                    count++;
+                                    break;
+                                case 2:
+                                TopPlayer[2].text = key1.ToString() + "\n" + d.Value;
+                                    count++;
+                                    break;
+                                case 3:
+                                    TopPlayer[1].text = key1.ToString()+ "\n"+ d.Value ;
+                                    count++;
+                                    break;
+                                default:
+                                    RakingText.text += count + "등" + "\t\t\t" + key1.ToString() + "\t\t\t" + d.Value + "\n";
+                                    count++;
+                                    break;
+
+                            }
                         }
                     }
                 }
@@ -147,6 +165,11 @@ public class PlayerDB : MonoBehaviour
 
     public void isOK()
     {
+        foreach(var key in oo.Keys.ToList())
+        {
+            oo.Remove(key);
+        }
+
         var sl = Players.FindAllAs<BsonDocument>();
         foreach (var v in sl)
         {
