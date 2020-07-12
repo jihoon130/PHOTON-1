@@ -128,6 +128,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void SoundPlayer(int type)
     {
+        Debug.Log("호출 -> " + type);
         Audio.clip = audios[type];
         Audio.Play();
     }
