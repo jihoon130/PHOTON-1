@@ -14,8 +14,6 @@ public class Timer : MonoBehaviourPunCallbacks
 
     public int Minute { get; set; }
     public int Second { get; set; }
-    
-    public int ItemMinute { get; set; }
 
 
     bool EndCheck=false;
@@ -131,10 +129,6 @@ public class Timer : MonoBehaviourPunCallbacks
     }
     void TimerCheck()
     {
-        ItemMinute++;
-        if (ItemMinute > 6)
-            ItemMinute = 0;
-
         if (Minute <= 0 && Second <= 0)
         {
             Minute = 0;

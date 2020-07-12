@@ -13,7 +13,11 @@ public enum BulletMake
 }
 public class Create : MonoBehaviourPunCallbacks
 {
+    private AimS aims;
+
     public BulletMake _BulletMake = BulletMake.Attack;
+
+    private BulletManager _BulletManager;
 
     public PhotonView PV;
     public float BulletSpeed = 50f;
@@ -32,7 +36,6 @@ public class Create : MonoBehaviourPunCallbacks
     public float AimY;
     private PlayerAni _Ani;
     public GameObject Effect1;
-    public Image sp;
     private float fTime;
     public GameObject[] DefaultBullet;
     public GameObject[] MachinegunBulletM;
@@ -41,7 +44,6 @@ public class Create : MonoBehaviourPunCallbacks
     public GameObject ReloadBulletImage; // 리로드출력 이미지
     public GameObject ReloadBG; // 재장전 백그라운드
     public Image ReloadImg; // 재장전 게이지
-    RaycastHit hit;
 
     // Sniper
 
@@ -50,19 +52,16 @@ public class Create : MonoBehaviourPunCallbacks
     private bool isBullet;
 
     public float testAim;
-
-    private Command _Command;
-
     void Awake()
     {
         PV = GetComponent<PhotonView>();
         move = GetComponent<Move>();
         Audio = GetComponentInChildren<AudioSource>();
         _Ani = GetComponent<PlayerAni>();
+        _BulletManager = GetComponent<BulletManager>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         Effect1.GetComponent<ParticleSystem>().Stop();
-
-        _Command = GetComponent<Command>();
+        aims = GetComponentInChildren<AimS>();
     }
 
     private void ReloadUpdate()
@@ -74,9 +73,8 @@ public class Create : MonoBehaviourPunCallbacks
 
         if(ReloadImg.fillAmount >= 1.0f)
         {
-            _Command.Aim.AimState(1);
             int type = (int)_BulletMake - 1;
-            _Command.Bulletmanager.BulletAdd(type);
+            GetComponent<BulletManager>().BulletAdd(type);
             ReloadBulletImage.SetActive(false);
             ReloadBG.SetActive(false);
             isReload = false;
@@ -88,19 +86,6 @@ public class Create : MonoBehaviourPunCallbacks
         if (!move.PV.IsMine)
             return;
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward,out hit,200f, (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Ground"))))
-        {
-            if(hit.collider.CompareTag("Player"))
-            {
-                sp.color = new Color(255, 0, 0);
-            }
-            else
-            {
-                sp.color = new Color(255, 255, 255);
-            }
-        }
-    
-
         if (move.dieOk == false)
         {
             if (AimY <= 110f && AimY >= -110f)
@@ -111,13 +96,13 @@ public class Create : MonoBehaviourPunCallbacks
 
         if (move.StopT <= 0.0f)
         {
-            if (Input.GetKeyDown(KeyCode.R) && _Command.Machineguns.isMachineAttack && !isReload)
+            if (Input.GetKeyDown(KeyCode.R) && GetComponent<Machinegun>().isMachineAttack && !isReload)
             {
-                if (_Command.Bulletmanager.BulletList[1].MinBullet >= 20 ||
-                    _Command.Bulletmanager.MaxBulletCheck(1))
+                if (GetComponent<BulletManager>().BulletList[1].MinBullet >= 20 ||
+                    GetComponent<BulletManager>().MaxBulletCheck(1))
                     return;
 
-                _Command.Aim.AimState(2);
+
                 SoundPlayer(6);
                 ReloadBulletImage.SetActive(true);
                 ReloadBG.SetActive(true);
@@ -133,26 +118,25 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
-                    _Command.Aim.AimAttack(true);
+                    aims.AimAttack(true);
                     GunEffectType = 2;
                     _Ani._State = State.Attack;
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    _Command.Aim.AimAttack(false);
+                    aims.AimAttack(false);
                     isBullet = false;
                     GunEffectType = 0;
                 }
 
 
-                if (_Command.Machineguns.isMachineAttack )
+                if (GetComponent<Machinegun>().isMachineAttack )
                 {
                     if (Input.GetMouseButton(0) && !isReload)
                     {
-                        _Command.Aim.AimAttack(true);
                         //if (_Ani._State == State.IdleRun)
                         {
-                            CameraCol.instance.CameraJoom(1.5f);
+                            CameraCol.instance.CameraJoom(2.5f);
                             GameObject.Find("MachinegunObject").GetComponent<MachinegunOBJ>().AttackChang(true);
                             _Ani._State = State.Machinegun;
                         }
@@ -161,10 +145,9 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
-                            _Command.Aim.AimAttack(false);
                             SoundStop(3);
                             isBullet = false;
-                            _Command.Machineguns.MachineIdleChange();
+                            GetComponent<Machinegun>().MachineIdleChange();
                         }
                     }
                 }
@@ -221,7 +204,7 @@ public class Create : MonoBehaviourPunCallbacks
         Audio.Play();
 
         int type = (int)_BulletMake - 1;
-        if (_Command.Bulletmanager.BulletList[type].isBullet)
+        if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             if (_BulletMake == BulletMake.Attack)
                 InstantiateObject("CastObj_1", StartTf.transform.position, RotVector(), type);
@@ -233,7 +216,7 @@ public class Create : MonoBehaviourPunCallbacks
     public void BulletMachinegunCreate()
     {
         int type = (int)_BulletMake - 1;
-        if (_Command.Bulletmanager.BulletList[type].isBullet)
+        if (GetComponent<BulletManager>().BulletList[type].isBullet)
         {
             SoundPlayer(3);
 
@@ -243,18 +226,16 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void InstantiateObject(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
-        if (!hit.collider)
-            return;
-
-        _Command.Bulletmanager.BulletUse(type);
+        GetComponent<BulletManager>().BulletUse(type);
         for (int i = count; i < DefaultBullet.Length; i++)
         {
             if(!DefaultBullet[i].activeSelf)
             {
-                DefaultBullet[i].GetComponent<CastMove>().sd = hit.point;
-                DefaultBullet[i].transform.position = vStartPos;
                 PV.RPC("DefaultBulletOnRPC", RpcTarget.All, i);
+                DefaultBullet[i].transform.position = vStartPos;
+                DefaultBullet[i].transform.eulerAngles = vStartRot;
                 DefaultBullet[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
+                DefaultBullet[i].GetComponent<CastMove>().Dir = BulletDir;
                 count++;
                 if (count == DefaultBullet.Length)
                     count = 0;
@@ -262,21 +243,19 @@ public class Create : MonoBehaviourPunCallbacks
             }
         }
     }
-        
+
+
 
     private void InstantiateObject2(string objname, Vector3 vStartPos, Vector3 vStartRot, int type)
     {
-        if (!hit.collider)
-            return;
-
-        _Command.Bulletmanager.BulletUse(type);
+        
+        GetComponent<BulletManager>().BulletUse(type);
         for (int i = count1; i < MachinegunBulletM.Length; i++)
         {
             if (!MachinegunBulletM[i].activeSelf)
             {
-                MachinegunBulletM[i].GetComponent<CastMove>().sd = hit.point;
-                MachinegunBulletM[i].transform.position = vStartPos;
                 PV.RPC("MachinegunBulletOnRPC", RpcTarget.All, i);
+                MachinegunBulletM[i].transform.position = vStartPos;
                 MachinegunBulletM[i].transform.eulerAngles = vStartRot;
                 MachinegunBulletM[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
                 MachinegunBulletM[i].GetComponent<CastMove>().Dir = 1f;
@@ -292,7 +271,6 @@ public class Create : MonoBehaviourPunCallbacks
     void DefaultBulletOnRPC(int i)
     {
         DefaultBullet[i].SetActive(true);
-
     }
 
     [PunRPC]
@@ -332,4 +310,5 @@ public class Create : MonoBehaviourPunCallbacks
         if (Audio.clip == audios[type])
             Audio.Stop();
     }
+
 }

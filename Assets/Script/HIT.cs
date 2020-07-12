@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+
 public class HIT : MonoBehaviourPunCallbacks
 {
     private PhotonView PV;

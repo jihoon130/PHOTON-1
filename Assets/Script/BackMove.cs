@@ -106,9 +106,21 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
         rb.AddForce(obj.transform.forward * speed, ForceMode.Impulse);
+        obj.GetComponent<CastMove>().PV.RPC("ActiveOff", RpcTarget.All);
     }
+
     public void ObjMoveback5(Collider collision, float speed = 1000.0f)
     {
+        //PhotonNetwork.Instantiate("Hit", collision.transform.position, Quaternion.identity);
+        //if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
+        //{
+        //    Destroy(collision.gameObject);
+        //    return;
+        //}
+        //if (GetComponentInParent<Move>()._PlayerAni._State == State.Dash)
+        //    return;
+
+
         int a;
         a = Random.Range(0, 2);
         Audio.clip = audioS[a];
@@ -116,10 +128,9 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
 
-        if(PV.Owner.ToString() != collision.GetComponent<GrenadeEffect>().PV.Owner.ToString())
-        GetComponent<Move>().Piguck2 = collision.GetComponent<GrenadeEffect>().PV.Owner.ToString();
-
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
+
+        //Destroy(collision.gameObject);
     }
 
     private void ObjMoveback3(Collision collision, float speed = 2000.0f)
@@ -191,14 +202,12 @@ public class BackMove : MonoBehaviourPunCallbacks
 
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
-
-        if(PV.Owner.ToString() != e)
         GetComponent<Move>().Piguck2 = e;
 
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
-        rb.AddForce(pushdi * d, ForceMode.Impulse);
+        rb.AddForce(pushdi * 1000.0f, ForceMode.Impulse);
     }
 
     public void hitOn()

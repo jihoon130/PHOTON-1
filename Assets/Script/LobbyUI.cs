@@ -16,7 +16,6 @@ public class LobbyUI : MonoBehaviour
     public GameObject[] Baegung1;
     public Sprite[] Hyogwa2;
     public GameObject[] Baegung2;
-    public GameObject Ranking;
     LobbyNetwork LbNet;
     bool b=true;
     bool a = true;
@@ -166,10 +165,6 @@ public class LobbyUI : MonoBehaviour
         Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
     }
 
-    public void RakingOFF()
-    {
-        Ranking.SetActive(false);
-    }
 
     public void baegung1()
     {

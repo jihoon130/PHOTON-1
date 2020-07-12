@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using DG.Tweening;
-public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
+
+public class CastMove : MonoBehaviourPunCallbacks
 {
     public enum BulletMode { Attack, Machinegun, Grenade}
     public BulletMode _BulletMode = BulletMode.Attack;
@@ -19,13 +19,11 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject hit;
     public float bss=1000f;
     public GameObject other1;
-    public Vector3 sd;
-    public Vector3 currPos;
     private void OnEnable()
     {
         transform.SetParent(null);
-        if(PV.IsMine)
-        transform.DOMove(sd, 0.5f);
+        StartCoroutine("DirCheck");
+
     }
 
     private void Awake()
@@ -37,7 +35,7 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
         {
             bss = 1000f;
         }
-        else if (CompareTag("SpeedBullet"))
+        else if(CompareTag("SpeedBullet"))
         {
             bss = 2000f;
         }
@@ -45,33 +43,43 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Update()
     {
-       if(transform.position == sd)
-        {
-            OFF();
-        }
+    }
 
-        if (!PV.IsMine)
-            transform.position = currPos;
+    private void FixedUpdate()
+    {
+
+
+        if (_BulletMode == BulletMode.Grenade)
+            transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
+        else
+            transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
+    }
+
+    void FixedUpdate2()
+    {
+    }
+
+    IEnumerator DirCheck()
+    {
+        if (_BulletMode == BulletMode.Grenade)
+            StopCoroutine("DirCheck");
+
+        yield return new WaitForSeconds(Dir);
+        PV.RPC("ActiveOff", RpcTarget.All);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!PV.IsMine)
-            return;
-
-        if (other.tag == "Ground" || other.tag == "Wall" || other.tag =="Fance" || other.gameObject.layer==11)
+        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance")
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;
 
+            PV.RPC("ActiveOff", RpcTarget.All);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
             if (other.tag == "Fance")
                 other.GetComponent<FenceObj>().DestroyRPC();
-
-            OFF();
-            transform.SetParent(Parent.transform);
-            this.gameObject.SetActive(false);
         }
 
         if(other.tag == "Player")
@@ -85,29 +93,16 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
                 transform.position.z,
                 bss,
                 Parent.GetComponent<Move>().PV.Owner.ToString());
-            OFF();
+            PV.RPC("ActiveOff", RpcTarget.All);
             //other.GetComponent<BackMove>().ObjMoveback2(this.gameObject, 1000f);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
-            transform.SetParent(Parent.transform);
-            this.gameObject.SetActive(false);
         }
     }
 
-
-    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    private void OnCollisionEnter(Collision other)
     {
-        //통신을 보내는 
-        if (stream.IsWriting)
-        {
-            stream.SendNext(transform.position);
-        }
-        //클론이 통신을 받는 
-        else
-        {
-            currPos = (Vector3)stream.ReceiveNext();
-        }
+        
     }
-
 
     public void HitEffect(float a, float b, float c)
     {
@@ -135,14 +130,13 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void ActiveOff()
     {
-        HitEffect(transform.position.x, transform.position.y, transform.position.z);
         transform.SetParent(Parent.transform);
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
-    void OFF()
+
+    public void OFF()
     {
         PV.RPC("ActiveOff", RpcTarget.All);
     }
-
 }

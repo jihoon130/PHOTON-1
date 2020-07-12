@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
 
     Transform traf = null;
-    
+
     // 속도
     public float moveSpeed = 0.3f;
     public float rotateSpeed = 0.3f;

@@ -32,20 +32,15 @@ public class Grenade : MonoBehaviourPunCallbacks
         if (!PV.IsMine)
             return;
 
-        if (isGreande)
+        if (Input.GetMouseButton(1) && isGreande)
         {
-            float InputMouseWheel = Input.GetAxis("Mouse ScrollWheel");
-
-            if (InputMouseWheel != 0)
-            {
-                GetComponent<Create>().SoundPlayer(5);
-                GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Grenade;
-                GetComponent<Create>()._BulletMake = BulletMake.Grenade;
-                PV.RPC("ObjChangeRPC", RpcTarget.All, false, true);
-                GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(false, true);
-                isGreandeAttack = true;
-                isGreande = false;
-            }
+            GetComponent<Create>().SoundPlayer(5);
+            GetComponent<BulletManager>()._BulletMode = BulletManager.BulletMode.Grenade;
+            GetComponent<Create>()._BulletMake = BulletMake.Grenade;
+            PV.RPC("ObjChangeRPC", RpcTarget.All, false, true);
+            GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(false, true);
+            isGreandeAttack = true;
+            isGreande = false;
         }
 
         if (GetComponent<BulletManager>().BulletList[2].MinBullet <= 0)
@@ -62,21 +57,12 @@ public class Grenade : MonoBehaviourPunCallbacks
             {
                 if (GetComponent<BulletManager>().BulletList[2].MinBullet < 0)
                     return;
-
+                
                 GetComponent<PlayerAni>()._State = State.Greande;
 
                 isBullet = false;
             }
         }
-    }
-
-    public void PlayerDie()
-    {
-        if (!isGreande)
-            return;
-
-        isGreande = false;
-        GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false, 1);
     }
 
     public bool isItemCheck()

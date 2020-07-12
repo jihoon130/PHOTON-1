@@ -24,15 +24,15 @@ public class MachineGunCreate : MonoBehaviourPunCallbacks
         if (!PV.IsMine)
             return;
 
-        //if (timer.TimerCheck(2, 55) || timer.TimerCheck(2, 25) || timer.TimerCheck(2, 10) ||
-        //    timer.TimerCheck(1, 50) || timer.TimerCheck(1, 30) || timer.TimerCheck(1, 1) ||
-        //    timer.TimerCheck(0, 45) || timer.TimerCheck(0, 30) || timer.TimerCheck(0, 15))
-        //{
-        //    if (isCreate)
-        //        return;
-        //
-        //    Create();
-        //}
+        if (timer.TimerCheck(2, 55) || timer.TimerCheck(2, 25) || timer.TimerCheck(2, 10) ||
+            timer.TimerCheck(1, 50) || timer.TimerCheck(1, 30) || timer.TimerCheck(1, 1) ||
+            timer.TimerCheck(0, 45) || timer.TimerCheck(0, 30) || timer.TimerCheck(0, 15))
+        {
+            if (isCreate)
+                return;
+        
+            Create();
+        }
 
     }
 
