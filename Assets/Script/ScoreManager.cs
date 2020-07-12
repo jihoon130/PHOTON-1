@@ -66,6 +66,32 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         }
 
         yield return new WaitForSeconds(1f);
+        PlayerDB db = GameObject.Find("PlayerDB").GetComponent<PlayerDB>();
+        for(int i=0;i<SusoonJung.Length;i++)
+        {
+            if(SusoonJung[i].GetComponent<Move>().PV.IsMine)
+            {
+                switch(i)
+                {
+                    case 0:
+                        db.UpdateDB(db.ip, db.UserScore + 20);
+                        EndSco[7].GetComponent<Text>().text =  "점수 : "+(db.UserScore + 20) + "(+20)";
+                        break;
+                    case 1:
+                        db.UpdateDB(db.ip, db.UserScore + 10);
+                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore + 10) + "(+10)";
+                        break;
+                    case 2:
+                        db.UpdateDB(db.ip, db.UserScore);
+                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore) + "(+0)";
+                        break;
+                    case 3:
+                        db.UpdateDB(db.ip, db.UserScore-10);
+                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore - 10) + "(-10)";
+                        break;
+                }
+            }
+        }
         GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(1);
         EndSco[0].SetActive(true);
         yield return new WaitForSeconds(2f);
@@ -79,10 +105,12 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             
         }
         yield return new WaitForSeconds(2f);
+        EndSco[7].SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         EndSco[6].SetActive(true);
         EndSco[5].SetActive(true);
+        Destroy(db.gameObject);
         GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(2);
     }
 

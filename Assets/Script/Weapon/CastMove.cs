@@ -78,7 +78,7 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;
-
+            AimChange();
             other.GetComponent<BackMove>().PV.RPC("BackRPC", RpcTarget.All,
                 transform.position.x, 
                 transform.position.y, 
@@ -89,10 +89,17 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
             //other.GetComponent<BackMove>().ObjMoveback2(this.gameObject, 1000f);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
             transform.SetParent(Parent.transform);
+            Parent.GetComponent<Move>().StartCoroutine("AimOFF");
             this.gameObject.SetActive(false);
         }
     }
 
+
+
+    public void AimChange()
+    {
+        Parent.GetComponent<Create>().sp.GetComponent<Animator>().SetBool("Piguck", true);
+    }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {

@@ -17,6 +17,8 @@ public class LobbyUI : MonoBehaviour
     public Sprite[] Hyogwa2;
     public GameObject[] Baegung2;
     public GameObject Ranking;
+    public GameObject Rank;
+    public GameObject Credit;
     LobbyNetwork LbNet;
     bool b=true;
     bool a = true;
@@ -203,6 +205,15 @@ public class LobbyUI : MonoBehaviour
         Baegung2[1].GetComponent<Image>().sprite = Hyogwa2[0];
     }
 
+    public void CreditOn()
+    {
+        Credit.SetActive(true);
+    }
+
+    public void CreditOff()
+    {
+        Credit.SetActive(false);
+    }
     public void hyogwazero()
     {
         if (b)
@@ -217,6 +228,14 @@ public class LobbyUI : MonoBehaviour
             Hyogwa.transform.position = Hyogwa1[5].transform.position;
             Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
         }
+    }
+
+    public void RankingON()
+    {
+        Rank.SetActive(true);
+        Setting1.SetActive(false);
+        CreateRoom.SetActive(false);
+        ExitGame.SetActive(false);
     }
 
     public void baggungzero()

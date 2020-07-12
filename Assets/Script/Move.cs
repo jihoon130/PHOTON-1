@@ -74,7 +74,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
-  public  Queue<string> ChatList = new Queue<string>();
+    public  Queue<string> ChatList = new Queue<string>();
     //  0 - 구르기
 
     private Timer Timers;
@@ -91,7 +91,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
-
         Audio = GetComponentInChildren<AudioSource>();
         kimsunwoo2 = GetComponentInChildren<TextMesh>().gameObject;
         
@@ -322,11 +321,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
-            Testint = Testint;
-            //if(Testint >=0)
-            //{
-            //    transform.position = RespawnG[Testint].transform.position;
-            //}
             if(!kimsunwoo4)
             {
                 GameObject[] kimsunwoo5 = GameObject.FindGameObjectsWithTag("Player");
@@ -412,7 +406,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    
+    IEnumerator AimOFF()
+    {
+        yield return new WaitForSeconds(0.3f);
+        GetComponent<Create>().sp.GetComponent<Animator>().SetBool("Piguck", false);
+    }
 
     IEnumerator Phoenix()
     {
@@ -433,6 +431,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         isPhoenix = true;
         StartCoroutine("Phoenix");
     }
+
 
     public void ResetPos()
     {
@@ -464,6 +463,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (Piguck)
         {
+            PlayerSubScript pa = Piguck.GetComponent<PlayerSubScript>();
+            pa.st = PV.Owner.ToString().Substring(4);
+            pa.dt = pa.GetComponent<Move>().PV.ViewID;
             Piguck.GetComponent<Move>().score += 10;
             Piguck = null;
         }
