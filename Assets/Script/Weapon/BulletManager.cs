@@ -12,7 +12,7 @@ public struct Bullet
     public int MinBullet { get; set; }
     public int MaxBullet { get; set; }
     public bool isBullet { get; set; }
-    
+
     public Bullet(string name, int many, int min, int max, bool check = true)
     {
         this.BulletName = name;
@@ -37,18 +37,20 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
     public GameObject _AimUi;
     public int type23;
-    public static BulletManager I;
 
-    private string ModeName;
+    private bool isUiScal;
+    private float fScalXY = 1.5f;
+
+    private Command _Command;
+
     private void Awake()
     {
-        I = this;
-
         PV = GetComponent<PhotonView>();
         _Create = GetComponent<Create>();
 
         MinText = GameObject.Find("Min").GetComponent<Text>();
         MaxText = GameObject.Find("Max").GetComponent<Text>();
+        _Command = GetComponent<Command>();
 
         if (PV.IsMine)
         {
@@ -59,7 +61,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        
+
     }
     void Update()
     {
@@ -78,10 +80,18 @@ public class BulletManager : MonoBehaviourPunCallbacks
         {
             if (BulletList[i].MinBullet <= 0)
             {
+                if(i == 1 && _BulletMode == BulletMode.Machinegun)
+                {
+                    _Command.Aim.AimState(2);
+                    _Command.Aim.AimAttack(false);
+                }
+
                 BulletList[i].isBullet = false;
                 BulletList[i].MinBullet = 0;
             }
         }
+
+        
     }
 
     public void BulletListAdd(int array, int min, int max)
@@ -110,13 +120,13 @@ public class BulletManager : MonoBehaviourPunCallbacks
         if (MaxCheck == 0 && BulletList[type].MinBullet < 0)
         {
             if (_BulletMode == BulletMode.Machinegun)
-                GetComponent<Machinegun>().MachineDeleteReset();
+                _Command.Machineguns.MachineDeleteReset();
             return;
         }
-        else if(MaxCheck < 0)
+        else if (MaxCheck < 0)
         {
-             Debug.Log(BulletList[type].MaxBullet);
-             ManyNumber = BulletList[type].MaxBullet;
+            Debug.Log(BulletList[type].MaxBullet);
+            ManyNumber = BulletList[type].MaxBullet;
         }
 
 
@@ -140,15 +150,60 @@ public class BulletManager : MonoBehaviourPunCallbacks
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
         MaxText.text = BulletList[type].MaxBullet.ToString();
+
+        if (_BulletMode == BulletMode.Shot)
+            MinText.color = new Color(238, 235, 222);
+        else if (_BulletMode == BulletMode.Machinegun)
+        {
+            if (BulletList[1].MinBullet == 10)
+                MinUiReset();
+
+            if (BulletList[1].MinBullet <= 10)
+            {
+                if (!isUiScal)
+                    isUiScal = true;
+
+                MinText.color = new Color(1, 0.3294118f, 0);
+            }
+            else if (BulletList[1].MinBullet >= 11)
+                MinText.color = new Color(238, 235, 222);
+
+            if (isUiScal)
+            {
+                MinText.transform.localScale = new Vector3(fScalXY, fScalXY, 0);
+                fScalXY -= 2 * Time.deltaTime;
+
+                if (fScalXY <= 1f)
+                    fScalXY = 1f;
+            }
+        }
         //NameText.text = BulletList[type].BulletName.ToString();
         //ModeText.text = ModeName;
+    }
+    public void MinUiReset()
+    {
+        isUiScal = false;
+        fScalXY = 1.5f;
     }
 
     public bool isGetItemCheck()
     {
-        if (GetComponent<Machinegun>().isMachinegun || GetComponent<Grenade>().isGreande ||
+        if (_Command.Machineguns.isMachinegun || GetComponent<Grenade>().isGreande ||
             _BulletMode != BulletMode.Shot)
             return true;
         return false;
+    }
+
+
+    // 구르기 이벤트에 메서드 추가
+    public void NotAim() => _Command.Aim.AimState(2);
+    public void ChangeAim()
+    {
+        if (_BulletMode == BulletMode.Machinegun)
+        {
+            _Command.Aim.AimState(1);
+        }
+        else
+            _Command.Aim.AimState(0);
     }
 }

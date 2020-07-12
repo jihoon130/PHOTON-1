@@ -24,4 +24,6 @@ public class CreateMesh : MonoBehaviour
             mesh.sharedMesh = mesh1;
         }
     }
+
+
 }

@@ -481,6 +481,7 @@ MonoBehaviour:
   InitRotY: 1.5
   yMinLimit: -10
   yMaxLimit: 25
+  Camera_X: 0
   CameraZ: 0
 --- !u!1 &71638170
 GameObject:
@@ -5618,6 +5619,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3061160218434516957, guid: 57e77078d0989494ba14d325a9de27a2,
+        type: 3}
+      propertyPath: viewIdField
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5621789551305519488, guid: 57e77078d0989494ba14d325a9de27a2,
+        type: 3}
+      propertyPath: viewIdField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5743713188880739117, guid: 57e77078d0989494ba14d325a9de27a2,
+        type: 3}
+      propertyPath: viewIdField
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6551047003860371641, guid: 57e77078d0989494ba14d325a9de27a2,
         type: 3}
       propertyPath: viewIdField
@@ -5638,6 +5654,11 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 53
       objectReference: {fileID: 0}
+    - target: {fileID: 8315845883070981438, guid: 57e77078d0989494ba14d325a9de27a2,
+        type: 3}
+      propertyPath: viewIdField
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8646324747896594672, guid: 57e77078d0989494ba14d325a9de27a2,
         type: 3}
       propertyPath: viewIdField
@@ -5647,7 +5668,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 57e77078d0989494ba14d325a9de27a2, type: 3}
 --- !u!4 &703244456 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2459601893128988586, guid: 57e77078d0989494ba14d325a9de27a2,
+  m_CorrespondingSourceObject: {fileID: 3594577845754538055, guid: 57e77078d0989494ba14d325a9de27a2,
     type: 3}
   m_PrefabInstance: {fileID: 703244455}
   m_PrefabAsset: {fileID: 0}
@@ -10899,7 +10920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2eb1db8ee81c1954fa46bf81e0c9e51d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Item1: {fileID: 1066991643}
+  Item: []
   BaseWeapon: {fileID: 45952579}
   ItemWepaon: {fileID: 1813108158}
   SelectLine:
@@ -14982,6 +15003,8 @@ MonoBehaviour:
   - {fileID: 1473482348}
   - {fileID: 360678699}
   - {fileID: 1307864673}
+  ChatT: []
+  I: []
   Daegi: {fileID: 1877495587}
   timer: {fileID: 1202556008}
 --- !u!4 &1728208350

@@ -4,7 +4,6 @@ using UnityEngine;
 using Photon.Pun;
 using UnityStandardAssets.Utility;
 using UnityEngine.UI;
-
 public class Move : MonoBehaviourPunCallbacks, IPunObservable
 {
     public string punID;
@@ -71,6 +70,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject kimsunwoo3;
     public Vector3 kimsunwoo7;
     public bool kimsunwoo4;
+    public int Testint=-1;
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
@@ -90,7 +90,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
-        
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
 
         Audio = GetComponentInChildren<AudioSource>();
@@ -214,6 +213,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
+          
+
             if (GooT > 0.0f)
             {
               //  cm.a = true;
@@ -251,7 +252,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 float time = Canvas1.transform.GetChild(7).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
                 if (time <= 0.0f)
                 {
-                    repo = GameObject.Find("MachineGunSpawn").GetComponent<Respawn>().RespawnT;
+                    repo = RespawnG[Random.Range(0,4)].transform.position;
+                    repo.y = 4.896467f;
                     ResetPos();
                 }
             }
@@ -320,6 +322,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
+            Testint = Testint;
+            //if(Testint >=0)
+            //{
+            //    transform.position = RespawnG[Testint].transform.position;
+            //}
             if(!kimsunwoo4)
             {
                 GameObject[] kimsunwoo5 = GameObject.FindGameObjectsWithTag("Player");
@@ -344,12 +351,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (!PV.IsMine || GameEndok)
             return;
 
-        if(collision.gameObject.name =="Sea" && !dieOk)
+        if(collision.gameObject.name == "Sea" && !dieOk)
         {
             dieOk = true;
             Canvas1.transform.GetChild(6).gameObject.SetActive(true);
             Canvas1.transform.GetChild(7).gameObject.SetActive(true);
-            transform.position = new Vector3(-39.8f, 0.0f, Random.Range(20.0f, 34.0f));
+            transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
@@ -357,8 +364,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
            
         }
 
-        if(collision.gameObject.CompareTag("Ground") && dieOk)
+        if (collision.gameObject.CompareTag("Ground") && dieOk)
         {
+
             Canvas1.transform.GetChild(6).gameObject.SetActive(false);
             Canvas1.transform.GetChild(7).gameObject.SetActive(false);
             dieOk = false;
@@ -434,10 +442,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
-        {
             GetComponent<Machinegun>().MachineDeleteReset();
-        }
+        else if (GetComponent<Create>()._BulletMake == BulletMake.Grenade)
+            GetComponent<Grenade>().DeleteGreade();
+
         GetComponent<Machinegun>().PlayerDie();
+        GetComponent<Grenade>().PlayerDie();
 
         rb.velocity = Vector3.zero;
         transform.position = repo;
@@ -529,4 +539,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private void flRP() => fl = true;
+
+   
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-
-public class CastMove : MonoBehaviourPunCallbacks
+using DG.Tweening;
+public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
 {
     public enum BulletMode { Attack, Machinegun, Grenade}
     public BulletMode _BulletMode = BulletMode.Attack;
@@ -19,11 +19,13 @@ public class CastMove : MonoBehaviourPunCallbacks
     public GameObject hit;
     public float bss=1000f;
     public GameObject other1;
+    public Vector3 sd;
+    public Vector3 currPos;
     private void OnEnable()
     {
         transform.SetParent(null);
-        StartCoroutine("DirCheck");
-
+        if(PV.IsMine)
+        transform.DOMove(sd, 0.5f);
     }
 
     private void Awake()
@@ -35,7 +37,7 @@ public class CastMove : MonoBehaviourPunCallbacks
         {
             bss = 1000f;
         }
-        else if(CompareTag("SpeedBullet"))
+        else if (CompareTag("SpeedBullet"))
         {
             bss = 2000f;
         }
@@ -43,43 +45,33 @@ public class CastMove : MonoBehaviourPunCallbacks
 
     private void Update()
     {
-    }
+       if(transform.position == sd)
+        {
+            OFF();
+        }
 
-    private void FixedUpdate()
-    {
-
-
-        if (_BulletMode == BulletMode.Grenade)
-            transform.Translate(Vector3.left * Time.deltaTime * CastSpeed);
-        else
-            transform.Translate(Vector3.forward * Time.deltaTime * CastSpeed);
-    }
-
-    void FixedUpdate2()
-    {
-    }
-
-    IEnumerator DirCheck()
-    {
-        if (_BulletMode == BulletMode.Grenade)
-            StopCoroutine("DirCheck");
-
-        yield return new WaitForSeconds(Dir);
-        PV.RPC("ActiveOff", RpcTarget.All);
+        if (!PV.IsMine)
+            transform.position = currPos;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance")
+        if (!PV.IsMine)
+            return;
+
+        if (other.tag == "Ground" || other.tag == "Wall" || other.tag =="Fance" || other.gameObject.layer==11)
         {
             if (_BulletMode == BulletMode.Grenade)
                 return;
 
-            PV.RPC("ActiveOff", RpcTarget.All);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
             if (other.tag == "Fance")
                 other.GetComponent<FenceObj>().DestroyRPC();
+
+            OFF();
+            transform.SetParent(Parent.transform);
+            this.gameObject.SetActive(false);
         }
 
         if(other.tag == "Player")
@@ -93,16 +85,29 @@ public class CastMove : MonoBehaviourPunCallbacks
                 transform.position.z,
                 bss,
                 Parent.GetComponent<Move>().PV.Owner.ToString());
-            PV.RPC("ActiveOff", RpcTarget.All);
+            OFF();
             //other.GetComponent<BackMove>().ObjMoveback2(this.gameObject, 1000f);
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
+            transform.SetParent(Parent.transform);
+            this.gameObject.SetActive(false);
         }
     }
 
-    private void OnCollisionEnter(Collision other)
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        
+        //통신을 보내는 
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+        }
+        //클론이 통신을 받는 
+        else
+        {
+            currPos = (Vector3)stream.ReceiveNext();
+        }
     }
+
 
     public void HitEffect(float a, float b, float c)
     {
@@ -130,13 +135,14 @@ public class CastMove : MonoBehaviourPunCallbacks
     [PunRPC]
     void ActiveOff()
     {
+        HitEffect(transform.position.x, transform.position.y, transform.position.z);
         transform.SetParent(Parent.transform);
-        gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 
-
-    public void OFF()
+    void OFF()
     {
         PV.RPC("ActiveOff", RpcTarget.All);
     }
+
 }
