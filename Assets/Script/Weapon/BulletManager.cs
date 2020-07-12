@@ -80,7 +80,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         {
             if (BulletList[i].MinBullet <= 0)
             {
-                if(_BulletMode == BulletMode.Machinegun)
+                if(i == 1 && _BulletMode == BulletMode.Machinegun)
                 {
                     _Command.Aim.AimState(2);
                     _Command.Aim.AimAttack(false);

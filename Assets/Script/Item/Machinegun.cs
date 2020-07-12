@@ -60,7 +60,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
 
         if(isMachinegun)
         {
-            if (Input.GetMouseButton(1))
+            float InputMouseWheel = Input.GetAxis("Mouse ScrollWheel");
+
+            if(InputMouseWheel != 0)
             {
                 _Command.Aim.AimState(1);
 

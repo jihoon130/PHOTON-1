@@ -37,7 +37,7 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
         {
             bss = 1000f;
         }
-        else if(CompareTag("SpeedBullet"))
+        else if (CompareTag("SpeedBullet"))
         {
             bss = 2000f;
         }

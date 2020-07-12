@@ -357,8 +357,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
            
         }
 
-        if(collision.gameObject.CompareTag("Ground") && dieOk)
+        if (collision.gameObject.CompareTag("Ground") && dieOk)
         {
+
             Canvas1.transform.GetChild(6).gameObject.SetActive(false);
             Canvas1.transform.GetChild(7).gameObject.SetActive(false);
             dieOk = false;
@@ -434,10 +435,12 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
 
         if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
-        {
             GetComponent<Machinegun>().MachineDeleteReset();
-        }
+        else if (GetComponent<Create>()._BulletMake == BulletMake.Grenade)
+            GetComponent<Grenade>().DeleteGreade();
+
         GetComponent<Machinegun>().PlayerDie();
+        GetComponent<Grenade>().PlayerDie();
 
         rb.velocity = Vector3.zero;
         transform.position = repo;
