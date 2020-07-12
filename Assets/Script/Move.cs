@@ -540,9 +540,5 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void flRP() => fl = true;
 
-    private void OnGUI()
-    {
-            if (PV.IsMine)
-            GUI.Box(new Rect(0, 0, 100, 50), Testint.ToString());
-    }
+   
 }
