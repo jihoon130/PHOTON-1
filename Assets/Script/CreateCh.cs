@@ -29,9 +29,9 @@ public class CreateCh : MonoBehaviourPunCallbacks
         if (PlayerGetName == "Blue" || PlayerGetName == "Orange")
             PlayerGetName = "Green";
 
-        int ab = Random.Range(0, 4);
-                PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[ab].transform.position, Quaternion.identity);
-             
+
+            int ab = Random.Range(0, 3);
+                PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[3].transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame

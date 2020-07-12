@@ -70,6 +70,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject kimsunwoo3;
     public Vector3 kimsunwoo7;
     public bool kimsunwoo4;
+    public int Testint=-1;
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
@@ -89,7 +90,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         tr = GetComponent<Transform>();
         PV = GetComponent<PhotonView>();
         _PlayerAni = GetComponent<PlayerAni>();
-        
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
 
         Audio = GetComponentInChildren<AudioSource>();
@@ -128,7 +128,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void SoundPlayer(int type)
     {
-        Debug.Log("호출 -> " + type);
         Audio.clip = audios[type];
         Audio.Play();
     }
@@ -213,6 +212,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
+
+          
 
             if (GooT > 0.0f)
             {
@@ -321,6 +322,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
         else
         {
+            Testint = Testint;
+            //if(Testint >=0)
+            //{
+            //    transform.position = RespawnG[Testint].transform.position;
+            //}
             if(!kimsunwoo4)
             {
                 GameObject[] kimsunwoo5 = GameObject.FindGameObjectsWithTag("Player");
@@ -533,4 +539,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
     private void flRP() => fl = true;
+
+    private void OnGUI()
+    {
+            if (PV.IsMine)
+            GUI.Box(new Rect(0, 0, 100, 50), Testint.ToString());
+    }
 }

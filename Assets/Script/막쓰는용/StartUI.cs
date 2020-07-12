@@ -8,6 +8,7 @@ public class StartUI : MonoBehaviour
     public GameObject[] spot;
   public  GameObject[] Player;
     PhotonView pv;
+    int a = 0;
     private void Awake()
     {
        pv = GetComponent<PhotonView>();
@@ -15,30 +16,41 @@ public class StartUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+     
     }
 
     // Update is called once per frame
 
     private void LateUpdate()
     {
-        pv.RPC("BatchRPC", RpcTarget.MasterClient);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Player = GameObject.FindGameObjectsWithTag("Player");
+
+            if (Player.Length == PhotonNetwork.PlayerList.Length)
+            {
+                for (int i = 0; i < Player.Length; i++)
+                {
+                    pv.RPC("BatchRPC", RpcTarget.AllBuffered,Player[i].GetComponent<Move>().PV.Owner.ToString(),i);
+
+                }
+
+
+                pv.RPC("BatchEndRPC", RpcTarget.AllBuffered);
+            }
+        }
     }
     [PunRPC]
-    void BatchRPC()
+    void BatchRPC(string i,int a)
     {
         Player = GameObject.FindGameObjectsWithTag("Player");
 
-        if(Player.Length==PhotonNetwork.PlayerList.Length)
+        foreach(GameObject player in Player)
         {
-            for (int i = 0; i < Player.Length; i++)
+            if(player.GetComponent<Move>().PV.Owner.ToString()==i)
             {
-                if (spot[i])
-                {
-                    Player[i].transform.position = spot[i].transform.position;
-                    spot[i] = null;
-                }
+                player.transform.position = spot[a].transform.position;
             }
-            pv.RPC("BatchEndRPC", RpcTarget.All);
         }
     }
     [PunRPC]

@@ -88,9 +88,7 @@ public class Create : MonoBehaviourPunCallbacks
         if (!move.PV.IsMine)
             return;
 
-        
-
-        if (Physics.Raycast(Camera.main.transform.position,Camera.main.transform.forward,out hit,200f, (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Ground"))))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward,out hit,200f, (1 << LayerMask.NameToLayer("Player")) + (1 << LayerMask.NameToLayer("Ground"))))
         {
             if(hit.collider.CompareTag("Player"))
             {

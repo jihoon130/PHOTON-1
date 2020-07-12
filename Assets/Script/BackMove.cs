@@ -116,7 +116,8 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
 
-        //GetComponent<Move>().Piguck2 = GetComponent<Move>().PV.Owner.ToString();
+        if(PV.Owner.ToString() != collision.GetComponent<GrenadeEffect>().PV.Owner.ToString())
+        GetComponent<Move>().Piguck2 = collision.GetComponent<GrenadeEffect>().PV.Owner.ToString();
 
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
     }
@@ -190,12 +191,14 @@ public class BackMove : MonoBehaviourPunCallbacks
 
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
+
+        if(PV.Owner.ToString() != e)
         GetComponent<Move>().Piguck2 = e;
 
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
-        rb.AddForce(pushdi * 1000.0f, ForceMode.Impulse);
+        rb.AddForce(pushdi * d, ForceMode.Impulse);
     }
 
     public void hitOn()
