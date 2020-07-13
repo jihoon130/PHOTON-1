@@ -58,7 +58,7 @@ public class Grenade : MonoBehaviourPunCallbacks
 
         if (isGreandeAttack)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !GetComponent<Move>().dieOk)
             {
                 if (GetComponent<BulletManager>().BulletList[2].MinBullet < 0)
                     return;

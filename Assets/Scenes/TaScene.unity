@@ -41245,6 +41245,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 800048080}
     m_Modifications:
+    - target: {fileID: 339288610382370169, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
+      objectReference: {fileID: 0}
     - target: {fileID: 562882890069302726, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
         type: 3}
       propertyPath: m_IsActive
@@ -41259,6 +41264,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Fance
+      objectReference: {fileID: 0}
+    - target: {fileID: 997007985636303899, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 1024193514514953662, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
         type: 3}
@@ -41279,6 +41289,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2941162568935361351, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
+        type: 3}
+      propertyPath: m_TagString
+      value: Wall
       objectReference: {fileID: 0}
     - target: {fileID: 3110500657374226954, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
         type: 3}
@@ -43081,6 +43096,26 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3498412499443003779}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2161540964123272429, guid: 06a1750650cb23f4b9fe357ca4277329, type: 3}
+--- !u!1 &3498412499443003792 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1066725632746143277, guid: 8bdfd7195e0e8664ba6cb8215abd21c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3498412499443003729}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &3498412499443003793
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3498412499443003792}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

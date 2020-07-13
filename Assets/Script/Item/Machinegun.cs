@@ -8,7 +8,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
     public PhotonView PV;
 
     public GameObject AttackEffect;
-    public GameObject AttackTrashEffect;
 
     public enum Mode { IdleRun, Attack};
     public Mode _Mode = Mode.IdleRun;
@@ -155,12 +154,10 @@ public class Machinegun : MonoBehaviourPunCallbacks
     public void EffectStart()
     {
         AttackEffect.GetComponent<ParticleSystem>().Play();
-        AttackTrashEffect.GetComponent<ParticleSystem>().Play();
     }
     public void EffectStop()
     {
         AttackEffect.GetComponent<ParticleSystem>().Stop();
-        AttackTrashEffect.GetComponent<ParticleSystem>().Stop();
     }
     private void RayCastBullet()
     {

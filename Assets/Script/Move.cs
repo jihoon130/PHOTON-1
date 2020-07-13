@@ -353,9 +353,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             int a = Random.Range(3, 6);
             Audio.clip = audios[a];
             Audio.Play();
-
             dieOk = true;
-            Canvas1.transform.GetChild(6).gameObject.SetActive(true);
             Canvas1.transform.GetChild(7).gameObject.SetActive(true);
             transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
             Cursor.lockState = CursorLockMode.None;
@@ -366,7 +364,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (collision.gameObject.CompareTag("Ground") && dieOk)
         {
 
-            Canvas1.transform.GetChild(6).gameObject.SetActive(false);
             Canvas1.transform.GetChild(7).gameObject.SetActive(false);
             dieOk = false;
             isDie = false;

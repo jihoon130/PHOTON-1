@@ -1621,9 +1621,9 @@ RectTransform:
   m_Father: {fileID: 1043112972}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -30, y: 124.1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 144.25, y: -13.95}
   m_SizeDelta: {x: 288.5, y: 27.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &214980067
@@ -3330,9 +3330,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.0625}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 20, y: 91}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.43, y: 1.5}
+  m_SizeDelta: {x: 20.86, y: 15.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &450561239
 MonoBehaviour:
@@ -6134,7 +6134,7 @@ GameObject:
   - component: {fileID: 856749081}
   - component: {fileID: 856749080}
   m_Layer: 5
-  m_Name: Scrollbar Vertical
+  m_Name: Scrollbar Vertical1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6203,7 +6203,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 450561238}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.0625
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7622,7 +7622,6 @@ GameObject:
   - component: {fileID: 978024733}
   - component: {fileID: 978024732}
   - component: {fileID: 978024731}
-  - component: {fileID: 978024734}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -7718,18 +7717,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978024729}
   m_CullTransparentMesh: 0
---- !u!114 &978024734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 978024729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a850f751e3d68647992f77624adb35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &978774130
 GameObject:
   m_ObjectHideFlags: 0
@@ -7929,6 +7916,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1043112972}
+  - component: {fileID: 1043112974}
+  - component: {fileID: 1043112973}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -7954,8 +7943,47 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 300}
+  m_SizeDelta: {x: 0, y: 27.9}
   m_Pivot: {x: 0, y: 1}
+--- !u!114 &1043112973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043112971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1043112974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043112971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
 --- !u!1 &1082262546
 GameObject:
   m_ObjectHideFlags: 0
@@ -14016,6 +14044,7 @@ GameObject:
   - component: {fileID: 1938871712}
   - component: {fileID: 1938871711}
   - component: {fileID: 1938871710}
+  - component: {fileID: 1938871713}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -14068,7 +14097,7 @@ MonoBehaviour:
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 856749080}
   m_HorizontalScrollbarVisibility: 2
-  m_VerticalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 0
   m_HorizontalScrollbarSpacing: -3
   m_VerticalScrollbarSpacing: -3
   m_OnValueChanged:
@@ -14110,6 +14139,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1938871708}
   m_CullTransparentMesh: 0
+--- !u!114 &1938871713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938871708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a850f751e3d68647992f77624adb35e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollRect: {fileID: 1938871710}
 --- !u!1 &1939727853
 GameObject:
   m_ObjectHideFlags: 0
