@@ -54,6 +54,15 @@ public class LobbyUI : MonoBehaviour
             Setting1.SetActive(true);
             CreateRoom.SetActive(false);
             ExitGame.SetActive(false);
+            int i = PlayerPrefs.GetInt("hyogwa");
+            if(i==1)
+            {
+                hyogwa1();
+            }
+            else
+            {
+                hyogwa6();
+            }
         }
         else
         {
@@ -220,12 +229,14 @@ public class LobbyUI : MonoBehaviour
         {
             b = false;
             Hyogwa.transform.position = Hyogwa1[0].transform.position;
+            PlayerPrefs.SetInt("hyogwa", 1);
             Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[1];
         }
         else
         {
             b = true;
             Hyogwa.transform.position = Hyogwa1[5].transform.position;
+            PlayerPrefs.SetInt("hyogwa", 0);
             Baegung2[0].GetComponent<Image>().sprite = Hyogwa2[0];
         }
     }

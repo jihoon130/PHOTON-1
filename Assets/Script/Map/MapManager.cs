@@ -76,7 +76,6 @@ public class MapManager : MonoBehaviourPunCallbacks
                     {
                         if (isCheckd)
                         {
-                            _MapSound.SoundPlayer(5);
                             isCheckd = false;
                         }
                         mapDatas[i].MapZ = -5f;
@@ -92,7 +91,6 @@ public class MapManager : MonoBehaviourPunCallbacks
                     {
                         if (isCheckd)
                         {
-                            _MapSound.SoundPlayer(6);
                             isCheckd = false;
                         }
                         mapDatas[i].MapZ = 0;

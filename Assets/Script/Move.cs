@@ -70,6 +70,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject kimsunwoo3;
     public Vector3 kimsunwoo7;
     public bool kimsunwoo4;
+    public GameObject bagMusic;
     public int Testint=-1;
     // Sound
     AudioSource Audio;
@@ -84,6 +85,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private void Awake()
     {
+        bagMusic = GameObject.Find("BGSound");
         Canvas1 = GameObject.Find("GameCanvas");
         kimsunwoo = GetComponent<CapsuleCollider>();
         //cm = GetComponentInChildren<CreateMesh>();
@@ -112,6 +114,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             NickName = PlayerPrefs.GetString("NickName");
             Effects[1].GetComponent<ParticleSystem>().Stop();
             RSpawn = GameObject.Find("RSpawn");
+            int baegung = PlayerPrefs.GetInt("hyogwa");
+            if (baegung == 1)
+                bagMusic.GetComponent<AudioSource>().mute = true;
         }
 
         for(int i=0;i<4;i++)
