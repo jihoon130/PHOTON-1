@@ -12,7 +12,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     public Rigidbody rb;
     public AudioSource Audio;
     public AudioClip[] audioS;
-    public Renderer rd;
+    public Renderer[] rd;
     float b = 0f;
     bool d;
     // Start is called before the first frame update
@@ -203,10 +203,18 @@ public class BackMove : MonoBehaviourPunCallbacks
 
     public void hitOn()
     {
-        rd.material.SetFloat("_Damaged", 1.0f);
+        for(int i = 0; i < rd.Length; i++)
+            rd[i].material.SetFloat("_Damaged", 1.0f);
     }
     public void hitOff()
     {
-        rd.material.SetFloat("_Damaged", 0.0f);
+        for (int i = 0; i < rd.Length; i++)
+            rd[i].material.SetFloat("_Damaged", 0.0f);
+    }
+
+    public void RespawnUpdate(float f)
+    {
+        for (int i = 0; i < rd.Length; i++)
+            rd[i].material.SetFloat("_Respawn", f);
     }
 }

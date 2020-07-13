@@ -107,7 +107,7 @@ public class Item_Respawn : MonoBehaviourPunCallbacks
                                                                   this.transform.position.y + 2f,
                                                                   this.transform.position.z),
                                                                   Quaternion.Euler(90, 0, 0));
-        this.transform.position = new Vector3(0, -10f, -0);
+        this.transform.position = new Vector3(100, -10f, 0);
 
         isMatCheck = false;
         isSpawn = true;

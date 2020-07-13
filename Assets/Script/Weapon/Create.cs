@@ -129,7 +129,7 @@ public class Create : MonoBehaviourPunCallbacks
             if (fTime > 0.2f) fTime = 0;
 
 
-            if (move.isMove)
+            if (move.isMove && !move.dieOk)
             {
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {

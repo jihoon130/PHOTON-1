@@ -67,7 +67,11 @@ public class CastMove : MonoBehaviourPunCallbacks, IPunObservable
             HitEffect(transform.position.x, transform.position.y, transform.position.z);
 
             if (other.tag == "Fance")
+            {
+                PhotonNetwork.Instantiate("WoodEffect", this.transform.position, Quaternion.identity);
                 other.GetComponent<FenceObj>().DestroyRPC();
+            }
+                
 
             OFF();
             transform.SetParent(Parent.transform);

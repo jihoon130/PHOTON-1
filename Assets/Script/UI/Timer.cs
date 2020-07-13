@@ -105,7 +105,6 @@ public class Timer : MonoBehaviourPunCallbacks
     private void StartCountInit() => StartCountImage[m_nStartCount].SetActive(true);
     private void StartInit()
     {
-        
         if (!isBGSound)
         {
             GameObject.Find("BGSound").GetComponent<AudioSource>().Play();

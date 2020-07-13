@@ -78,6 +78,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     //  0 - 구르기
 
     private Timer Timers;
+    private BackMove _BackMove;
+
+    public bool isRespawnAttack;
 
     private void Awake()
     {
@@ -93,7 +96,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         SpawnT = GameObject.Find("ResetBG").transform.GetChild(0).gameObject;
         Audio = GetComponentInChildren<AudioSource>();
         kimsunwoo2 = GetComponentInChildren<TextMesh>().gameObject;
-        
+        _BackMove = GetComponent<BackMove>();
+
 
         ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
@@ -124,7 +128,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             CameraPlayer.I.target = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
-
     private void SoundPlayer(int type)
     {
         Audio.clip = audios[type];
@@ -347,6 +350,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         if(collision.gameObject.name == "Sea" && !dieOk)
         {
+            int a = Random.Range(3, 6);
+            Audio.clip = audios[a];
+            Audio.Play();
+
             dieOk = true;
             Canvas1.transform.GetChild(6).gameObject.SetActive(true);
             Canvas1.transform.GetChild(7).gameObject.SetActive(true);
@@ -354,8 +361,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
-
-           
         }
 
         if (collision.gameObject.CompareTag("Ground") && dieOk)
@@ -406,9 +411,15 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    IEnumerator RespawnShaderOFF()
+    {
+        SoundPlayer(2);
+        yield return new WaitForSeconds(1.0f);
+        _BackMove.RespawnUpdate(0f);
+    }
     IEnumerator AimOFF()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.1f);
         GetComponent<Create>().sp.GetComponent<Animator>().SetBool("Piguck", false);
     }
 
@@ -455,6 +466,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         TestRPB = false;
         camera2.transform.GetChild(4).gameObject.SetActive(false);
         isDie = false;
+
+        _BackMove.RespawnUpdate(1f);
+        
+        StartCoroutine("RespawnShaderOFF");
     }
 
 
@@ -525,6 +540,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (TestRPB || isDie)
             return;
+
+
 
         isDie = true;
         TestRPB = true;

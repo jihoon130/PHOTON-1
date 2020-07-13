@@ -70,12 +70,16 @@ public class MapManager : MonoBehaviourPunCallbacks
 
                 if (mapDatas[i].Dir == "Down")
                 {
-                    mapDatas[i].MapZ -= 5 * Time.deltaTime;
-                    _MapSound.SoundPlayer(6);
-                    if (mapDatas[i].MapZ < -3.5f)
+                    mapDatas[i].MapZ -= 10 * Time.deltaTime;
+
+                    if (mapDatas[i].MapZ < -5f)
                     {
-                        isCheckd = false;
-                        mapDatas[i].MapZ = -3.5f;
+                        if (isCheckd)
+                        {
+                            _MapSound.SoundPlayer(5);
+                            isCheckd = false;
+                        }
+                        mapDatas[i].MapZ = -5f;
                     }
                         
                 }
@@ -86,11 +90,13 @@ public class MapManager : MonoBehaviourPunCallbacks
 
                     if (mapDatas[i].MapZ > 0)
                     {
-                        isCheckd = false;
-                        _MapSound.SoundPlayer(7);
+                        if (isCheckd)
+                        {
+                            _MapSound.SoundPlayer(6);
+                            isCheckd = false;
+                        }
                         mapDatas[i].MapZ = 0;
                     }
-                        
                 }
             }
         }

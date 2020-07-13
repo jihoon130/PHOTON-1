@@ -24,6 +24,7 @@ public class MapColor : MonoBehaviourPunCallbacks
     private Timer timer;
 
     private RobbySound _MapSound;
+    private bool isSoundCheck;
 
     private void Awake()
     {
@@ -55,7 +56,11 @@ public class MapColor : MonoBehaviourPunCallbacks
             }
             else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 3)
             {
-                _MapSound.SoundPlayer(5);
+                if(!isSoundCheck)
+                {
+                    _MapSound.SoundPlayer(4);
+                    isSoundCheck = true;
+                }
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
                     Mapdata[i].obj[z].materials = RedMat;
@@ -68,6 +73,7 @@ public class MapColor : MonoBehaviourPunCallbacks
                 {
                     Mapdata[i].obj[z].materials = ChangeMt;
                 }
+                isSoundCheck = false;
             }
         }
     }

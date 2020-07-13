@@ -536,6 +536,11 @@ MonoBehaviour:
   audios:
   - {fileID: 8300000, guid: 948778f0e6bf9d3449c5b429b6bea45b, type: 3}
   - {fileID: 8300000, guid: 529b25ea143f8444199247d9e211f58d, type: 3}
+  - {fileID: 8300000, guid: d84e6899dcc45ea47aa32b042feb3231, type: 3}
+  - {fileID: 8300000, guid: b44d25c400dfd664781d9ce4de133d6b, type: 3}
+  - {fileID: 8300000, guid: 0ba22f3714a655d4ba876bc12523a567, type: 3}
+  - {fileID: 8300000, guid: a2df02ab20e09d149a273bfb6b5dcbce, type: 3}
+  isRespawnAttack: 0
 --- !u!114 &267351069770100786
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,7 +710,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: d330369a3bf0bc24c96bb2454b268397, type: 3}
   - {fileID: 8300000, guid: 0d24ed246c3d1d04590b43fb9be5ae4d, type: 3}
   - {fileID: 8300000, guid: 4b8d9932035b4764384e79bfc72d9bc3, type: 3}
-  rd: {fileID: 3409843223025190793}
+  rd:
+  - {fileID: 3409843223025190793}
+  - {fileID: 267351069770100737}
 --- !u!54 &267351069770100788
 Rigidbody:
   m_ObjectHideFlags: 0
