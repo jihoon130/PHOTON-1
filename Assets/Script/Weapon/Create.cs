@@ -332,4 +332,6 @@ public class Create : MonoBehaviourPunCallbacks
         if (Audio.clip == audios[type])
             Audio.Stop();
     }
+
+    public void ItemSoundEvent() => SoundPlayer(8);
 }

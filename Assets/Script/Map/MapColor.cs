@@ -23,11 +23,15 @@ public class MapColor : MonoBehaviourPunCallbacks
     public PhotonView PV;
     private Timer timer;
 
+    private RobbySound _MapSound;
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
         timer = GameObject.Find("TimerManger").GetComponent<Timer>();
         popUp = GameObject.Find("Map_POPUP").GetComponent<UIPopUp>();
+
+        _MapSound = GameObject.Find("UISoundManager").GetComponent<RobbySound>();
     }
     void Start()
     {
@@ -51,7 +55,7 @@ public class MapColor : MonoBehaviourPunCallbacks
             }
             else if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 3)
             {
-                
+                _MapSound.SoundPlayer(5);
                 for (int z = 0; z < Mapdata[i].obj.Length; z++)
                 {
                     Mapdata[i].obj[z].materials = RedMat;

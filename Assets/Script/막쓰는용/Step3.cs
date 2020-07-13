@@ -19,12 +19,15 @@ public class Step3 : MonoBehaviour
 
         string PlayerGetName = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>().CharacterName;
 
-        if (PlayerGetName == "Blue" || PlayerGetName == "Orange")
+        Debug.Log(PlayerGetName);
+
+        if (PlayerGetName == "Orange")
             PlayerGetName = "Green";
 
+        
         if (pos != null)
         {
-            PhotonNetwork.Instantiate("Player_" + PlayerGetName, pos, Quaternion.identity);
+            //PhotonNetwork.Instantiate("Player_" + PlayerGetName, pos, Quaternion.identity);
             a = true;
         }
 

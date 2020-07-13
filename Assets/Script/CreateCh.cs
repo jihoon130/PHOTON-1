@@ -26,11 +26,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
         
         string PlayerGetName = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>().CharacterName;
 
-        if (PlayerGetName == "Blue" || PlayerGetName == "Orange")
-            PlayerGetName = "Green";
-
-
-            int ab = Random.Range(0, 3);
+        int ab = Random.Range(0, 3);
                 PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[3].transform.position, Quaternion.identity);
     }
 
