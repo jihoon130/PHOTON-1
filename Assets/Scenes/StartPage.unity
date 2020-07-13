@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 108607651}
   - component: {fileID: 108607653}
   - component: {fileID: 108607652}
+  - component: {fileID: 108607654}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -320,14 +321,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: 2903647d535fcd848a2faceb164c0248, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.32941177, g: 0.32941177, b: 0.32941177, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 34367613b4be7b1488d91fa2101e6204, type: 3}
-    m_FontSize: 36
+    m_Font: {fileID: 12800000, guid: 782c14c563c338a41875d6851b024225, type: 3}
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -347,6 +348,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 108607650}
   m_CullTransparentMesh: 0
+--- !u!114 &108607654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108607650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5b1757a9e041443b725a375dcf6c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRichText: 0
+  m_spacing: -7
 --- !u!1 &326425453
 GameObject:
   m_ObjectHideFlags: 0
@@ -544,7 +559,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -88, y: -154}
+  m_AnchoredPosition: {x: -70.599976, y: -142}
   m_SizeDelta: {x: 320, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &420206297
@@ -596,7 +611,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 7
+  m_CharacterLimit: 6
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -759,8 +774,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 246, y: -145}
-  m_SizeDelta: {x: 238, y: 80}
+  m_AnchoredPosition: {x: 179, y: -142}
+  m_SizeDelta: {x: 238, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &723899352
 MonoBehaviour:
@@ -1741,6 +1756,7 @@ GameObject:
   - component: {fileID: 1440949181}
   - component: {fileID: 1440949183}
   - component: {fileID: 1440949182}
+  - component: {fileID: 1440949184}
   m_Layer: 5
   m_Name: Placeholder
   m_TagString: Untagged
@@ -1757,7 +1773,7 @@ RectTransform:
   m_GameObject: {fileID: 1440949180}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 420206296}
   m_RootOrder: 0
@@ -1786,8 +1802,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 34367613b4be7b1488d91fa2101e6204, type: 3}
-    m_FontSize: 100
+    m_Font: {fileID: 12800000, guid: 782c14c563c338a41875d6851b024225, type: 3}
+    m_FontSize: 24
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1807,6 +1823,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1440949180}
   m_CullTransparentMesh: 0
+--- !u!114 &1440949184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1440949180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee5b1757a9e041443b725a375dcf6c3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useRichText: 0
+  m_spacing: -7
 --- !u!1 &1557603623
 GameObject:
   m_ObjectHideFlags: 0
@@ -1857,14 +1887,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.17132433, g: 0.17738537, b: 0.20754719, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 34367613b4be7b1488d91fa2101e6204, type: 3}
-    m_FontSize: 100
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1

@@ -4,6 +4,7 @@
 	{
 		_Color("Color", Color) = (1,1,1,1)
 		_MainTex("Albedo (RGB)", 2D) = "white" {}
+		_AlphaTube ("Opacity", Range(0,1)) = 0.5
 	}
 		SubShader
 	{
@@ -41,6 +42,7 @@
 
 
 		sampler2D _MainTex;
+	float _AlphaTube;	
 
 	struct Input
 	{
@@ -52,7 +54,7 @@
 		fixed4 c = tex2D(_MainTex, IN.uv_MainTex);
 		o.Albedo = c.rgb;
 
-		o.Alpha = 0.5;
+		o.Alpha = _AlphaTube;
 	}
 	ENDCG
 	}

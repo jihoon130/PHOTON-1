@@ -33,7 +33,7 @@ public class CreateCh : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        for(int i=0;i<ChatT.Length;i++)
+        for(int i=0;i<ChatT.Length-1;i++)
         {
             if(ChatT[i].text != "")
             {

@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using System.Text;
+using System;
+
 public class ScoreManager : MonoBehaviourPunCallbacks
 {
     public PhotonView PV;
@@ -203,7 +206,10 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         for (int i = 0; i < SusoonJung.Length; i++)
         {
             if (ScoreT[i])
-                ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
+            {
+              string[] id = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Split(Convert.ToChar(39));
+                ScoreT[i].GetComponent<Text>().text = id[1] + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
+            }
         }
     }
 

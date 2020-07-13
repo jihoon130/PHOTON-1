@@ -117,7 +117,7 @@ public class PlayerDB : MonoBehaviour
                                     count++;
                                     break;
                                 default:
-                                    RakingText.text += count + "등" + "\t\t\t" + key1.ToString() + "\t\t\t" + d.Value + "\n";
+                                    RakingText.text += count + "등" + "\t" + key1.ToString() + "\t" + d.Value + "\n";
                                     count++;
                                     break;
 
