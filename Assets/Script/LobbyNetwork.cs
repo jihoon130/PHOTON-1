@@ -7,12 +7,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public string gameVersion = "2.0";
+  private string gameVersion = "2.0";
     PhotonView pv;
-    string EnemyNickname;
+   string EnemyNickname;
+    [Header("방 생성에 필요한것들")]
     public int count1=0;
    public string BackGroundColor;
     public string CharacterCount;
+    [Header("로비 안에서 쓰이는 것들")]
     public GameObject[] Player;
     public bool[] Ready;
     public int ReadyCount = 0;
@@ -34,15 +36,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         pv = GetComponent<PhotonView>();
         OnLogin();
     }
-    private void Start()
-    {
-    }
+
     // Update is called once per frame
     void Update()
     {
-        
-
-
         if (g && !PhotonNetwork.InRoom)
             return;
 
@@ -51,31 +48,14 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.IsMasterClient)
         {
             ReadyButton.GetComponent<Image>().sprite = images[1];
-        }
-        else
-        {
-            ReadyButton.GetComponent<Image>().sprite = images[0];
-        }
-
-
-        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && PhotonNetwork.PlayerList.Length <= 1)
-        {
-            ReadyButton.GetComponent<Button>().enabled = false;
-        }
-
-        if (ReadyButton.GetComponent<Image>().sprite.name == "UI_image_start" && PhotonNetwork.PlayerList.Length >= 2) // 2   빌드시 수정
-        {
-            ReadyButton.GetComponent<Button>().enabled = true;
-            ReadyButton.GetComponent<Image>().color = new Color(255, 255, 255);
             ReadyButton.GetComponent<Button>().onClick.AddListener(() => CheckReady());
         }
+
 
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
         {
             OnSendChatMsg();
         }
-
-        // OpenR();
 
 
         GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
@@ -95,10 +75,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
                 PhotonNetwork.SetMasterClient(taggedEnemys[i].GetComponent<LobbyPlayer>().pv.Owner);
             }
         }
-        //     pv.RPC("TransRPC", RpcTarget.All);
 
     }
 
+    //초기 셋팅
     void OnLogin()
     {
         PhotonNetwork.GameVersion = this.gameVersion;
@@ -114,22 +94,16 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby();
-        //   PhotonNetwork.JoinRandomRoom();
     }
-    // Update is called once per frame
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = 4 });
-    }
+
     public override void OnJoinedRoom()
     {
         Panels[0].SetActive(false);
         Panels[1].SetActive(true);
         PhotonNetwork.Instantiate("LobbyCh", transform.position, Quaternion.identity);
-
     }
 
-    public void Test1()
+    public void InitRoom()
     {
         if (!RoomName)
             return;
@@ -235,6 +209,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     {
         PhotonNetwork.JoinRoom(roomName, null);
     }
+
     void OpenR()
     {
         Player = GameObject.FindGameObjectsWithTag("Player1");
@@ -281,26 +256,26 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        //if (!g && PhotonNetwork.IsMasterClient)
-        //{
-        //    PhotonNetwork.CurrentRoom.IsOpen = false;
-        //    PhotonNetwork.LoadLevel("TaScene");
-        //    g = true;
-        //}
+        //if(PhotonNetwork.PlayerList.Length<=1)
+        //    return;
+        
 
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
-
-        ReadyCount = taggedEnemys.Length;
-
-        if (!g && ReadyCount >= PhotonNetwork.PlayerList.Length - 1 && PhotonNetwork.IsMasterClient)
+        if (!g && PhotonNetwork.IsMasterClient)
         {
-            if (ReadyCount == 0)
-                return;
-
-            g = true;
             PhotonNetwork.CurrentRoom.IsOpen = false;
             PhotonNetwork.LoadLevel("TaScene");
+            g = true;
         }
+
+        //GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
+
+        //if (!g && taggedEnemys >= PhotonNetwork.PlayerList.Length - 1 && PhotonNetwork.IsMasterClient)
+        //{
+
+        //    g = true;
+        //    PhotonNetwork.CurrentRoom.IsOpen = false;
+        //    PhotonNetwork.LoadLevel("TaScene");
+        //}
     }
 
     private void OnDisconnectedFromServer()
@@ -308,6 +283,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.ReconnectAndRejoin();
     }
 
+    //연결이 끊겼을때 본인을 삭제함.
     void OnPlayerDisconnected()
     {
         PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
@@ -323,6 +299,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         PhotonNetwork.ReconnectAndRejoin();
     }
 
+    //보낼 메시지를 설정함.
     public void OnSendChatMsg()
     {
         if (ifSnedMsg.text != "")
@@ -336,6 +313,8 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     }
 
+
+    //다른 사람에게 메시지를 보냄
     [PunRPC]
     void ReceiveMsgRPC(string msg)
     {
@@ -343,6 +322,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         sc_rect.verticalNormalizedPosition = 0.0f;
     }
 
+    //나도 메시지를 늘림
     void ReceiveMsg(string msg)
     {
         msglist.text += msg + "\n";

@@ -168,12 +168,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
-
-               // gameObject.GetComponentInChildren<TextMesh>().text = NickName;
-
-              //  this.GetComponentInChildren<TextMesh>().text = NickName;
-
-        
             }
             else
             {
@@ -237,23 +231,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 isMove = true;
             }
 
-            if (TestRpT > 0.0f)
-            {
-                StopCoroutine("DestroyPiguck");
-
-                if (SpawnT)
-                {
-                    SpawnT.SetActive(true);
-                    SpawnT.GetComponentInChildren<Text>().text = "너무 상심하지마요 상대가 '나'잖아" + "\n" + TestRpT.ToString("N1") + " 초 뒤에 부활합니다.";
-                }
-                TestRpT -= Time.deltaTime;
-            }
-            //if (TestRpT <= 0.0f && isDie)
-            //{
-            //    ResetPos();
-            //}
-
-
             if(dieOk)
             {
                 float time = Canvas1.transform.GetChild(7).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
@@ -274,7 +251,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (_PlayerAni && fHorizontal == 0.0f && fVertical == 0.0f)
             {
-                //kimsunwoo.enabled = false;
                 _PlayerAni.Ani.SetLayerWeight(1, 0);
             }
             else
@@ -292,17 +268,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 Effects[0].GetComponent<ParticleSystem>().Stop();
             }
 
-            if (Piguck)
-                StartCoroutine("DestroyPiguck");
-            else
-                StopCoroutine("DestroyPiguck");
-
-
-            if (isDie)
-            {
-                rb.velocity = Vector3.zero;
-            }
-
             if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay && !GetComponent<Create>().isReload && !isDie)
             {
                 SoundPlayer(0);
@@ -310,20 +275,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 GooT += 0.5f;
             }
 
-            if (daepoT <= 20.0f)
-                daepoT += Time.deltaTime;
-
-
             if (StopT <= 0.0f)
             {
                 if (!isMove)
                     return;
-
-
-                if (Input.GetKeyDown(KeyCode.RightShift))
-                {
-                    PhotonNetwork.Instantiate("333", transform.position, Quaternion.identity);
-                }
             }
 
         }
@@ -378,10 +333,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-    private void Jump()
-    {
-        rb.AddForce(Vector3.up * 6f, ForceMode.Impulse);
-    }
+
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -430,11 +382,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         yield return new WaitForSeconds(0.3f);
         isPhoenix = false;
     }
-    IEnumerator DestroyPiguck()
-    {
-        yield return new WaitForSeconds(10f);
-        Piguck = null;
-    }
+
 
     public void PhoenixTimer()
     {
@@ -508,35 +456,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                     ChatText[ChatCount].text = ChatList.Dequeue();
                     ++ChatCount;
                 }
-        //for (int i = 0; i < ChatText.Length; i++)
-        //{
-        //    if(ChatCount ==  ChatText.Length)
-        //    {
-        //        ChatCount = 0;
-        //    }
-
-        //        ChatText[ChatCount].GetComponentInParent<KillLog>().deleteT = 3.0f;
-        //        ChatText[ChatCount].text = _msg;
-        //        ++ChatCount;
-        //        break;
-        //}
     }
 
 
     public void MoveTrue() => isMove = true;
     public void MoveFalse() => isMove = false;
-
-    public void DownR()
-    {
-        fHorizontal = 0;
-        fVertical = 0;
-        Effects[1].GetComponent<ParticleSystem>().Play();
-        _PlayerAni._State = State.Jump_End;
-        isJumping = false;
-        isJumpDown = false;
-        fl = false;
-        isGround = true;
-    }
 
     public void DieTrue()
     {
@@ -559,7 +483,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         Balsa.Play();
     }
 
-    private void flRP() => fl = true;
 
    
 }

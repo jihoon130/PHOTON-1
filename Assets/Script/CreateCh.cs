@@ -10,11 +10,8 @@ public class CreateCh : MonoBehaviourPunCallbacks
     public Text[] ChatT;
     public GameObject[] I;
     PhotonView pv;
-    bool a = false;
-    bool start = false;
-    bool play = false;
-    float StartT = 0.0f;
-  public  Text Daegi; public GameObject timer;
+    public  Text Daegi;
+    public GameObject timer;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -22,12 +19,9 @@ public class CreateCh : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        //   PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-1, 6), 7f, Random.Range(-18, -24)), Quaternion.identity);
-        
         string PlayerGetName = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>().CharacterName;
 
-        int ab = Random.Range(0, 3);
-                PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[3].transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("Player_" + PlayerGetName, Spawn1[3].transform.position, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -40,9 +34,6 @@ public class CreateCh : MonoBehaviourPunCallbacks
                 I[i].SetActive(true);
             }
         }
-
-
-
     }
 
 }

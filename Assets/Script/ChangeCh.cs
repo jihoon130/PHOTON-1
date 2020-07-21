@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class ChangeCh : MonoBehaviour
 {
     public GameObject[] Charater;
-
+    public LobbyPlayer Player;
     private SelectPlayer SelectPoint;
     
     void Start()
@@ -13,30 +13,17 @@ public class ChangeCh : MonoBehaviour
         SelectPoint = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
   public  void ChangeCharater1()
     {
         SelectPoint.CharacterName = "Blue";
 
-                Charater[0].SetActive(false);
-                Charater[1].SetActive(true);
-                Charater[2].SetActive(true);
-                 Charater[3].SetActive(true);
-    
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
+        Charater[0].SetActive(false);
+        Charater[1].SetActive(true);
+        Charater[2].SetActive(true);
+        Charater[3].SetActive(true);
 
-        for(int i=0;i<taggedEnemys.Length;i++)
-        {
-            if(taggedEnemys[i].GetComponent<LobbyPlayer>().pv.IsMine)
-            {
-                taggedEnemys[i].GetComponent<LobbyPlayer>().a = 0;
-            }
-        }
+        Player.ChangeCharacter(0);
+
     }
   public  void ChangeCharater2()
     {
@@ -47,15 +34,7 @@ public class ChangeCh : MonoBehaviour
         Charater[2].SetActive(true);
         Charater[3].SetActive(true);
 
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
-
-        for (int i = 0; i < taggedEnemys.Length; i++)
-        {
-            if (taggedEnemys[i].GetComponent<LobbyPlayer>().pv.IsMine)
-            {
-                taggedEnemys[i].GetComponent<LobbyPlayer>().a = 1;
-            }
-        }
+        Player.ChangeCharacter(1);
     }
   public  void ChangeCharater3()
     {
@@ -66,15 +45,7 @@ public class ChangeCh : MonoBehaviour
         Charater[2].SetActive(false);
         Charater[3].SetActive(true);
 
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
-
-        for (int i = 0; i < taggedEnemys.Length; i++)
-        {
-            if (taggedEnemys[i].GetComponent<LobbyPlayer>().pv.IsMine)
-            {
-                taggedEnemys[i].GetComponent<LobbyPlayer>().a = 2;
-            }
-        }
+        Player.ChangeCharacter(2);
     }
    public void ChangeCharater4()
     {
@@ -85,14 +56,7 @@ public class ChangeCh : MonoBehaviour
         Charater[2].SetActive(true);
         Charater[3].SetActive(false);
 
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player1");
 
-        for (int i = 0; i < taggedEnemys.Length; i++)
-        {
-            if (taggedEnemys[i].GetComponent<LobbyPlayer>().pv.IsMine)
-            {
-                taggedEnemys[i].GetComponent<LobbyPlayer>().a = 3;
-            }
-        }
+        Player.ChangeCharacter(3);
     }
 }

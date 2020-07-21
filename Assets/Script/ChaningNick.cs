@@ -7,13 +7,7 @@ public class ChaningNick : MonoBehaviour
 {
     public GameObject NickC1;
     public InputField Nick2;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     void Update()
     {
         NickC1.transform.SetAsLastSibling();
