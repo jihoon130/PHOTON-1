@@ -101,12 +101,12 @@ public class Create : MonoBehaviourPunCallbacks
         }
     
 
-        if (move.dieOk == false)
-        {
-            if (AimY <= 110f && AimY >= -110f)
-                AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
-            AimY = Mathf.Clamp(AimY, -110f, 110f);
-        }
+        //if (move.dieOk == false)
+        //{
+        //    if (AimY <= 110f && AimY >= -110f)
+        //        AimY -= Input.GetAxis("Mouse Y") * 500.0f * Time.deltaTime;
+        //    AimY = Mathf.Clamp(AimY, -110f, 110f);
+        //}
         ReloadUpdate();
 
         if (move.StopT <= 0.0f)
@@ -251,10 +251,9 @@ public class Create : MonoBehaviourPunCallbacks
         {
             if(!DefaultBullet[i].activeSelf)
             {
-                DefaultBullet[i].GetComponent<CastMove>().sd = hit.point;
+                DefaultBullet[i].GetComponent<BasicBullet>().Point = hit.point;
                 DefaultBullet[i].transform.position = vStartPos;
                 PV.RPC("DefaultBulletOnRPC", RpcTarget.All, i);
-                DefaultBullet[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
                 count++;
                 if (count == DefaultBullet.Length)
                     count = 0;
@@ -274,12 +273,9 @@ public class Create : MonoBehaviourPunCallbacks
         {
             if (!MachinegunBulletM[i].activeSelf)
             {
-                MachinegunBulletM[i].GetComponent<CastMove>().sd = hit.point;
+                MachinegunBulletM[i].GetComponent<MachinegunBullet>().Point = hit.point;
                 MachinegunBulletM[i].transform.position = vStartPos;
                 PV.RPC("MachinegunBulletOnRPC", RpcTarget.All, i);
-                MachinegunBulletM[i].transform.eulerAngles = vStartRot;
-                MachinegunBulletM[i].GetComponent<CastMove>().CastSpeed = BulletSpeed;
-                MachinegunBulletM[i].GetComponent<CastMove>().Dir = 1f;
                 count1++;
                 if (count1 == MachinegunBulletM.Length)
                     count1 = 0;

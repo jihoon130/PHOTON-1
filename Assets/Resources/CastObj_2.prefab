@@ -140,9 +140,9 @@ GameObject:
   - component: {fileID: 6342653887555547257}
   - component: {fileID: 2059694990760150934}
   - component: {fileID: 1292297648020307383}
-  - component: {fileID: 6862538978661315554}
   - component: {fileID: 6862538978661315565}
   - component: {fileID: 8657092727158853426}
+  - component: {fileID: -2790371199958500177}
   m_Layer: 0
   m_Name: CastObj_2
   m_TagString: SpeedBullet
@@ -225,21 +225,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6862538978661315554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6862538978661315564}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f08d63eaf5438a14abbde02f84a5de7d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CastSpeed: 50
-  Dir: 0.5
-  PV: {fileID: 0}
 --- !u!114 &6862538978661315565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,3 +263,26 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2790371199958500177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6862538978661315564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 707b4b419d15b5e458b62034bcbf6643, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _BulletMode: 0
+  Parent: {fileID: 0}
+  PV: {fileID: 0}
+  pu2: {fileID: 0}
+  pu3: {fileID: 0}
+  a: 0
+  Water: {fileID: 0}
+  hit: {fileID: 0}
+  other1: {fileID: 0}
+  Point: {x: 0, y: 0, z: 0}
+  currPos: {x: 0, y: 0, z: 0}

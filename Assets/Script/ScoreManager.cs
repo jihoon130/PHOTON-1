@@ -9,21 +9,18 @@ using System;
 
 public class ScoreManager : MonoBehaviourPunCallbacks
 {
+
+
+    public Move[] SusoonJung;
+    private Move TempObject;
+
+
     public PhotonView PV;
-
     public GameObject[] ScoreUI;
-
-    public int[] Score;
-    public string[] NickName;
-    private string SaveNick;
     public GameObject[] EndSco;
-    public int bestScore;
-    public string bestNick;
-    public int k;
+    GameObject[] taggedPlayer;
     public Text[] EndSocreText;
     public GameObject End2;
-    public GameObject[] SusoonJung;
-    public GameObject TempObject;
     public GameObject[] ScoreT;
     public GameObject[] RankG;
     // Start is called before the first frame update
@@ -31,70 +28,75 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        SusoonJung = new Move[PhotonNetwork.PlayerList.Length];
+        InvokeRepeating("SetPlayer", 0.0f, 0.1f);
+
+        for (int j = PhotonNetwork.PlayerList.Length; j < 4; j++)
+        {
+            RankG[j].SetActive(false);
+        }
+
         PV = GetComponent<PhotonView>();
-
-        NickName = new string[5];
-        InvokeRepeating("ScoreUpdate", 0f, 0.1f);
-
-        Score = new int[50];
 
 
 
     }
     private void Update()
     {
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            RankG[i].SetActive(true);
-            for (int j=PhotonNetwork.PlayerList.Length; j<4;j++)
-            {
-                RankG[j].SetActive(false);
-            }
-        }
         UpdateScore();
     }
 
+    public void SetPlayer()
+    {
+        if (taggedPlayer.Length == PhotonNetwork.PlayerList.Length)
+            return;
+
+       taggedPlayer = GameObject.FindGameObjectsWithTag("Player");
+
+        for (int i = 0; i < taggedPlayer.Length; i++)
+        {
+            SusoonJung[i] = taggedPlayer[i].GetComponent<Move>();
+        }
+    }
     public void EndScore()
     {
         End2.SetActive(true);
         StartCoroutine("EndS");
     }
-
     IEnumerator EndS()
     {
-        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach(GameObject gameObject in gameObjects)
+        foreach(GameObject gameObject in taggedPlayer)
         {
             gameObject.GetComponent<Move>().GameEndok = true;
         }
 
         yield return new WaitForSeconds(1f);
-        PlayerDB db = GameObject.Find("PlayerDB").GetComponent<PlayerDB>();
-        for(int i=0;i<SusoonJung.Length;i++)
-        {
-            if(SusoonJung[i].GetComponent<Move>().PV.IsMine)
-            {
-                switch(i)
-                {
-                    case 0:
-                        db.UpdateDB(db.ip, db.UserScore + 20);
-                        EndSco[7].GetComponent<Text>().text =  "점수 : "+(db.UserScore + 20) + "(+20)";
-                        break;
-                    case 1:
-                        db.UpdateDB(db.ip, db.UserScore + 10);
-                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore + 10) + "(+10)";
-                        break;
-                    case 2:
-                        db.UpdateDB(db.ip, db.UserScore);
-                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore) + "(+0)";
-                        break;
-                    case 3:
-                        db.UpdateDB(db.ip, db.UserScore-10);
-                        EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore - 10) + "(-10)";
-                        break;
-                }
-            }
-        }
+        //PlayerDB db = GameObject.Find("PlayerDB").GetComponent<PlayerDB>();
+        //for(int i=0;i<SusoonJung.Length;i++)
+        //{
+        //    if(SusoonJung[i].GetComponent<Move>().PV.IsMine)
+        //    {
+        //        switch(i)
+        //        {
+        //            case 0:
+        //                db.UpdateDB(db.ip, db.UserScore + 20);
+        //                EndSco[7].GetComponent<Text>().text =  "점수 : "+(db.UserScore + 20) + "(+20)";
+        //                break;
+        //            case 1:
+        //                db.UpdateDB(db.ip, db.UserScore + 10);
+        //                EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore + 10) + "(+10)";
+        //                break;
+        //            case 2:
+        //                db.UpdateDB(db.ip, db.UserScore);
+        //                EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore) + "(+0)";
+        //                break;
+        //            case 3:
+        //                db.UpdateDB(db.ip, db.UserScore-10);
+        //                EndSco[7].GetComponent<Text>().text = "점수 : " + (db.UserScore - 10) + "(-10)";
+        //                break;
+        //        }
+        //    }
+        //}
         GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(1);
         EndSco[0].SetActive(true);
         yield return new WaitForSeconds(2f);
@@ -102,9 +104,9 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         for (int i = 1; i <= PhotonNetwork.PlayerList.Length; i++)
         {
             EndSco[i].SetActive(true);
-            EndSco[i].GetComponentInChildren<Text>().text = SusoonJung[i-1].GetComponent<Move>().PV.Owner.ToString().Substring(4);
-            SusoonJung[i - 1].GetComponent<Move>().isMove = false;
-            EndSco[i].transform.GetChild(1).GetComponent<Text>().text = Score[SusoonJung[i-1].GetComponent<Move>().PV.ViewID / 1000].ToString();
+            EndSco[i].GetComponentInChildren<Text>().text = SusoonJung[i-1].PV.Owner.ToString().Substring(4);
+            SusoonJung[i - 1].isMove = false;
+            EndSco[i].transform.GetChild(1).GetComponent<Text>().text = SusoonJung[i-1].score.ToString();
             
         }
         yield return new WaitForSeconds(2f);
@@ -113,89 +115,17 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         Cursor.visible = true;
         EndSco[6].SetActive(true);
         EndSco[5].SetActive(true);
-        Destroy(db.gameObject);
+       // Destroy(db.gameObject);
         GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(2);
     }
 
 
-    void ScoreUpdate()
-    {
-        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Player");
 
-        foreach (GameObject taggedEnemy in taggedEnemys)
-        {
-           Score[taggedEnemy.GetComponent<Move>().PV.ViewID/1000] = taggedEnemy.GetComponent<Move>().score;
-
-            if(k>=1 && taggedEnemy.GetComponent<Move>().PV.ViewID == k*1000+1)
-            {
-                if (taggedEnemy.GetComponent<Move>().EnemyNickName != null)
-                    bestNick = taggedEnemy.GetComponent<Move>().EnemyNickName;
-                else
-                    bestNick = taggedEnemy.GetComponent<Move>().NickName;
-                //bestNick = "MY";
-            }
-        }
-    }
-
-
-    void ScroeFindMax()
-    {
-        for(int x = 1; x < Score.Length - 1; x++)
-        {
-            for(int y = x + 1; y < Score.Length; y++)
-            {
-                if(Score[x] < Score[y])
-                {
-                    bestScore = Score[y];
-                    Score[y] = Score[x];
-                    Score[x] = bestScore;
-                }
-            }
-        }
-        //Debug.Log(SusoonJung.Length);
-        //for (int i = 0; i < SusoonJung.Length - 1; i++)
-        //{
-        //    for (int y = i + 1; y < SusoonJung.Length; y++)
-        //    {
-        //        if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[y].GetComponent<Move>().score)
-        //        {
-        //            TempObject = SusoonJung[y];
-        //            SusoonJung[y] = SusoonJung[i];
-        //            SusoonJung[y] = TempObject;
-        //        }
-        //    }
-        //}
-    }
-    [PunRPC]
-    void UpdateScoreRPC()
-    {
-        if(PhotonNetwork.PlayerList.Length != SusoonJung.Length)
-        SusoonJung = GameObject.FindGameObjectsWithTag("Player");
-
-        for (int i = 0; i < SusoonJung.Length - 1; i++)
-        {
-            if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
-            {
-                TempObject = SusoonJung[i];
-                SusoonJung[i] = SusoonJung[i + 1];
-                SusoonJung[i + 1] = TempObject;
-            }
-        }
-
-        for (int i = 0; i < SusoonJung.Length; i++)
-        {
-            if(ScoreT[i])
-            ScoreT[i].GetComponent<Text>().text = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Substring(4) + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
-        }
-    }
     void UpdateScore()
     {
-        if (PhotonNetwork.PlayerList.Length != SusoonJung.Length)
-            SusoonJung = GameObject.FindGameObjectsWithTag("Player");
-
         for (int i = 0; i < SusoonJung.Length - 1; i++)
         {
-            if (SusoonJung[i].GetComponent<Move>().score < SusoonJung[i + 1].GetComponent<Move>().score)
+            if (SusoonJung[i].score < SusoonJung[i + 1].score)
             {
                 TempObject = SusoonJung[i];
                 SusoonJung[i] = SusoonJung[i + 1];
@@ -203,12 +133,12 @@ public class ScoreManager : MonoBehaviourPunCallbacks
             }
         }
 
-        for (int i = 0; i < SusoonJung.Length; i++)
+        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
             if (ScoreT[i])
             {
-              string[] id = SusoonJung[i].GetComponent<Move>().PV.Owner.ToString().Split(Convert.ToChar(39));
-                ScoreT[i].GetComponent<Text>().text = id[1] + "\n" + Score[SusoonJung[i].GetComponent<Move>().PV.ViewID / 1000];
+                string[] id = SusoonJung[i].PV.Owner.ToString().Split(Convert.ToChar(39));
+                ScoreT[i].GetComponent<Text>().text = id[1] + "\n" + SusoonJung[i].score;
             }
         }
     }
@@ -218,15 +148,5 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.Disconnect();
         SceneManager.LoadScene(0);
-    }
-
-
-
-    void OnApplicationPause(bool paused)
-    {
-        if (paused)
-        {
-            PhotonNetwork.ReconnectAndRejoin();
-        }
     }
 }
