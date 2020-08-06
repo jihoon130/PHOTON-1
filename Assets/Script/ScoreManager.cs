@@ -41,16 +41,13 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
 
     }
-    private void Update()
-    {
-        UpdateScore();
-    }
-
     public void SetPlayer()
     {
-        if (taggedPlayer.Length == PhotonNetwork.PlayerList.Length)
+        if (taggedPlayer?.Length == PhotonNetwork.PlayerList.Length)
+        {
+            UpdateScore();
             return;
-
+        }
        taggedPlayer = GameObject.FindGameObjectsWithTag("Player");
 
         for (int i = 0; i < taggedPlayer.Length; i++)
@@ -120,18 +117,43 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     }
 
 
+    static void Quicksort(Move[] numbers, int left, int right)
+    {
+        int l_hold = left, r_hold = right; 
+        int pivot = numbers[left].score;      
+        Move _pivot = numbers[left];
+
+        while (left < right)
+        {
+            while ((pivot >= numbers[right].score) && (left < right))
+                right--;
+            if (left != right)
+                numbers[left] = numbers[right];
+
+            while ((pivot <= numbers[left].score) && (left < right))
+                left++;
+            if (left != right)
+            {
+                numbers[right] = numbers[left];
+                right--; 
+            }
+        }
+
+        numbers[left] = _pivot;
+        pivot = left;
+        left = l_hold;
+        right = r_hold;
+
+        if (left < pivot)
+            Quicksort(numbers, left, pivot - 1);
+        if (right > pivot)
+            Quicksort(numbers, pivot + 1, right);
+    }
+
 
     void UpdateScore()
     {
-        for (int i = 0; i < SusoonJung.Length - 1; i++)
-        {
-            if (SusoonJung[i].score < SusoonJung[i + 1].score)
-            {
-                TempObject = SusoonJung[i];
-                SusoonJung[i] = SusoonJung[i + 1];
-                SusoonJung[i + 1] = TempObject;
-            }
-        }
+        Quicksort(SusoonJung, 0, SusoonJung.Length - 1);
 
         for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
         {
