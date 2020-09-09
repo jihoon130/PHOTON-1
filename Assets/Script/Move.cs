@@ -11,6 +11,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public PhotonView PV;
     public PlayerAni _PlayerAni;
     public GameObject camera2;
+    public Animation anims;
     // ID
     public int PVGetID;
     public int score2;
@@ -36,8 +37,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     string chat;
     public GameObject Boonsoo;
     public ScoreManager scoreM;
+    public GameObject Boo22;
     private Vector3 currPos;
     public GameObject[] Effects;
+    public GameObject TestBoo;
     private Rigidbody rb;
     public ParticleSystem Balsa;
     private Quaternion currRot;
@@ -145,26 +148,13 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f && Timers.isStart)
             {
-                if (!isMove || isDie || GetComponent<Machinegun>().isMachineRay)
+                if (!isMove || isDie)
                     return;
 
                 fHorizontal = Input.GetAxisRaw("Horizontal");
                 fVertical = Input.GetAxisRaw("Vertical");
 
-                if (fVertical < 0)
-                {
-                    if(GetComponent<Machinegun>().isMachineAttack)
-                        MoveSpeed = 2.5f;
-                    else
-                        MoveSpeed = 4f;
-                }
-                else
-                {
-                    if (GetComponent<Machinegun>().isMachineAttack)
-                        MoveSpeed = 4f;
-                    else
-                        MoveSpeed = 7f;
-                }
+
 
                 Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
                 tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
@@ -214,7 +204,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-          
+          if(Input.GetMouseButtonDown(0))
+          {
+                _PlayerAni._State = State.Attack;
+            }
 
             if (GooT > 0.0f)
             {
@@ -245,7 +238,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if(Input.GetKeyDown(KeyCode.LeftControl))
             {
                 GetComponent<Grenade>().DeleteGreade();
-                GetComponent<Machinegun>().MachineDeleteReset();
             }
 
 
@@ -268,7 +260,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 Effects[0].GetComponent<ParticleSystem>().Stop();
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround && !GetComponent<Machinegun>().isMachineRay && !GetComponent<Create>().isReload && !isDie)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround&& !isDie)
             {
                 SoundPlayer(0);
                 kk = true;
@@ -303,6 +295,18 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+
+    public void MoveMON()
+    {
+        anims.Play();
+        anims.gameObject.GetComponentInChildren<MINA>().OK = true;
+    }
+    
+
+    public void MoveOFF()
+    {
+        anims.gameObject.GetComponentInChildren<MINA>().OK = false;
+    }
     private void OnCollisionEnter(Collision collision)
     {
         if (!PV.IsMine || GameEndok)
@@ -333,7 +337,11 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
-
+    [PunRPC]
+    void BooRPC()
+    {
+        TestBoo.SetActive(true);
+    }
 
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -364,6 +372,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Piguck2 = (string)stream.ReceiveNext();
         }
     }
+
 
     IEnumerator RespawnShaderOFF()
     {
@@ -401,13 +410,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             PV.RPC("SendMsgRPC", RpcTarget.AllBuffered, Piguck.GetComponent<Move>().PV.Owner.NickName.ToString());
         }
 
-        if (GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
-            GetComponent<Machinegun>().MachineDeleteReset();
-        else if (GetComponent<Create>()._BulletMake == BulletMake.Grenade)
-            GetComponent<Grenade>().DeleteGreade();
 
-        GetComponent<Machinegun>().PlayerDie();
-        GetComponent<Grenade>().PlayerDie();
 
         rb.velocity = Vector3.zero;
         transform.position = repo;
