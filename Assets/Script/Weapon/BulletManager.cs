@@ -82,6 +82,9 @@ public class BulletManager : MonoBehaviourPunCallbacks
             {
                 if(i == 1 && _BulletMode == BulletMode.Machinegun)
                 {
+                    if (_Command.Aim == null)
+                        return;
+
                     _Command.Aim.AimState(2);
                     _Command.Aim.AimAttack(false);
                 }
@@ -196,9 +199,19 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
 
     // 구르기 이벤트에 메서드 추가
-    public void NotAim() => _Command.Aim.AimState(2);
+    public void NotAim()
+    {
+        if (_Command.Aim == null)
+            return;
+
+        _Command.Aim.AimState(2);
+    }
+        
     public void ChangeAim()
     {
+        if (_Command.Aim == null)
+            return;
+
         if (_BulletMode == BulletMode.Machinegun)
         {
             _Command.Aim.AimState(1);

@@ -36,6 +36,8 @@ public class CameraPlayer : MonoBehaviour
 
     public float CameraZ = 0.0f;
 
+    public float CameraLerp = 5.0f;
+
     private void Awake()
     {
         I = this;
@@ -70,7 +72,8 @@ public class CameraPlayer : MonoBehaviour
             transform.rotation = rotation;
 
             Vector3 vPos2 = new Vector3(position.x, position.y, position.z);
-            transform.position = vPos2;
+            //transform.position = vPos2;
+            transform.position = Vector3.Lerp(transform.position, vPos2, Time.deltaTime * CameraLerp);
 
             target.Rotate(Vector3.up * Time.deltaTime * xSpeed * Input.GetAxis("Mouse X"));
         }
@@ -88,5 +91,14 @@ public class CameraPlayer : MonoBehaviour
         if (angle > 360)
             angle -= 360;
         return Mathf.Clamp(angle, min, max);
+    }
+
+    public void LerpValue()
+    {
+        CameraLerp = 5f;
+    }
+    public void LerpValue(float nValue)
+    {
+        CameraLerp = nValue;
     }
 }

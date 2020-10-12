@@ -86,6 +86,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     public bool isRespawnAttack;
 
+    // 리스폰시 공격되는걸 막기
+    public bool isSpawnAttack;
+
+
     private void Awake()
     {
         bagMusic = GameObject.Find("BGSound");
@@ -204,8 +208,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-          if(Input.GetMouseButtonDown(0))
-          {
+            if(Input.GetMouseButtonDown(0) && isSpawnAttack)
+            {
                 _PlayerAni._State = State.Attack;
             }
 
@@ -296,6 +300,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
+    // 펀치 공격
     public void MoveMON()
     {
         anims.Play();
@@ -314,6 +319,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         if(collision.gameObject.name == "Sea" && !dieOk)
         {
+            isSpawnAttack = false;
             int a = Random.Range(3, 6);
             Audio.clip = audios[a];
             Audio.Play();
@@ -323,18 +329,36 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
+
+            // 카메라 러프거리 조정
+            CameraPlayer.I.LerpValue(100f);
         }
 
         if (collision.gameObject.CompareTag("Ground") && dieOk)
         {
-
             Canvas1.transform.GetChild(7).gameObject.SetActive(false);
             dieOk = false;
             isDie = false;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             camera2.transform.GetChild(4).gameObject.SetActive(false);
+
+            // 카메라 러프거리 조정
+            CameraPlayer.I.LerpValue();
+
+            // 물터는 이펙트 on / off
+            StartCoroutine("SpawnTimer");
         }
+    }
+
+    IEnumerator SpawnTimer()
+    {
+        Effects[2].SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        isSpawnAttack = true;
+        yield return new WaitForSeconds(1f);
+        Effects[2].SetActive(false);
+        
     }
 
     [PunRPC]

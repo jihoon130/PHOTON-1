@@ -81,10 +81,16 @@ public class Timer : MonoBehaviourPunCallbacks
             m_nStartCount--;
             XZ = 2f;
 
-            GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(3);
+            
 
             if (m_nStartCount > -1)
+            {
+                GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(3);
                 StartCountInit();
+            }
+                
+            else
+                GameObject.Find("UISoundManager").GetComponent<RobbySound>().SoundPlayer(7);
         }
     }
     private void StartImageUpdate()

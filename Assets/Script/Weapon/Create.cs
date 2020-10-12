@@ -67,7 +67,7 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void ReloadUpdate()
     {
-        if (!isReload)
+        if (!isReload && _Command.Aim == null)
             return;
 
         ReloadImg.fillAmount += 1f * Time.deltaTime;
@@ -117,7 +117,9 @@ public class Create : MonoBehaviourPunCallbacks
                     _Command.Bulletmanager.MaxBulletCheck(1))
                     return;
 
-                _Command.Aim.AimState(2);
+                if (_Command.Aim != null)
+                    _Command.Aim.AimState(2);
+
                 SoundPlayer(6);
                 ReloadBulletImage.SetActive(true);
                 ReloadBG.SetActive(true);
@@ -133,13 +135,17 @@ public class Create : MonoBehaviourPunCallbacks
             {
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
-                    _Command.Aim.AimAttack(true);
+                    if (_Command.Aim != null)
+                        _Command.Aim.AimAttack(true);
+
                     GunEffectType = 2;
                     _Ani._State = State.Attack;
                 }
                 else if (Input.GetMouseButtonUp(0))
                 {
-                    _Command.Aim.AimAttack(false);
+                    if (_Command.Aim != null)
+                        _Command.Aim.AimAttack(false);
+
                     isBullet = false;
                     GunEffectType = 0;
                 }
@@ -149,7 +155,9 @@ public class Create : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetMouseButton(0) && !isReload)
                     {
-                        _Command.Aim.AimAttack(true);
+                        if (_Command.Aim != null)
+                            _Command.Aim.AimAttack(true);
+
                         //if (_Ani._State == State.IdleRun)
                         {
                             CameraCol.instance.CameraJoom(1.5f);
@@ -161,7 +169,9 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
-                            _Command.Aim.AimAttack(false);
+                            if (_Command.Aim != null)
+                                _Command.Aim.AimAttack(false);
+
                             SoundStop(3);
                             isBullet = false;
                             _Command.Machineguns.MachineIdleChange();

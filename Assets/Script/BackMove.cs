@@ -14,6 +14,9 @@ public class BackMove : MonoBehaviourPunCallbacks
     public AudioClip[] audioS;
     public Renderer[] rd;
     float b = 0f;
+
+    public GameObject DmgEffect; // 피격 받았을 시 이펙트
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -50,6 +53,8 @@ public class BackMove : MonoBehaviourPunCallbacks
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
         rb.AddForce(pushdi * d, ForceMode.Impulse);
+
+        //Effect(DmgEffect, false);
     }
 
 
@@ -86,6 +91,8 @@ public class BackMove : MonoBehaviourPunCallbacks
     [PunRPC]
     public void BackRPC(float a, float b, float c,float d, string e)
     {
+        
+
         if (_Move.isPhoenix || GetComponentInParent<Machinegun>().isMachineRay)
         {
             return;
@@ -109,15 +116,19 @@ public class BackMove : MonoBehaviourPunCallbacks
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
         rb.AddForce(pushdi * d, ForceMode.Impulse);
+
+        
     }
 
     public void hitOn()
     {
-        for(int i = 0; i < rd.Length; i++)
+        DmgEffect.SetActive(true);
+        for (int i = 0; i < rd.Length; i++)
             rd[i].material.SetFloat("_Damaged", 1.0f);
     }
     public void hitOff()
     {
+        DmgEffect.SetActive(false);
         for (int i = 0; i < rd.Length; i++)
             rd[i].material.SetFloat("_Damaged", 0.0f);
     }
