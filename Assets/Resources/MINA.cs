@@ -6,16 +6,28 @@ using UnityEngine;
 using UnityEngine.UI;
 public class MINA : MonoBehaviour
 {
-  public  PhotonView pv;
+    public  PhotonView pv;
     public bool OK=false;
     private Image ChargeGage;
     public PlayerAni _PlayerAni;
+    public Move _Move;
     public GameObject[] Effect;
     bool FullCharge=false;
+
+
+    private Timer Timers;
+
+    AudioSource Audio;
+    public AudioClip[] audios;
+
     private void Awake()
     {
+        Audio = GetComponent<AudioSource>();
         pv = GetComponent<PhotonView>();
         _PlayerAni = GetComponentInParent<PlayerAni>();
+        _Move = GetComponentInParent<Move>();
+        Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
+
         ChargeGage = GameObject.Find("ChargeGage").GetComponent<Image>();
         Effect[2] = GameObject.Find("hit");
         Effect[3] = GameObject.Find("charge_hit");
@@ -24,15 +36,20 @@ public class MINA : MonoBehaviour
 
     private void Update()
     {
+        if (!_Move.isSpawnAttack)
+            return;
+
         if (Input.GetMouseButton(0))
         {
-            if (ChargeGage.fillAmount <= 1f) ChargeGage.fillAmount += Time.deltaTime;
+            if (ChargeGage.fillAmount <= 1f) 
+                ChargeGage.fillAmount += Time.deltaTime;
         }
         if (Input.GetMouseButtonUp(0))
         {
             _PlayerAni._State = State.Attack;
             ChargeGage.fillAmount = 0f;
             FullCharge = false;
+
           if(pv.IsMine) pv.RPC("EffectAllOffRPC", RpcTarget.All);
         }
 
@@ -71,6 +88,8 @@ public class MINA : MonoBehaviour
     {
      if(OK &&other.CompareTag("Player") && !other.GetComponent<Move>().PV.IsMine)
         {
+            SoundPlayer(0);
+
             other.GetComponent<BackMove>().PV.RPC("ObjMoveback4RPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z,1000f + ChargeGage.fillAmount*1000f);
             if (FullCharge)
                 Attack();
@@ -98,5 +117,14 @@ public class MINA : MonoBehaviour
     public void OKFalse()
     {
         OK = false;
+    }
+
+    private void SoundPlayer(int type)
+    {
+        if (!Timers.isStart)
+            return;
+
+        Audio.clip = audios[type];
+        Audio.Play();
     }
 }

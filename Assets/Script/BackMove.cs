@@ -123,19 +123,36 @@ public class BackMove : MonoBehaviourPunCallbacks
     public void hitOn()
     {
         DmgEffect.SetActive(true);
+
         for (int i = 0; i < rd.Length; i++)
+        {
+            if (rd[i] == null)
+                return;
+
             rd[i].material.SetFloat("_Damaged", 1.0f);
+        }
     }
     public void hitOff()
     {
         DmgEffect.SetActive(false);
         for (int i = 0; i < rd.Length; i++)
+        {
+            if (rd[i] == null)
+                return;
+
             rd[i].material.SetFloat("_Damaged", 0.0f);
+        }
+            
     }
 
     public void RespawnUpdate(float f)
     {
         for (int i = 0; i < rd.Length; i++)
+        {
+            if (rd[i] == null)
+                return;
+
             rd[i].material.SetFloat("_Respawn", f);
+        }
     }
 }
