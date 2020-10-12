@@ -210,7 +210,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if(Input.GetMouseButtonDown(0) && isSpawnAttack)
             {
-                _PlayerAni._State = State.Attack;
+              
             }
 
             if (GooT > 0.0f)
