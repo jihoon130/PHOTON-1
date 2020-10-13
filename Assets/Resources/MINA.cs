@@ -41,14 +41,14 @@ public class MINA : MonoBehaviour
 
         if (!OK&&Input.GetMouseButton(1) && !_Move.dieOk && _PlayerAni._State != State.Dash && _PlayerAni._State != State.Dmg)
         {
-            _Move.MoveSpeed = 3.5f;
+            _Move.MoveSpeed = 2.5f;
 
             if (ChargeGage.fillAmount <= 1f)
                 ChargeGage.fillAmount += Time.deltaTime/3;
         }
         if (Input.GetMouseButtonUp(1))
         {
-            _Move.MoveSpeed = 7.0f;
+            _Move.MoveSpeed = 5.0f;
             if(!OK)
             ChargeGage.fillAmount = 0f;
             FullCharge = false;
@@ -64,7 +64,7 @@ public class MINA : MonoBehaviour
         if (_PlayerAni._State == State.Dash || _PlayerAni._State == State.Dmg)
         {
             OK = false;
-            _Move.MoveSpeed = 7.0f;
+            _Move.MoveSpeed = 5.0f;
             ChargeGage.fillAmount = 0f;
         }
 

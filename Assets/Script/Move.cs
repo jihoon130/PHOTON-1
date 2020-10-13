@@ -24,7 +24,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
   public  bool dieOk = false;
     public string NickName;
     public string EnemyNickName;
-    public float MoveSpeed = 7.0f;
+    public float MoveSpeed = 5.0f;
     public float AngleSpeed = 0.1f;
     public float daepoT = 0.0f;
     int ChatCount=0;

@@ -130,10 +130,17 @@ public class Timer : MonoBehaviourPunCallbacks
     {
         isTimer = true;
         yield return new WaitForSeconds(1f);
+
+        //TODO: 지훈님 여기연
         if(!EndCheck)
-        TimerCheck();
+        {
+            //PV.RPC("TimerCheck", RpcTarget.MasterClient);
+            TimerCheck();
+        }
         isTimer = false;
     }
+
+    //[PunRPC]
     void TimerCheck()
     {
         ItemMinute++;
