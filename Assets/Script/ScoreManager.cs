@@ -168,7 +168,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
 
     public void GoTitle()
     {
-        PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene(1);
     }
 }

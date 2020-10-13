@@ -14,6 +14,14 @@ public class StartCredit : MonoBehaviour
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            fadeobj[0].GetComponent<CanvasGroup>().alpha = 0;
+            fadeobj[1].GetComponent<CanvasGroup>().alpha = 0;
+            GetComponent<CanvasGroup>().alpha = 0;
+            this.gameObject.SetActive(false);
+        }
+
         switch(a)
         {
             case 1:

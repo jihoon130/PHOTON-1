@@ -46,14 +46,14 @@ public class BackMove : MonoBehaviourPunCallbacks
         }
     }
     [PunRPC]
-    public void ObjMoveback4RPC(float a, float b, float c, float d)
+    public void ObjMoveback4RPC(float a, float b, float c, float d, string e)
     {
         _PlayerAni._State = State.Dmg;
         Vector3 pushdi = new Vector3(a, b, c) - transform.position;
         pushdi = -pushdi.normalized;
         pushdi.y = 0f;
         rb.AddForce(pushdi * d, ForceMode.Impulse);
-
+        _Move.Piguck2 = e;
         //Effect(DmgEffect, false);
     }
 

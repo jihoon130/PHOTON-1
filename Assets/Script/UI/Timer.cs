@@ -36,7 +36,7 @@ public class Timer : MonoBehaviourPunCallbacks
     void Start()
     {
         Minute = 2;
-        Second = 50;
+        Second = 59;
         m_nStartCount = 2;
     }
 

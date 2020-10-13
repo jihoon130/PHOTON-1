@@ -8,7 +8,7 @@ public class MINA : MonoBehaviour
 {
     public  PhotonView pv;
     public bool OK=false;
-    private Image ChargeGage;
+    public Image ChargeGage;
     public PlayerAni _PlayerAni;
     public Move _Move;
     public GameObject[] Effect;
@@ -39,25 +39,40 @@ public class MINA : MonoBehaviour
         if (!_Move.isSpawnAttack)
             return;
 
-        if (Input.GetMouseButton(0))
+        if (!OK&&Input.GetMouseButton(1) && !_Move.dieOk && _PlayerAni._State != State.Dash && _PlayerAni._State != State.Dmg)
         {
-            if (ChargeGage.fillAmount <= 1f) 
-                ChargeGage.fillAmount += Time.deltaTime;
+            _Move.MoveSpeed = 3.5f;
+
+            if (ChargeGage.fillAmount <= 1f)
+                ChargeGage.fillAmount += Time.deltaTime/3;
         }
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(1))
         {
-            _PlayerAni._State = State.Attack;
+            _Move.MoveSpeed = 7.0f;
+            if(!OK)
             ChargeGage.fillAmount = 0f;
             FullCharge = false;
 
           if(pv.IsMine) pv.RPC("EffectAllOffRPC", RpcTarget.All);
         }
 
-        if(pv.IsMine &&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
+        if (Input.GetMouseButtonDown(0))
+        {
+             _PlayerAni._State = State.Attack;
+        }
+
+        if (_PlayerAni._State == State.Dash || _PlayerAni._State == State.Dmg)
+        {
+            OK = false;
+            _Move.MoveSpeed = 7.0f;
+            ChargeGage.fillAmount = 0f;
+        }
+
+        if(pv.IsMine && !OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
         {
             pv.RPC("EffectOnRPC", RpcTarget.All);
         }
-        else if(pv.IsMine && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
+        else if(pv.IsMine && !OK && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
         {
             FullCharge = true;
             pv.RPC("EffectOffRPC", RpcTarget.All);
@@ -90,7 +105,7 @@ public class MINA : MonoBehaviour
         {
             SoundPlayer(0);
 
-            other.GetComponent<BackMove>().PV.RPC("ObjMoveback4RPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z,1000f + ChargeGage.fillAmount*1000f);
+            other.GetComponent<BackMove>().PV.RPC("ObjMoveback4RPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z, 1000f + ChargeGage.fillAmount * 1000f, pv.Owner.ToString());
             if (FullCharge)
                 Attack();
             else

@@ -304,6 +304,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public void MoveMON()
     {
         anims.Play();
+        anims.gameObject.GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
         anims.gameObject.GetComponentInChildren<MINA>().OK = true;
     }
     
@@ -311,6 +312,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public void MoveOFF()
     {
         anims.gameObject.GetComponentInChildren<MINA>().OK = false;
+        anims.gameObject.GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
     }
     private void OnCollisionEnter(Collision collision)
     {
