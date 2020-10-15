@@ -33,6 +33,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         bt = GameObject.Find("Ready").GetComponent<Button>();
         transform.SetParent(GameObject.Find("Canvas").transform, true);
         MyNickName = PhotonNetwork.NickName;
+        if(pv.IsMine)
         SetMyCharater();
     }
     // Update is called once per frame
@@ -66,6 +67,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OKReady()
     {
+        if(pv.IsMine)
          pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
     }
 

@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PlayerSubScript : MonoBehaviourPunCallbacks
 {
     public GameObject Die;
-    public string st;
+    public string st = "";
     public int dt=0;
     public Text txt;
     public float a=0.0f;

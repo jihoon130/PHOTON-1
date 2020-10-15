@@ -36,6 +36,9 @@ public class MINA : MonoBehaviour
 
     private void Update()
     {
+        if (!pv.IsMine)
+            return;
+
         if (!_Move.isSpawnAttack)
             return;
 
@@ -53,7 +56,7 @@ public class MINA : MonoBehaviour
             ChargeGage.fillAmount = 0f;
             FullCharge = false;
 
-          if(pv.IsMine) pv.RPC("EffectAllOffRPC", RpcTarget.All);
+         pv.RPC("EffectAllOffRPC", RpcTarget.All);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -68,11 +71,11 @@ public class MINA : MonoBehaviour
             ChargeGage.fillAmount = 0f;
         }
 
-        if(pv.IsMine && !OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
+        if(!OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
         {
             pv.RPC("EffectOnRPC", RpcTarget.All);
         }
-        else if(pv.IsMine && !OK && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
+        else if(!OK && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
         {
             FullCharge = true;
             pv.RPC("EffectOffRPC", RpcTarget.All);

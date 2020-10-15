@@ -10,7 +10,7 @@ public class Timer : MonoBehaviourPunCallbacks
 
     public GameObject StartUiObj, InGameUiObj, StartImage, CountBG;
     public GameObject[] StartCountImage;
-
+    public GameObject[] gm;
 
     public int Minute { get; set; }
     public int Second { get; set; }
@@ -134,13 +134,18 @@ public class Timer : MonoBehaviourPunCallbacks
         //TODO: 지훈님 여기연
         if(!EndCheck)
         {
-            //PV.RPC("TimerCheck", RpcTarget.MasterClient);
-            TimerCheck();
+            if (gm.Length != PhotonNetwork.PlayerList.Length)
+            {
+                gm = GameObject.FindGameObjectsWithTag("Player");
+            }
+            else
+            {
+                TimerCheck();
+            }
         }
         isTimer = false;
     }
 
-    //[PunRPC]
     void TimerCheck()
     {
         ItemMinute++;
