@@ -303,11 +303,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     // 펀치 공격
     public void MoveMON()
     {
-            anims.Play();
         if (PV.IsMine)
         {
-            anims.gameObject.GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
-            anims.gameObject.GetComponentInChildren<MINA>().OK = true;
+            GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
+            GetComponentInChildren<MINA>().OK = true;
         }
     }
     
@@ -316,8 +315,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     {
         if (PV.IsMine)
         {
-            anims.gameObject.GetComponentInChildren<MINA>().OK = false;
-            anims.gameObject.GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
+            GetComponentInChildren<MINA>().OK = false;
+            GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -327,10 +326,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         if(collision.gameObject.name == "Sea" && !dieOk)
         {
-            anims.gameObject.GetComponentInChildren<MINA>().OK = false;
+            GetComponentInChildren<MINA>().OK = false;
             MoveSpeed = 5.0f;
-            anims.gameObject.GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
-            anims.gameObject.GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
+            GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
+            GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
             isSpawnAttack = false;
             int a = Random.Range(3, 6);
             Audio.clip = audios[a];

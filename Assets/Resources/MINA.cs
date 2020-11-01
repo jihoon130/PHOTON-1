@@ -23,7 +23,6 @@ public class MINA : MonoBehaviour
     private void Awake()
     {
         Audio = GetComponent<AudioSource>();
-        pv = GetComponent<PhotonView>();
         _PlayerAni = GetComponentInParent<PlayerAni>();
         _Move = GetComponentInParent<Move>();
         Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
