@@ -11,11 +11,11 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     public  Button bt;
     public bool Ready=false;
     public GameObject Master;
-    public Text NickName;
+    public TextMesh NickName;
     public GameObject Rd;
     private Rigidbody rb;
     public GameObject Me;
-    public Sprite[] sprites;
+    public GameObject[] sprites;
     public GameObject Bonche;
     [Header("닉변경")]
     public GameObject NickC1;
@@ -31,10 +31,10 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     {
         pv = GetComponent<PhotonView>();
         bt = GameObject.Find("Ready").GetComponent<Button>();
-        transform.SetParent(GameObject.Find("Canvas").transform, true);
         MyNickName = PhotonNetwork.NickName;
-        if(pv.IsMine)
-        SetMyCharater();
+        if (pv.IsMine)
+            SetMyCharater();
+        transform.rotation = Quaternion.Euler(new Vector3(0.5f,-170f,-4f));
     }
     // Update is called once per frame
     void Update()
@@ -44,23 +44,20 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
             NickName.text = PhotonNetwork.NickName;
             if (pv.Owner.IsMasterClient)
             {
-                Ready = false;
-                Rd.SetActive(false);
                 bt.onClick.RemoveListener(() => OKReady());
             }
         }
         else
         {
-            Bonche.GetComponent<Image>().sprite = sprites[EnemyCharacter];
             NickName.text = EnemyNickName;
         }
     }
 
     public void SetMyCharater()
     {
-        Me.SetActive(true);
-        Nick3.SetActive(true);
-        Bonche.GetComponent<Image>().sprite = sprites[MyCharacter];
+        //Me.SetActive(true);
+        //Nick3.SetActive(true);
+        //Bonche.GetComponent<Image>().sprite = sprites[MyCharacter];
         bt.onClick.AddListener(() => OKReady());
         GameObject.Find("Mod").GetComponent<ChangeCh>().Player = this;
     }
@@ -74,24 +71,25 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     public void ChangeCharacter(int ChangeCount)
     {
         MyCharacter = ChangeCount;
-        Bonche.GetComponent<Image>().sprite = sprites[ChangeCount];
+        for(int i=0;i<sprites.Length;i++)
+        {
+            if (i == ChangeCount) sprites[ChangeCount].SetActive(true);
+            else
+                sprites[ChangeCount].SetActive(false);
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        //통신을 보내는 
         if (stream.IsWriting)
         {
-            stream.SendNext(MyCharacter);
-            stream.SendNext(MyNickName);
+            stream.SendNext(PhotonNetwork.NickName);
         }
-        //클론이 통신을 받는 
         else
         {
-            EnemyCharacter = (int)stream.ReceiveNext();
             EnemyNickName = (string)stream.ReceiveNext();
         }
-    }
+     }
 
     [PunRPC]
     void ReadyRPC()

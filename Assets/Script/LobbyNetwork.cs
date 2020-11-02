@@ -23,6 +23,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject[] Spot;
     public Sprite[] images;
     public GameObject[] Panels;
+    public GameObject Filed;
     public InputField RoomName;
     public GameObject room;
     public Transform gridTr;
@@ -98,9 +99,10 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnJoinedRoom()
     {
+        Filed.SetActive(true);
         Panels[0].SetActive(false);
         Panels[1].SetActive(true);
-        PhotonNetwork.Instantiate("LobbyCh", transform.position, Quaternion.identity);
+        PhotonNetwork.Instantiate("ANI_Main", transform.position, Quaternion.identity);
     }
 
     public void InitRoom()
@@ -238,6 +240,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         }
         Panels[0].SetActive(true);
         Panels[1].SetActive(false);
+        Filed.SetActive(false);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
