@@ -55,7 +55,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
         if (PV.IsMine)
         {
             BulletList[0] = new Bullet("Attack", 0, 0, 0);
-            BulletList[1] = new Bullet("Machinegun", 100, 100, 0);
+            BulletList[1] = new Bullet("Machinegun", 20, 20, 100);
             BulletList[2] = new Bullet("Grenade", 5, 5, 0);
         }
     }
@@ -126,15 +126,17 @@ public class BulletManager : MonoBehaviourPunCallbacks
                 _Command.Machineguns.MachineDeleteReset();
             return;
         }
-        else if (MaxCheck < 0)
-        {
-            ManyNumber = BulletList[type].MaxBullet;
-        }
+        //else if (MaxCheck < 0)
+        //{
+        //    ManyNumber = BulletList[type].MaxBullet;
+        //}
 
 
         BulletList[type].MaxBullet -= ManyNumber;
         BulletList[type].MinBullet += ManyNumber;
         BulletList[type].isBullet = true;
+        if (BulletList[type].MaxBullet < 0)
+            BulletList[type].MaxBullet = 0;
     }
     public bool MaxBulletCheck(int type)
     {
@@ -200,7 +202,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
     // 구르기 이벤트에 메서드 추가
     public void NotAim()
     {
-        if (_Command.Aim == null)
+        if (_Command.Aim == null || _BulletMode == BulletMode.Shot)
             return;
 
         _Command.Aim.AimState(2);

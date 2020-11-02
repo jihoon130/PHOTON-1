@@ -134,6 +134,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
         GetComponent<Create>()._BulletMake = BulletMake.Attack;
         _Command.Bulletmanager._BulletMode = BulletManager.BulletMode.Shot;
         _Command.Aim.AimState(0);
+        _Command.Aim.AimAttack(false);
         ResetArray();
     }
 
@@ -190,7 +191,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
             GetComponent<Create>().SoundPlayer(4);
             isMachinegun = true;
             GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(true);
-            _Command.Bulletmanager.BulletListAdd(1, 100, 0);
+            _Command.Bulletmanager.BulletListAdd(1, 20, 100);
             collision.gameObject.GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }

@@ -67,7 +67,7 @@ public class Create : MonoBehaviourPunCallbacks
 
     private void ReloadUpdate()
     {
-        if (!isReload && _Command.Aim == null)
+        if (!isReload)
             return;
 
         ReloadImg.fillAmount += 1f * Time.deltaTime;
@@ -132,7 +132,7 @@ public class Create : MonoBehaviourPunCallbacks
 
 
             if (move.isMove && !move.dieOk)
-            {
+            { 
                 /*
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
@@ -157,8 +157,7 @@ public class Create : MonoBehaviourPunCallbacks
                 {
                     if (Input.GetMouseButton(0) && !isReload)
                     {
-                        //if (_Command.Aim != null)
-                        //    _Command.Aim.AimAttack(true);
+                            _Command.Aim.AimAttack(true);
 
                         //if (_Ani._State == State.IdleRun)
                         {
@@ -171,8 +170,7 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
-                            //if (_Command.Aim != null)
-                            //    _Command.Aim.AimAttack(false);
+                            _Command.Aim.AimAttack(false);
 
                             SoundStop(3);
                             isBullet = false;
