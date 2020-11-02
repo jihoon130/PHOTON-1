@@ -241,7 +241,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if(Input.GetKeyDown(KeyCode.LeftControl))
             {
-                GetComponent<Grenade>().DeleteGreade();
+                //GetComponent<Grenade>().DeleteGreade();
             }
 
 
@@ -266,6 +266,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround&& !isDie)
             {
+                Debug.Log("구르기");
                 SoundPlayer(0);
                 kk = true;
                 GooT += 0.5f;

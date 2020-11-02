@@ -107,7 +107,7 @@ public class MINA : MonoBehaviour
         {
             SoundPlayer(0);
 
-            other.GetComponent<BackMove>().PV.RPC("ObjMoveback4RPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z, 1000f + ChargeGage.fillAmount * 1000f, pv.Owner.ToString());
+            other.GetComponent<BackMove>().PV.RPC("ObjMoveback4RPC", RpcTarget.All, transform.position.x, transform.position.y, transform.position.z, 10f + ChargeGage.fillAmount * 10f, pv.Owner.ToString());
             if (FullCharge)
                 Attack();
             else
