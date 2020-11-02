@@ -26,6 +26,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     public int EnemyCharacter = 0;
     private string MyNickName;
     private string EnemyNickName;
+    public Animator animator;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         if (pv.IsMine)
             SetMyCharater();
         transform.rotation = Quaternion.Euler(new Vector3(0.5f,-170f,-4f));
+        animator = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
@@ -46,6 +48,8 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
             {
                 bt.onClick.RemoveListener(() => OKReady());
             }
+            if (Input.GetKeyDown(KeyCode.Y)) animator.SetInteger("Ani", 1);
+            if (Input.GetKeyDown(KeyCode.Z)) animator.SetInteger("Ani", 2);
         }
         else
         {
@@ -70,13 +74,17 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     public void ChangeCharacter(int ChangeCount)
     {
-        MyCharacter = ChangeCount;
-        for(int i=0;i<sprites.Length;i++)
-        {
-            if (i == ChangeCount) sprites[ChangeCount].SetActive(true);
-            else
-                sprites[ChangeCount].SetActive(false);
-        }
+        pv.RPC("ChangeCharacterRPC", RpcTarget.AllBuffered, ChangeCount);
+    }
+
+    [PunRPC]
+    public void ChangeCharacterRPC(int ChangeCount)
+    {
+        sprites[0].SetActive(false);
+        sprites[1].SetActive(false);
+        sprites[2].SetActive(false);
+        sprites[ChangeCount].SetActive(true);
+        animator = sprites[ChangeCount].GetComponent<Animator>();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -105,6 +113,11 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
             Ready = false;
             Rd.SetActive(false);
         }
+    }
+
+    public void DefaultAni()
+    {
+        animator.SetInteger("Ani", 0);
     }
 
     public void ChangeNick()
