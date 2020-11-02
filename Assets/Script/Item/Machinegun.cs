@@ -72,8 +72,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
                 PV.RPC("GunObjChangeRPC", RpcTarget.All, false, true);
 
                 GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(false, true);
-                //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
-                //GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(false, true);
                 StartCoroutine("KeyTimer");
 
                 isMachinegun = false;
@@ -124,6 +122,9 @@ public class Machinegun : MonoBehaviourPunCallbacks
         isMachinegun = false;
         isMachineRay = false;
         isMachineAttack = false;
+
+        
+
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UISelectChange(true, false);
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().UIWeaponChange(true, false);
         GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(false);
@@ -189,7 +190,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
             GetComponent<Create>().SoundPlayer(4);
             isMachinegun = true;
             GameObject.Find("UI_Item").GetComponent<ItemUIManager>().ItemUIChange(true);
-            _Command.Bulletmanager.BulletListAdd(1, 20, 100);
+            _Command.Bulletmanager.BulletListAdd(1, 100, 0);
             collision.gameObject.GetComponent<ItemDestroy>().PV.RPC("DestroyRPC", RpcTarget.All);
         }
     }

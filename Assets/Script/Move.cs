@@ -155,13 +155,16 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 if (!isMove || isDie)
                     return;
 
-                fHorizontal = Input.GetAxisRaw("Horizontal");
-                fVertical = Input.GetAxisRaw("Vertical");
+                if (!GetComponent<Machinegun>().isMachineRay)
+                {
+                    fHorizontal = Input.GetAxisRaw("Horizontal");
+                    fVertical = Input.GetAxisRaw("Vertical");
 
 
 
-                Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
-                tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
+                    Vector3 moveDir = (Vector3.forward * fVertical) + (Vector3.right * fHorizontal);
+                    tr.Translate(moveDir.normalized * MoveSpeed * Time.deltaTime, Space.Self);
+                }
             }
             else
             {
@@ -266,7 +269,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround&& !isDie)
             {
-                Debug.Log("구르기");
                 SoundPlayer(0);
                 kk = true;
                 GooT += 0.5f;
@@ -327,10 +329,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         if(collision.gameObject.name == "Sea" && !dieOk)
         {
-            GetComponentInChildren<MINA>().OK = false;
+            if (GetComponent<Create>()._BulletMake == BulletMake.Attack)
+            {
+                GetComponentInChildren<MINA>().OK = false;
+                GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
+                GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
+            }
+
             MoveSpeed = 5.0f;
-            GetComponentInChildren<MINA>().pv.RPC("EffectAllOffRPC", RpcTarget.All);
-            GetComponentInChildren<MINA>().ChargeGage.fillAmount = 0f;
             isSpawnAttack = false;
             int a = Random.Range(3, 6);
             Audio.clip = audios[a];
@@ -341,6 +347,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
+
 
             // 카메라 러프거리 조정
             CameraPlayer.I.LerpValue(100f);
@@ -354,6 +361,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             camera2.transform.GetChild(4).gameObject.SetActive(false);
+
+            GetComponent<Machinegun>().MachineDeleteReset();
+            GetComponent<Grenade>().DeleteGreade();
 
             // 카메라 러프거리 조정
             CameraPlayer.I.LerpValue();

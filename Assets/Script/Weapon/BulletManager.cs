@@ -54,8 +54,8 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
         if (PV.IsMine)
         {
-            BulletList[0] = new Bullet("Attack", 99, 99, 99);
-            BulletList[1] = new Bullet("Machinegun", 20, 20, 100);
+            BulletList[0] = new Bullet("Attack", 0, 0, 0);
+            BulletList[1] = new Bullet("Machinegun", 100, 100, 0);
             BulletList[2] = new Bullet("Grenade", 5, 5, 0);
         }
     }
@@ -82,8 +82,8 @@ public class BulletManager : MonoBehaviourPunCallbacks
             {
                 if(i == 1 && _BulletMode == BulletMode.Machinegun)
                 {
-                    if (_Command.Aim == null)
-                        return;
+                    //if (_Command.Aim == null)
+                    //    return;
 
                     _Command.Aim.AimState(2);
                     _Command.Aim.AimAttack(false);
@@ -128,7 +128,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
         }
         else if (MaxCheck < 0)
         {
-            Debug.Log(BulletList[type].MaxBullet);
             ManyNumber = BulletList[type].MaxBullet;
         }
 

@@ -24,7 +24,7 @@ public class MachinegunBullet : MonoBehaviourPunCallbacks, IPunObservable
     {
         PV = GetComponent<PhotonView>();
         _Move = Parent.GetComponent<Move>();
-        Bullet = new BulletMaster(2000f);
+        Bullet = new BulletMaster(30f);
     }
 
     private void Update()
@@ -45,8 +45,6 @@ public class MachinegunBullet : MonoBehaviourPunCallbacks, IPunObservable
 
         if (other.tag == "Ground" || other.tag == "Wall" || other.tag == "Fance" || other.gameObject.layer == 11)
         {
-
-
             if (other.tag == "Fance")
             {
                 PhotonNetwork.Instantiate("WoodEffect", this.transform.position, Quaternion.identity);

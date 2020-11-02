@@ -42,7 +42,7 @@ public class BackMove : MonoBehaviourPunCallbacks
     {
         if (other.gameObject.CompareTag("Pok"))
         {
-            ObjMoveback5(other, 5000f);
+            ObjMoveback5(other, 100f);
         }
     }
     [PunRPC]

@@ -23,7 +23,7 @@ public class Create : MonoBehaviourPunCallbacks
     AudioSource Audio;
     public AudioClip[] audios;
     Move move;
-    public GameObject _GunEffect;
+    //public GameObject _GunEffect;
     private int GunEffectType;
     private bool isGunTime;
     int count = 0;
@@ -31,7 +31,7 @@ public class Create : MonoBehaviourPunCallbacks
     private float fGunTimer;
     public float AimY;
     private PlayerAni _Ani;
-    public GameObject Effect1;
+    //public GameObject Effect1;
     public Image sp;
     private float fTime;
     public GameObject[] DefaultBullet;
@@ -60,7 +60,7 @@ public class Create : MonoBehaviourPunCallbacks
         Audio = GetComponentInChildren<AudioSource>();
         _Ani = GetComponent<PlayerAni>();
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        Effect1.GetComponent<ParticleSystem>().Stop();
+        //Effect1.GetComponent<ParticleSystem>().Stop();
 
         _Command = GetComponent<Command>();
     }
@@ -133,6 +133,7 @@ public class Create : MonoBehaviourPunCallbacks
 
             if (move.isMove && !move.dieOk)
             {
+                /*
                 if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
                 {
                     if (_Command.Aim != null)
@@ -149,14 +150,15 @@ public class Create : MonoBehaviourPunCallbacks
                     isBullet = false;
                     GunEffectType = 0;
                 }
+                */
 
 
                 if (_Command.Machineguns.isMachineAttack)
                 {
                     if (Input.GetMouseButton(0) && !isReload)
                     {
-                        if (_Command.Aim != null)
-                            _Command.Aim.AimAttack(true);
+                        //if (_Command.Aim != null)
+                        //    _Command.Aim.AimAttack(true);
 
                         //if (_Ani._State == State.IdleRun)
                         {
@@ -169,8 +171,8 @@ public class Create : MonoBehaviourPunCallbacks
                     {
                         if (_Ani._State == State.Machinegun)
                         {
-                            if (_Command.Aim != null)
-                                _Command.Aim.AimAttack(false);
+                            //if (_Command.Aim != null)
+                            //    _Command.Aim.AimAttack(false);
 
                             SoundStop(3);
                             isBullet = false;
@@ -214,11 +216,13 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void EffectOn()
     {
-        Effect1.GetComponent<ParticleSystem>().Play();
+        Debug.Log("삭제될로그_Create EffectOn");
+        //Effect1.GetComponent<ParticleSystem>().Play();
     }
     public void EffectOFF()
     {
-        Effect1.GetComponent<ParticleSystem>().Stop();
+        Debug.Log("삭제될로그_Create EffectOFF");
+        //Effect1.GetComponent<ParticleSystem>().Stop();
     }
 
     public void BulletCreate()
@@ -324,7 +328,7 @@ public class Create : MonoBehaviourPunCallbacks
     [PunRPC]
     public void GunEffectTypeObj(bool type)
     {
-        _GunEffect.SetActive(type);
+        //_GunEffect.SetActive(type);
     }
 
 
