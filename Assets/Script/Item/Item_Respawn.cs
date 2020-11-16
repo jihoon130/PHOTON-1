@@ -96,6 +96,7 @@ public class Item_Respawn : MonoBehaviourPunCallbacks
 
     private void CreateItem()
     {
+
         string ItemName = string.Empty;
         int nRandomItemRange = Random.Range(1, 3);
 

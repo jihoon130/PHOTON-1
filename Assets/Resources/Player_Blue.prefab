@@ -1070,10 +1070,10 @@ GameObject:
   - component: {fileID: 5822711312293237510}
   - component: {fileID: 1044619008656290117}
   - component: {fileID: 513278647737734546}
-  - component: {fileID: 8195911410055305357}
   - component: {fileID: -6496539817162431421}
   - component: {fileID: 8730643699900020226}
   - component: {fileID: -5314409585109128175}
+  - component: {fileID: 2218991109361658737}
   m_Layer: 0
   m_Name: Player_Blue
   m_TagString: Player
@@ -1179,6 +1179,7 @@ MonoBehaviour:
   - {fileID: 2425955010203475736}
   TestBoo: {fileID: 0}
   Balsa: {fileID: 0}
+  tutomove: 0
   Canvas1: {fileID: 0}
   ChatText: []
   anit: 0
@@ -1477,27 +1478,6 @@ MonoBehaviour:
   MaxText: {fileID: 0}
   _AimUi: {fileID: 1678097321829360714}
   type23: 0
---- !u!114 &8195911410055305357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2349750023919370804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04666799d8b8fd84b974e0e2ebd3abb8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PV: {fileID: 0}
-  AttackEffect: {fileID: 3380295491346267297}
-  _Mode: 0
-  GunObj: {fileID: 7376012725940712163}
-  MachinegunObj: {fileID: 5523420635579151103}
-  isMachinegun: 0
-  isMachineAttack: 0
-  isMachineRay: 0
-  MachinegunStartPoint: {fileID: 719744792916043811}
 --- !u!114 &-6496539817162431421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1582,6 +1562,28 @@ MonoBehaviour:
   Aim: {fileID: 0}
   Bulletmanager: {fileID: 0}
   Machineguns: {fileID: 0}
+--- !u!114 &2218991109361658737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2349750023919370804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04666799d8b8fd84b974e0e2ebd3abb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: -7496651303601012444}
+  AttackEffect: {fileID: 3380295491346267297}
+  _Mode: 0
+  GunObj: {fileID: 7376012725940712163}
+  MachinegunObj: {fileID: 5523420635579151103}
+  isMachinegun: 0
+  isMachineAttack: 0
+  isMachineRay: 0
+  MachinegunStartPoint: {fileID: 7097187683883643058, guid: b10e5f0bcf3cca7448149ee4d2ba712d,
+    type: 3}
 --- !u!1 &2519413319701886670
 GameObject:
   m_ObjectHideFlags: 0

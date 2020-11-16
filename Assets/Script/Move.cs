@@ -43,6 +43,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public GameObject TestBoo;
     private Rigidbody rb;
     public ParticleSystem Balsa;
+    public bool tutomove = true;
     private Quaternion currRot;
     private Quaternion targetRotation;
     public GameObject Canvas1;
@@ -152,7 +153,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         {
             if (StopT <= 0.0f && Timers.isStart)
             {
-                if (!isMove || isDie)
+                if (!isMove || isDie || !tutomove)
                     return;
 
                 if (!GetComponent<Machinegun>().isMachineRay)

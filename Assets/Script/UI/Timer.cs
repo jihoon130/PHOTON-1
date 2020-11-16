@@ -148,6 +148,9 @@ public class Timer : MonoBehaviourPunCallbacks
 
     void TimerCheck()
     {
+        if (GameObject.Find("test"))
+            return;
+
         ItemMinute++;
         if (ItemMinute > 6)
             ItemMinute = 0;

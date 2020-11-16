@@ -31,6 +31,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
     public ScrollRect sc_rect;
     public Text msglist;
     public GameObject MakeRoom;
+    public GameObject testX;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -99,6 +100,12 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public override void OnJoinedRoom()
     {
+        if (testX.activeInHierarchy)
+        {
+            DontDestroyOnLoad(testX);
+            PhotonNetwork.LoadLevel("TaScene");
+        }
+
         Filed.SetActive(true);
         Panels[0].SetActive(false);
         Panels[1].SetActive(true);
@@ -227,6 +234,18 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         }
 
     }
+
+    public void Tutorial()
+    {
+        RoomOptions RO = new RoomOptions();
+        RO.MaxPlayers = 4;
+        RO.IsOpen = false;
+        RO.IsVisible = false;
+        PhotonNetwork.JoinOrCreateRoom("!!", RO, TypedLobby.Default);
+        testX.SetActive(true);
+    }
+
+
 
     public void LeftRoom()
     {
