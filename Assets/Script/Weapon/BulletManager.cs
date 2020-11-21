@@ -126,10 +126,10 @@ public class BulletManager : MonoBehaviourPunCallbacks
                 _Command.Machineguns.MachineDeleteReset();
             return;
         }
-        //else if (MaxCheck < 0)
-        //{
-        //    ManyNumber = BulletList[type].MaxBullet;
-        //}
+        else if (MaxCheck < 0)
+        {
+            ManyNumber = BulletList[type].MaxBullet;
+        }
 
 
         BulletList[type].MaxBullet -= ManyNumber;
@@ -150,7 +150,6 @@ public class BulletManager : MonoBehaviourPunCallbacks
     public void UITextUpdate()
     {
         //if ((int)_BulletMode == 0) ModeName = "단발모드";
-
         int type = (int)_Create._BulletMake - 1;
         MinText.text = BulletList[type].MinBullet.ToString();
         MaxText.text = BulletList[type].MaxBullet.ToString();
@@ -174,7 +173,7 @@ public class BulletManager : MonoBehaviourPunCallbacks
 
             if (isUiScal)
             {
-                MinText.transform.localScale = new Vector3(fScalXY, fScalXY, 0);
+                MinText.transform.localScale = new Vector3(fScalXY, fScalXY, 1);
                 fScalXY -= 2 * Time.deltaTime;
 
                 if (fScalXY <= 1f)

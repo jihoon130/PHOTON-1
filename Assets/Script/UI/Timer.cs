@@ -69,7 +69,7 @@ public class Timer : MonoBehaviourPunCallbacks
             return;
         }
 
-        StartCountImage[m_nStartCount].transform.localScale = new Vector2(XZ, XZ);
+        StartCountImage[m_nStartCount].transform.localScale = new Vector3(XZ, XZ, XZ);
 
         if (StartCountImage[m_nStartCount].transform.localScale.x > 1 && StartCountImage[m_nStartCount].transform.localScale.y > 1)
         {
@@ -80,8 +80,6 @@ public class Timer : MonoBehaviourPunCallbacks
             StartCountImage[m_nStartCount].SetActive(false);
             m_nStartCount--;
             XZ = 2f;
-
-            
 
             if (m_nStartCount > -1)
             {
