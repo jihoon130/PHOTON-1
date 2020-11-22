@@ -76,6 +76,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool kimsunwoo4;
     public GameObject bagMusic;
     public int Testint=-1;
+    public string ChN;
+    public string EnemyN;
     // Sound
     AudioSource Audio;
     public AudioClip[] audios;
@@ -107,7 +109,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         Audio = GetComponentInChildren<AudioSource>();
         kimsunwoo2 = GetComponentInChildren<TextMesh>().gameObject;
         _BackMove = GetComponent<BackMove>();
-
+        ChN = GameObject.Find("SelectPlayer").GetComponent<SelectPlayer>().CharacterName;
 
         ChatText = new Text[3];
         ChatText[0] = GameObject.Find("ChatBox").GetComponent<Text>();
@@ -396,6 +398,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         //통신을 보내는 
         if (stream.IsWriting)
         {
+            stream.SendNext(ChN);
             stream.SendNext(tr.position);
             stream.SendNext(tr.rotation);
             stream.SendNext(NickName.ToString());
@@ -412,6 +415,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         //클론이 통신을 받는 
         else
         {
+            EnemyN = (string)stream.ReceiveNext();
             currPos = (Vector3)stream.ReceiveNext();
             currRot = (Quaternion)stream.ReceiveNext();
             EnemyNickName = (string)stream.ReceiveNext();

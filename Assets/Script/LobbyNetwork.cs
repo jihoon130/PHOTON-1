@@ -187,9 +187,9 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
             roomInfo.CustomProperties.TryGetValue("map", out ab1);
             roomInfo.CustomProperties.TryGetValue("map1", out ab2);
             roomInfo.CustomProperties.TryGetValue("map2", out ab3);
-            if (ab1==null)
+            if (ab1!=null)
             roomDate.a = int.Parse(ab1.ToString());
-            if (ab2 == null)
+            if (ab2 != null)
             roomDate.b = int.Parse(ab2.ToString());
             roomDate.Count1 = roomList.IndexOf(roomInfo);
             roomDate.roomName = roomInfo.Name;

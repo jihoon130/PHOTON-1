@@ -14,7 +14,7 @@ public class ScoreManager : MonoBehaviourPunCallbacks
     public Move[] SusoonJung;
     private Move TempObject;
 
-
+    public Sprite[] sp;
     public PhotonView PV;
     public GameObject[] ScoreUI;
     public GameObject[] EndSco;
@@ -101,6 +101,22 @@ public class ScoreManager : MonoBehaviourPunCallbacks
         for (int i = 1; i <= PhotonNetwork.PlayerList.Length; i++)
         {
             EndSco[i].SetActive(true);
+            string subb = SusoonJung[i - 1].PV.IsMine ? SusoonJung[i - 1].ChN : SusoonJung[i - 1].EnemyN;
+            switch(subb)
+            {
+                case "Blue":
+                    EndSco[i].GetComponent<Image>().sprite = sp[0];
+                    break;
+                case "Green":
+                    EndSco[i].GetComponent<Image>().sprite = sp[1];
+                    break;
+                case "Orange":
+                    EndSco[i].GetComponent<Image>().sprite = sp[2];
+                    break;
+                case "Pink":
+                    EndSco[i].GetComponent<Image>().sprite = sp[3];
+                    break;
+            }
             EndSco[i].GetComponentInChildren<Text>().text = SusoonJung[i-1].PV.Owner.ToString().Substring(4);
             SusoonJung[i - 1].isMove = false;
             EndSco[i].transform.GetChild(1).GetComponent<Text>().text = SusoonJung[i-1].score.ToString();

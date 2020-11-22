@@ -57,6 +57,17 @@ public class BackMove : MonoBehaviourPunCallbacks
         //Effect(DmgEffect, false);
     }
 
+    [PunRPC]
+    public void ObjMoveback5RPC(float a, float b, float c, float d, string e)
+    {
+        _PlayerAni._State = State.Dmg;
+        Vector3 pushdi = new Vector3(a, b, c) - transform.position;
+        pushdi = -pushdi.normalized;
+        rb.AddForce(pushdi * d, ForceMode.Impulse);
+        _Move.Piguck2 = e;
+        //Effect(DmgEffect, false);
+    }
+
 
     public void ObjMoveback5(Collider collision, float speed = 1000.0f)
     {
@@ -67,8 +78,8 @@ public class BackMove : MonoBehaviourPunCallbacks
         rb.velocity = Vector3.zero;
         _PlayerAni._State = State.Dmg;
 
-        //if(PV.Owner.ToString() != collision.GetComponent<GrenadeEffect>().PV.Owner.ToString())
-        //_Move.Piguck2 = collision.GetComponent<GrenadeEffect>().PV.Owner.ToString();
+        if(PV.Owner.ToString() != collision.GetComponent<GrenadeEffect>().PV.Owner.ToString())
+        _Move.Piguck2 = collision.GetComponent<GrenadeEffect>().PV.Owner.ToString();
 
         rb.AddForce(collision.transform.forward * speed, ForceMode.Impulse);
     }

@@ -143,6 +143,7 @@ public class LobbyUI : MonoBehaviour
     public void BackGroundC4()
     {
         LbNet.BackGroundColor = "3";
+        Debug.Log("FF");
         BackGround.sprite = BackGroundColor[3];
     }
 
