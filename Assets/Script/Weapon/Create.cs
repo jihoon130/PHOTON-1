@@ -111,10 +111,11 @@ public class Create : MonoBehaviourPunCallbacks
 
         if (move.StopT <= 0.0f)
         {
-            if (Input.GetKeyDown(KeyCode.R) && _Command.Machineguns.isMachineAttack && !isReload)
+            if (Input.GetKeyDown(KeyCode.R) && !isReload)
             {
                 if (_Command.Bulletmanager.BulletList[1].MinBullet >= 20 ||
-                    _Command.Bulletmanager.MaxBulletCheck(1))
+                    _Command.Bulletmanager.MaxBulletCheck(1) ||
+                    _Command.Machineguns.isMachineRay)
                     return;
 
                 if (_Command.Aim != null)
@@ -132,32 +133,12 @@ public class Create : MonoBehaviourPunCallbacks
 
 
             if (move.isMove && !move.dieOk)
-            { 
-                /*
-                if (Input.GetMouseButtonDown(0) && _BulletMake == BulletMake.Attack)
-                {
-                    if (_Command.Aim != null)
-                        _Command.Aim.AimAttack(true);
-
-                    GunEffectType = 2;
-                    _Ani._State = State.Attack;
-                }
-                else if (Input.GetMouseButtonUp(0))
-                {
-                    if (_Command.Aim != null)
-                        _Command.Aim.AimAttack(false);
-
-                    isBullet = false;
-                    GunEffectType = 0;
-                }
-                */
-
-
+            {
                 if (_Command.Machineguns.isMachineAttack)
                 {
-                    if (Input.GetMouseButton(0) && !isReload)
+                    if (Input.GetMouseButton(0) && !isReload && _Command.Bulletmanager.BulletList[1].MinBullet > 0)
                     {
-                            _Command.Aim.AimAttack(true);
+                        _Command.Aim.AimAttack(true);
 
                         //if (_Ani._State == State.IdleRun)
                         {
@@ -214,12 +195,10 @@ public class Create : MonoBehaviourPunCallbacks
 
     public void EffectOn()
     {
-        Debug.Log("삭제될로그_Create EffectOn");
         //Effect1.GetComponent<ParticleSystem>().Play();
     }
     public void EffectOFF()
     {
-        Debug.Log("삭제될로그_Create EffectOFF");
         //Effect1.GetComponent<ParticleSystem>().Stop();
     }
 

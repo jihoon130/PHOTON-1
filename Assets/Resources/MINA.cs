@@ -20,6 +20,8 @@ public class MINA : MonoBehaviour
     AudioSource Audio;
     public AudioClip[] audios;
 
+    private bool isAttack = true;
+
     private void Awake()
     {
         Audio = GetComponent<AudioSource>();
@@ -46,22 +48,24 @@ public class MINA : MonoBehaviour
             _Move.MoveSpeed = 2.5f;
 
             if (ChargeGage.fillAmount <= 1f)
-                ChargeGage.fillAmount += Time.deltaTime/3;
+                ChargeGage.fillAmount += Time.deltaTime * 2;
         }
         if (Input.GetMouseButtonUp(1))
         {
             _Move.MoveSpeed = 5.0f;
             if (!OK)
             {
+                CameraCol.instance.CameraReset();
                 ChargeGage.fillAmount = 0f;
                 FullCharge = false;
             }
          pv.RPC("EffectAllOffRPC", RpcTarget.All);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && isAttack)
         {
-             _PlayerAni._State = State.Attack;
+            CameraCol.instance.CameraReset();
+            _PlayerAni._State = State.Attack;
         }
 
         if (_PlayerAni._State == State.Dash || _PlayerAni._State == State.Dmg)
@@ -77,6 +81,7 @@ public class MINA : MonoBehaviour
         }
         else if(!OK && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
         {
+            CameraCol.instance.CameraJoom(1.5f);
             FullCharge = true;
             pv.RPC("EffectOffRPC", RpcTarget.All);
         }

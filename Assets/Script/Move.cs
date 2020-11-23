@@ -270,7 +270,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
                 Effects[0].GetComponent<ParticleSystem>().Stop();
             }
 
-            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround&& !isDie)
+            if (!kk&&Input.GetKeyDown(KeyCode.LeftShift) && isGround&& !isDie && !GetComponent<Machinegun>().isMachineRay)
             {
                 SoundPlayer(0);
                 kk = true;
