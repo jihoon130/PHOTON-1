@@ -5,6 +5,7 @@
 		_BumpMap("노말", 2D) = "bump" {}
 		_BumpPower1("노말(1) 세기", float) = 0.4	
 		_BumpPower2("노말(2) 세기", float) = 0.3
+		
 
 		_TimeCount1("노말(1) 흐름", float) = 0.03
 		_TimeCount2("노말(2) 흐름", float) = 0.5
@@ -30,9 +31,9 @@
 	{
 
 		Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
-
+		
 		GrabPass{}
-
+		Blend SrcAlpha OneMinusSrcAlpha
 		LOD 200
 
 		zwrite off
@@ -109,7 +110,7 @@
 
 			// Result (투명은 grabtex, 불투명은 refltex)
 		o.Emission = (lerp(grabtex.rgb, refltex, rim) * 0.5) + ((saturate(pow((1 - waterDepth), _WaveArea)) * _WavePow) * _WaveCol);
-		o.Alpha = waterDepth * 2;
+		o.Alpha = waterDepth * 2 ;
 
 	}
 

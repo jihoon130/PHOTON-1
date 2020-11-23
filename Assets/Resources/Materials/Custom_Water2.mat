@@ -24,21 +24,23 @@ Material:
         m_Scale: {x: 20, y: 20}
         m_Offset: {x: 0, y: 0}
     - _Cube:
-        m_Texture: {fileID: 8900000, guid: 551415608ac28e849a2763a92c9bffb7, type: 3}
+        m_Texture: {fileID: 8900000, guid: 5607dbbae5cf5514ba442e616cab426a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _BumpPower1: 0.1
-    - _BumpPower2: 0.4
+    - _BumpPower1: 0.2
+    - _BumpPower2: 0.1
     - _Glossiness: 0.5
-    - _RimPow: 1000
+    - _IntersectionThreshold: 1.47
+    - _RimPow: 2000
     - _TimeCount1: 0.05
     - _TimeCount2: 0.3
-    - _WaveArea: 1.79
+    - _WaveArea: 1.51
     - _WaveDistortion: 0.05
-    - _WaveHeight: 50
-    - _WavePow: 0.43
+    - _WaveHeight: 49.39
+    - _WavePow: 0.79
     - _WaveTime: 1.2
     m_Colors:
     - _RimCol: {r: 24.28074, g: 19.522854, b: 9.735203, a: 1}
-    - _WaveCol: {r: 0.54369885, g: 0.7735849, b: 0.75993586, a: 1}
+    - _WaveCol: {r: 1, g: 1, b: 1, a: 1}
+    - _waterDepth: {r: 0, g: 0, b: 0, a: 1}

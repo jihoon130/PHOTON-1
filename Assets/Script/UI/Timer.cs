@@ -35,8 +35,8 @@ public class Timer : MonoBehaviourPunCallbacks
     private void Awake() => PV = GetComponent<PhotonView>();
     void Start()
     {
-        Minute = 0;
-        Second = 5;
+        Minute = 2;
+        Second = 59;
         m_nStartCount = 2;
     }
 

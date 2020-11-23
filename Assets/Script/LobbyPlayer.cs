@@ -80,9 +80,9 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ChangeCharacterRPC(int ChangeCount)
     {
-        sprites[0].SetActive(false);
-        sprites[1].SetActive(false);
-        sprites[2].SetActive(false);
+        for(int i = 0; i < sprites.Length;  i++)
+            sprites[i].SetActive(false);
+
         sprites[ChangeCount].SetActive(true);
         animator = sprites[ChangeCount].GetComponent<Animator>();
     }
