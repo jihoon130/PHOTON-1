@@ -19,6 +19,7 @@ public class LobbyUI : MonoBehaviour
     public GameObject Ranking;
     public GameObject Rank;
     public GameObject Credit;
+    public Text Nic;
     LobbyNetwork LbNet;
     bool b=true;
     bool a = true;
@@ -26,6 +27,7 @@ public class LobbyUI : MonoBehaviour
     private void Awake()
     {
         LbNet = GameObject.Find("NetworkManager").GetComponent<LobbyNetwork>();
+        Nic.text = Photon.Pun.PhotonNetwork.NickName;
     }
 
     public void CreateRoomOpen()

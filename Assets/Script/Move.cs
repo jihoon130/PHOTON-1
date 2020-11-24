@@ -153,6 +153,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         //controlled locally일 경우 이동(자기 자신의 캐릭터일 때)
         if (PV.IsMine)
         {
+            gameObject.GetComponentInChildren<TextMesh>().text = NickName;
             if (StopT <= 0.0f && Timers.isStart)
             {
                 if (!isMove || isDie || !tutomove)
@@ -214,9 +215,9 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-            if(Input.GetMouseButtonDown(0) && isSpawnAttack)
+            if(transform.position.y >= 200f)
             {
-              
+                transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
             }
 
             if (GooT > 0.0f)

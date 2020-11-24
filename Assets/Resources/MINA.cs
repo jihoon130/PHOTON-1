@@ -57,7 +57,6 @@ public class MINA : MonoBehaviour
             {
                 CameraCol.instance.CameraReset();
                 ChargeGage.fillAmount = 0f;
-                FullCharge = false;
             }
          pv.RPC("EffectAllOffRPC", RpcTarget.All);
         }
@@ -75,7 +74,10 @@ public class MINA : MonoBehaviour
             ChargeGage.fillAmount = 0f;
         }
 
-        if(!OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
+        if(ChargeGage.fillAmount<=0.9f)
+            FullCharge = false;
+
+        if (!OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
         {
             pv.RPC("EffectOnRPC", RpcTarget.All);
         }
@@ -121,7 +123,7 @@ public class MINA : MonoBehaviour
             }
             else
             {
-                other.GetComponent<BackMove>().PV.RPC("ObjMoveback5RPC", RpcTarget.All, _Move.gameObject.transform.position.x, _Move.gameObject.transform.position.y, _Move.gameObject.transform.position.z, 500f, pv.Owner.ToString());
+                other.GetComponent<BackMove>().PV.RPC("ObjMoveback5RPC", RpcTarget.All, _Move.gameObject.transform.position.x, 0.001f, _Move.gameObject.transform.position.z, 200f, pv.Owner.ToString());
                 FullAttack();
             }
         }
