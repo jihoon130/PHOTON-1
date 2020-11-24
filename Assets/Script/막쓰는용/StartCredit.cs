@@ -4,11 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 public class StartCredit : MonoBehaviour
 {
+    private AudioSource Sound;
     public GameObject[] fadeobj;
     int a = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        Sound = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         StartCoroutine("fade");
     }
 
@@ -53,8 +56,8 @@ public class StartCredit : MonoBehaviour
         a = 4;
         yield return new WaitForSeconds(2f);
         a = 5;
+        Sound.Play();
         yield return new WaitForSeconds(2f);
         this.gameObject.SetActive(false);
     }
-
 }
