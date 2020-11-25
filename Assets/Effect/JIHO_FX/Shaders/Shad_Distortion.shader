@@ -31,15 +31,14 @@
         {
             float2 uv_MainTex;
             float2 uv_ScrTex;
-			float4 color : COLOR;
         };
 
         void surf (Input IN, inout SurfaceOutput o)
         {
             float4 Scr = tex2D (_ScrTex, float2(IN.uv_ScrTex.x - _Time.y * _ScrSpd2, IN.uv_ScrTex.y - _Time.y * _ScrSpd1));
             float4 MTex = tex2D(_MainTex, IN.uv_MainTex + Scr * _ScrPow) * _MainCol;
-            o.Emission = MTex.rgb * IN.color.rgb;
-            o.Alpha = MTex.a * IN.color.a;
+            o.Emission = MTex.rgb;
+            o.Alpha = MTex.a;
         }
         ENDCG
     }

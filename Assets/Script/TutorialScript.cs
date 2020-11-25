@@ -217,5 +217,6 @@ public class TutorialScript : MonoBehaviour
         Cursor.visible = true;
         Photon.Pun.PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene(1);
+        Destroy(this.gameObject);
     }
 }
