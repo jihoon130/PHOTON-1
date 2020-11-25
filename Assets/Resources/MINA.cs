@@ -91,7 +91,6 @@ public class MINA : MonoBehaviour
 
         if (!OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
         {
-            Debug.Log("차징사운드");
             SoundPlayer(2);
             pv.RPC("EffectOnRPC", RpcTarget.All);
         }
