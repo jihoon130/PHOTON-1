@@ -60,6 +60,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool isPhoenix;
     public bool isDie;
     public float GooT=0.0f;
+    GameObject mini;
     // jump
     public bool isGround;
     public bool isJumping;
@@ -94,7 +95,6 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     // 리스폰시 공격되는걸 막기
     public bool isSpawnAttack;
 
-
     private void Awake()
     {
         bagMusic = GameObject.Find("BGSound");
@@ -123,6 +123,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         scoreM = GameObject.Find("ScoreManager").GetComponent<ScoreManager>();
         if (PV.IsMine)
         {
+            mini = GameObject.Find("Obj_2nd");
             NickName = PlayerPrefs.GetString("NickName");
             Effects[1].GetComponent<ParticleSystem>().Stop();
             RSpawn = GameObject.Find("RSpawn");
@@ -222,7 +223,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             if (Input.GetKeyDown(KeyCode.LeftShift) && Input.GetKeyDown(KeyCode.Space))
                 return;
 
-            if(transform.position.y >= 200f)
+            if(Vector3.Distance(transform.position,mini.transform.position)>=200f)
             {
                 transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
             }

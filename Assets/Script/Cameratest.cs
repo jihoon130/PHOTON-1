@@ -12,8 +12,8 @@ public class Cameratest : MonoBehaviour
     void Update()
     {
         RaycastHit hit;
-        int floorMask = LayerMask.GetMask("Ground");
-        if(Physics.Raycast(transform.position,transform.forward,out hit,500f,floorMask))
+        int floorMask = LayerMask.GetMask("Ground") | LayerMask.GetMask("Wall");
+        if (Physics.Raycast(transform.position,transform.forward,out hit,500f,floorMask))
         {
             pos = hit.point;
         }

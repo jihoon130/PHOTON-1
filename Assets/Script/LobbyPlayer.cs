@@ -84,11 +84,19 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     public void ChangeCharacterRPC(int ChangeCount)
     {
-        for(int i = 0; i < sprites.Length;  i++)
+        for (int i = 0; i < sprites.Length;  i++)
             sprites[i].SetActive(false);
 
         sprites[ChangeCount].SetActive(true);
-        animator = sprites[ChangeCount].GetComponent<Animator>();
+
+        if (ChangeCount > 0)
+        {
+            animator = sprites[ChangeCount].GetComponent<Animator>();
+        }
+        else
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

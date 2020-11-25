@@ -51,7 +51,6 @@ public class Machinegun : MonoBehaviourPunCallbacks
                 timer = 0.0f;
             }
         }
-        else EffectStop();
 
 
         if (!PV.IsMine)
@@ -153,7 +152,8 @@ public class Machinegun : MonoBehaviourPunCallbacks
         //GetComponent<PlayerAni>()._State = State.IdleRun;
     }
 
-    public void EffectStart()
+    [PunRPC]
+    public void EffectStartRPC()
     {
         AttackEffect.GetComponent<ParticleSystem>().Play();
     }
@@ -169,7 +169,7 @@ public class Machinegun : MonoBehaviourPunCallbacks
             return;
         }
 
-        EffectStart();
+        PV.RPC("EffectStartRPC", RpcTarget.All);
 
         GetComponent<Create>().BulletMachinegunCreate();
     }
