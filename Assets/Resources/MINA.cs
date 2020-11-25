@@ -22,12 +22,18 @@ public class MINA : MonoBehaviour
 
     private bool isAttack = true;
 
+    private bool isPunchM2; // 차징모으는사운드
+
     private void Awake()
     {
+
         Audio = GetComponent<AudioSource>();
         _PlayerAni = GetComponentInParent<PlayerAni>();
         _Move = GetComponentInParent<Move>();
         Timers = GameObject.Find("TimerManger").GetComponent<Timer>();
+
+        Punch_SoundStop();
+
 
         ChargeGage = GameObject.Find("ChargeGage").GetComponent<Image>();
         Effect[2] = GameObject.Find("hit");
@@ -45,20 +51,25 @@ public class MINA : MonoBehaviour
 
         if (!OK&&Input.GetMouseButton(1) && !_Move.dieOk && _PlayerAni._State != State.Dash && _PlayerAni._State != State.Dmg)
         {
+            isPunchM2 = true;
             _Move.MoveSpeed = 2.5f;
 
             if (ChargeGage.fillAmount <= 1f)
-                ChargeGage.fillAmount += Time.deltaTime * 2;
+            {
+                ChargeGage.fillAmount += Time.deltaTime;
+            }
         }
-        if (Input.GetMouseButtonUp(1))
+        if (Input.GetMouseButtonUp(1) && isPunchM2)
         {
+            Punch_SoundStop();
             _Move.MoveSpeed = 5.0f;
             if (!OK)
             {
                 CameraCol.instance.CameraReset();
                 ChargeGage.fillAmount = 0f;
             }
-         pv.RPC("EffectAllOffRPC", RpcTarget.All);
+            pv.RPC("EffectAllOffRPC", RpcTarget.All);
+            isPunchM2 = false;
         }
 
         if (Input.GetMouseButtonDown(0) && isAttack)
@@ -66,6 +77,7 @@ public class MINA : MonoBehaviour
             CameraCol.instance.CameraReset();
             _PlayerAni._State = State.Attack;
         }
+
 
         if (_PlayerAni._State == State.Dash || _PlayerAni._State == State.Dmg)
         {
@@ -79,10 +91,13 @@ public class MINA : MonoBehaviour
 
         if (!OK&&!Effect[0].activeInHierarchy &&ChargeGage.fillAmount >= 0.1f && ChargeGage.fillAmount <= 0.9f)
         {
+            Debug.Log("차징사운드");
+            SoundPlayer(2);
             pv.RPC("EffectOnRPC", RpcTarget.All);
         }
         else if(!OK && !Effect[1].activeInHierarchy && ChargeGage.fillAmount >= 1f)
         {
+            SoundPlayer(3);
             CameraCol.instance.CameraJoom(1.5f);
             FullCharge = true;
             pv.RPC("EffectOffRPC", RpcTarget.All);
@@ -113,7 +128,7 @@ public class MINA : MonoBehaviour
     {
      if(OK &&other.CompareTag("Player") && !other.GetComponent<Move>().PV.IsMine)
         {
-            SoundPlayer(0);
+            SoundPlayer(Random.Range(0, 2));
 
             
             if (!FullCharge)
@@ -150,12 +165,17 @@ public class MINA : MonoBehaviour
         OK = false;
     }
 
-    private void SoundPlayer(int type)
+    public void SoundPlayer(int type)
     {
         if (!Timers.isStart)
             return;
 
         Audio.clip = audios[type];
         Audio.Play();
+    }
+    private void Punch_SoundStop()
+    {
+        Audio.clip = audios[2];
+        Audio.Stop();
     }
 }

@@ -316,6 +316,10 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             GetComponentInChildren<MINA>().OK = true;
         }
     }
+    public void PunchAttackSound()
+    {
+        GetComponentInChildren<MINA>().SoundPlayer(4);
+    }
     
 
     public void MoveOFF()

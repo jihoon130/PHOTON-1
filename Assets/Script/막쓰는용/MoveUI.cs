@@ -16,4 +16,8 @@ public class MoveUI : MonoBehaviour
     {
         Credit.transform.Translate(Vector3.up * Time.deltaTime*150f);
     }
+    public void Credit_ResetPos()
+    {
+        Credit.transform.localPosition = new Vector3(0, -1432f, 0);
+    }
 }
