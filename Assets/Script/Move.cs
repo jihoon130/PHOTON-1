@@ -65,6 +65,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
     public bool isJumping;
     public bool isJumpDown;
     private float fJumptime;
+    public AudioSource moveaudio;
     public int score;
     public GameObject RSpawn;
     public GameObject SpawnT;
@@ -86,7 +87,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
     private Timer Timers;
     private BackMove _BackMove;
-
+    public Sprite[] Emoticon;
+    public GameObject emo;
     public bool isRespawnAttack;
 
     // 리스폰시 공격되는걸 막기
@@ -124,9 +126,14 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             NickName = PlayerPrefs.GetString("NickName");
             Effects[1].GetComponent<ParticleSystem>().Stop();
             RSpawn = GameObject.Find("RSpawn");
-            int baegung = PlayerPrefs.GetInt("hyogwa");
-            if (baegung == 1)
-                bagMusic.GetComponent<AudioSource>().mute = true;
+            float baegung = PlayerPrefs.GetFloat("hyogwa");
+            if(PlayerPrefs.HasKey("hyogwa"))
+            bagMusic.GetComponent<AudioSource>().volume = baegung;
+            if (PlayerPrefs.HasKey("baegung"))
+            {
+                Audio.volume = PlayerPrefs.GetFloat("baegung");
+                moveaudio.volume = PlayerPrefs.GetFloat("baegung");
+            }
         }
 
         for(int i=0;i<4;i++)
@@ -219,7 +226,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             {
                 transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
             }
-
+            CheckEMO();
             if (GooT > 0.0f)
             {
               //  cm.a = true;
@@ -306,6 +313,63 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         }
     }
 
+    public void MoveSound()
+    {
+        moveaudio.Play();
+    }
+
+    public void MoveSoundOFF()
+    {
+        moveaudio.Stop();
+    }
+
+    public void CheckEMO()
+    {
+        if(!emo.activeInHierarchy)
+        {
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                PV.RPC("EMORPC", RpcTarget.All, 0);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                PV.RPC("EMORPC", RpcTarget.All, 1);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                PV.RPC("EMORPC", RpcTarget.All, 2);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                PV.RPC("EMORPC", RpcTarget.All, 3);
+            }
+            else if(Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                PV.RPC("EMORPC", RpcTarget.All, 4);
+            }
+        }
+    }
+
+    [PunRPC]
+    void EMORPC(int a)
+    {
+        emo.SetActive(true);
+        emo.GetComponent<SpriteRenderer>().sprite = Emoticon[a];
+        StartCoroutine("offemo");
+    }
+
+
+    IEnumerator offemo()
+    {
+        yield return new WaitForSeconds(3f);
+        PV.RPC("EMO2RPC", RpcTarget.All);
+    }
+
+    [PunRPC]
+    void EMO2RPC()
+    {
+        emo.SetActive(false);
+    }
 
     // 펀치 공격
     public void MoveMON()

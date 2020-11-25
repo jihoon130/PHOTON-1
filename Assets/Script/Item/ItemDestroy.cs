@@ -8,9 +8,12 @@ public class ItemDestroy : MonoBehaviourPunCallbacks
     public PhotonView PV;
     public bool isStartDelete;
     public float TimerDelete;
-
+    public AudioSource Audio;
     private void Awake()
     {
+        Audio = GetComponent<AudioSource>();
+        if (Audio && PlayerPrefs.HasKey("baegung"))
+            Audio.volume = PlayerPrefs.GetFloat("baegung");
         PV = GetComponent<PhotonView>();
     }
     private void Start()

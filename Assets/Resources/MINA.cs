@@ -34,6 +34,8 @@ public class MINA : MonoBehaviour
 
         Punch_SoundStop();
 
+        if (PlayerPrefs.HasKey("baegung"))
+            Audio.volume = PlayerPrefs.GetFloat("baegung");
 
         ChargeGage = GameObject.Find("ChargeGage").GetComponent<Image>();
         Effect[2] = GameObject.Find("hit");
