@@ -65,6 +65,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         for (int i = 0; i < taggedEnemys.Length; i++)
         {
             taggedEnemys[i].transform.position = Spot[i].transform.position;
+            taggedEnemys[i].transform.rotation = Spot[i].transform.rotation;
 
             if (taggedEnemys[i].GetComponent<LobbyPlayer>().pv.Owner.IsMasterClient)
             {
