@@ -35,7 +35,6 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         MyNickName = PhotonNetwork.NickName;
         if (pv.IsMine)
             SetMyCharater();
-        transform.rotation = Quaternion.Euler(new Vector3(0.5f,-170f,-4f));
         animator = GetComponent<Animator>();
     }
     // Update is called once per frame
@@ -55,6 +54,11 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         {
             NickName.text = EnemyNickName;
         }
+    }
+
+    public void StopAni()
+    {
+        animator.SetInteger("Ani", 0);
     }
 
     public void SetMyCharater()

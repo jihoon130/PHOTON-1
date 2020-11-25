@@ -78,7 +78,6 @@ public class Item_Respawn : MonoBehaviourPunCallbacks
         {
             if (collision.gameObject.CompareTag("Ground"))
             {
-                Debug.Log(collision.gameObject.GetComponent<MeshRenderer>().material.name);
                 if (collision.gameObject.GetComponent<MeshRenderer>().material.name == "Red")
                 {
                    SetSpawnPos();

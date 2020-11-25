@@ -27,7 +27,7 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater2()
     {
-        SelectPoint.CharacterName = "Green";
+        SelectPoint.CharacterName = "Orange";
 
         Charater[0].SetActive(true);
         Charater[1].SetActive(false);
@@ -38,7 +38,7 @@ public class ChangeCh : MonoBehaviour
     }
   public  void ChangeCharater3()
     {
-        SelectPoint.CharacterName = "Orange";
+        SelectPoint.CharacterName = "Pink";
 
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);
@@ -49,7 +49,7 @@ public class ChangeCh : MonoBehaviour
     }
    public void ChangeCharater4()
     {
-        SelectPoint.CharacterName = "Pink";
+        SelectPoint.CharacterName = "Green";
 
         Charater[0].SetActive(true);
         Charater[1].SetActive(true);

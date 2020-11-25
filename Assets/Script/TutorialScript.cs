@@ -10,6 +10,7 @@ public class TutorialScript : MonoBehaviour
     public TextMeshProUGUI text;
     public GameObject moogi;
     public GameObject Player;
+    int a, b, c,d = 0;
     private void Awake()
     {
         InvokeRepeating("tutocheck", 1f, 0.1f);
@@ -24,77 +25,185 @@ public class TutorialScript : MonoBehaviour
             image.transform.GetChild(1).gameObject.SetActive(true);
             text = GameObject.Find("tutoText").GetComponent<TextMeshProUGUI>();
             Player = GameObject.FindGameObjectWithTag("Player");
-            StartCoroutine("tutorial");
+            InvokeRepeating("tutorial", 0.1f, 0.04f);
             CancelInvoke("tutocheck");
         }
     }
 
     void tutocheck1()
     {
-        if(Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.A)|| Input.GetKeyDown(KeyCode.D)|| Input.GetKeyDown(KeyCode.S))
+        if(Input.GetKeyDown(KeyCode.W))
         {
-            StartCoroutine("tutorial1");
+            image.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            image.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            image.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            image.transform.GetChild(2).gameObject.transform.GetChild(3).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+        }
+
+
+        if (image.transform.GetChild(2).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.activeInHierarchy &&
+            image.transform.GetChild(2).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.activeInHierarchy &&
+            image.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.activeInHierarchy &&
+            image.transform.GetChild(2).gameObject.transform.GetChild(3).gameObject.transform.GetChild(2).gameObject.activeInHierarchy)
+        {
+            image.transform.GetChild(0).gameObject.SetActive(true);
+            image.transform.GetChild(1).gameObject.SetActive(true);
+            image.transform.GetChild(2).gameObject.SetActive(false);
+            InvokeRepeating("tutorial1",0.1f,0.04f);
             CancelInvoke("tutocheck1");
         }
     }
 
-    IEnumerator tutorial()
+    void tutorial()
     {
         Player.GetComponent<Move>().tutomove = false;
-        text.text = "안녕 내 이름은 김선우 탐정이야 나는 너에게 조작법을 설명하려고해.";
-        yield return new WaitForSeconds(6f);
-        text.text = "조작키 wasd를 누르면 움직일수 있어 한번 움직여 볼래?";
-        Player.GetComponent<Move>().tutomove = true;
-        InvokeRepeating("tutocheck1", 1f, 0.1f);
+        if (Input.GetKeyDown(KeyCode.Space)) a++;
+        if (a == 0)
+        {
+            text.text = "안녕! 원티드에 어서와. 너도 보물을 찾으러 온거지?";
+        }
+        else if (a == 1)
+        {
+            text.text = "보물을 탐내는 녀석들을 모두 물에 빠트려야 보물을 쟁취할 수 있어.";
+        }
+        else if (a == 2)
+        {
+            text.text = "조작키 wasd를 누르면 움직일수 있어 한번 움직여 볼래?";
+           
+        }
+        else if (a >= 3)
+        {
+            image.transform.GetChild(0).gameObject.SetActive(false);
+            image.transform.GetChild(1).gameObject.SetActive(false);
+            image.transform.GetChild(2).gameObject.SetActive(true);
+            Player.GetComponent<Move>().tutomove = true;
+            InvokeRepeating("tutocheck1", 1f, 0.01f);
+            CancelInvoke("tutorial");
+        }
     }
 
-    IEnumerator tutorial1()
+    void tutorial1()
     {
-        yield return new WaitForSeconds(4f);
-        text.text = "좋아! 잘했어 그다음으로 넘어가볼까?";
-        yield return new WaitForSeconds(3f);
-        text.text = "마우스 왼쪽키를 누르면 공격을 할 수 있어 맵에 소환된 표적을 찾아 공격을 해보자.";
-        GameObject.Find("target").transform.GetChild(0).gameObject.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Space)) b++;
+        if (b == 0)
+        {
+            text.text = "잘했어! 돌아다니다보면 적을 만날거야.";
+        }
+        else if (b == 1)
+        {
+            text.text = "적의 공격을 피하려면 구르는게 최고지. Shift로 굴러봐!";
+        }
+        else if (b >= 2)
+        {
+            image.transform.GetChild(0).gameObject.SetActive(false);
+            image.transform.GetChild(1).gameObject.SetActive(false);
+            image.transform.GetChild(3).gameObject.SetActive(true);
+            CancelInvoke("tutorial1");
+            InvokeRepeating("tutocheck2", 0.1f, 0.01f);
+        }
     }
 
     public void tutocheck2()
     {
-        StartCoroutine("tutorial2");
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            image.transform.GetChild(0).gameObject.SetActive(true);
+            image.transform.GetChild(1).gameObject.SetActive(true);
+            image.transform.GetChild(3).gameObject.SetActive(false);
+            CancelInvoke("tutocheck2");
+            InvokeRepeating("tutorial2", 0.1f, 0.04f);
+        }
     }
 
-    IEnumerator tutorial2()
+    void tutorial2()
     {
-        yield return new WaitForSeconds(4f);
-        text.text = "좋아! 잘했어 그다음으로 넘어가볼까?";
-        GameObject.Find("target").transform.GetChild(0).gameObject.SetActive(false);
-        yield return new WaitForSeconds(3f);
-        text.text = "이번엔 아이템을 장착해보려고 해 맵 중앙에 아이템을 스폰해두었어! 가까이 가면 먹을수있는데 이 후 마우스 휠을 내려볼까?";
-        Instantiate(moogi, new Vector3(-2.02f, 8.785f, -10.72f), Quaternion.identity);
-        InvokeRepeating("tutocheck3", 0.1f, 0.1f);
+        if (Input.GetKeyDown(KeyCode.Space)) c++;
+        if (c == 0)
+        {
+            text.text = "잘하는데? 보물을 얻는건 식은 죽 먹기겠어.";
+        }
+        else if (c == 1)
+        {
+            text.text = "이제 적을 날려봐야지. M1 (마우스 왼클릭) 버튼을 눌러서 펀치를 날려봐!";
+        }
+        else if (c >= 2)
+        {
+            image.transform.GetChild(0).gameObject.SetActive(false);
+            image.transform.GetChild(1).gameObject.SetActive(false);
+            image.transform.GetChild(4).gameObject.SetActive(true);
+            CancelInvoke("tutorial2");
+            InvokeRepeating("tutocheck3", 0.1f, 0.01f);
+        }
     }
 
     void tutocheck3()
     {
-        if(GameObject.FindGameObjectWithTag("Player").GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
+        if (Input.GetMouseButtonDown(0))
+            image.transform.GetChild(4).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        if(Input.GetMouseButton(1)&&Input.GetMouseButtonDown(0))
+            image.transform.GetChild(4).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        if (image.transform.GetChild(4).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.activeInHierarchy&&
+            image.transform.GetChild(4).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.activeInHierarchy )
         {
+            image.transform.GetChild(0).gameObject.SetActive(true);
+            image.transform.GetChild(1).gameObject.SetActive(true);
+            image.transform.GetChild(4).gameObject.SetActive(false);
+            InvokeRepeating("tutorial3", 0.1f, 0.04f);
             CancelInvoke("tutocheck3");
-            StartCoroutine("tutorial3");
         }
     }
 
-    IEnumerator tutorial3()
+    void tutorial3()
     {
-        yield return new WaitForSeconds(4f);
-        text.text = "좋아! 잘했어 그다음으로 넘어가볼까?";
-        yield return new WaitForSeconds(3f);
-        text.text = "이번엔 구르기를 해보려고해 구르는 상태에서는 상대방의 공격을 회피할수 있어 왼쪽 shift버튼을 누르면 구르기를 할수 있단다. 한번 해볼까?";
-        InvokeRepeating("tutocheck4", 0.1f, 0.1f);
+        if (Input.GetKeyDown(KeyCode.Space)) d++;
+        if (d == 0)
+        {
+            text.text = "자, 이제 마지막이야. 배 위에서 시간을 보내다 보면, 강력한 아이템이 등장해.";
+        }
+        else if (d == 1)
+        {
+            text.text = "맵 중앙에 떨어진 아이템을 먹어봐!";
+        }
+        else if (d >= 2)
+        {
+            image.transform.GetChild(0).gameObject.SetActive(false);
+            image.transform.GetChild(1).gameObject.SetActive(false);
+            image.transform.GetChild(5).gameObject.SetActive(true);
+            Instantiate(moogi, new Vector3(-2.02f, 8.785f, -10.72f), Quaternion.identity);
+            CancelInvoke("tutorial3");
+            InvokeRepeating("tutocheck4", 0.1f, 0.01f);
+        }
     }
 
     void tutocheck4()
     {
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if (GameObject.Find("Item1"))
+            image.transform.GetChild(5).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        if (GameObject.FindGameObjectWithTag("Player").GetComponent<Create>()._BulletMake == BulletMake.Machinegun)
+            image.transform.GetChild(5).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        if(GameObject.FindGameObjectWithTag("Player").GetComponent<Create>()._BulletMake == BulletMake.Machinegun && Input.GetMouseButtonDown(0))
+            image.transform.GetChild(5).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.SetActive(true);
+
+        if (image.transform.GetChild(5).gameObject.transform.GetChild(0).gameObject.transform.GetChild(2).gameObject.activeInHierarchy&&
+            image.transform.GetChild(5).gameObject.transform.GetChild(1).gameObject.transform.GetChild(2).gameObject.activeInHierarchy&&
+            image.transform.GetChild(5).gameObject.transform.GetChild(2).gameObject.transform.GetChild(2).gameObject.activeInHierarchy)
         {
+            image.transform.GetChild(0).gameObject.SetActive(true);
+            image.transform.GetChild(1).gameObject.SetActive(true);
+            image.transform.GetChild(5).gameObject.SetActive(false);
             CancelInvoke("tutocheck4");
             StartCoroutine("tutorial4");
         }
@@ -102,9 +211,8 @@ public class TutorialScript : MonoBehaviour
 
     IEnumerator tutorial4()
     {
-        yield return new WaitForSeconds(4f);
-        text.text = "좋아! 잘했어 이제 게임을 즐길 수 있을거같아 수고했어";
-        yield return new WaitForSeconds(3f);
+        text.text = "좋았어! 이제 보물을 얻으러 갈 시간이야. 잘 해봐!";
+        yield return new WaitForSeconds(5f);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Photon.Pun.PhotonNetwork.LeaveRoom();

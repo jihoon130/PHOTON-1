@@ -237,7 +237,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
             if(dieOk)
             {
-                float time = Canvas1.transform.GetChild(7).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
+                float time = Canvas1.transform.GetChild(6).gameObject.transform.GetChild(1).gameObject.GetComponent<Step2>().time;
                 if (time <= 0.0f)
                 {
                     repo = RespawnG[Random.Range(0,4)].transform.position;
@@ -346,8 +346,8 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
             Audio.clip = audios[a];
             Audio.Play();
             dieOk = true;
-            Canvas1.transform.GetChild(7).gameObject.SetActive(true);
-            transform.position = new Vector3(-39.8f, 3.45f, Random.Range(20.0f, 34.0f));
+            Canvas1.transform.GetChild(6).gameObject.SetActive(true);
+            transform.position = new Vector3(-39.8f, 2f, Random.Range(20.0f, 34.0f));
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             camera2.transform.GetChild(4).gameObject.SetActive(true);
@@ -359,7 +359,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
 
         if (collision.gameObject.CompareTag("Ground") && dieOk)
         {
-            Canvas1.transform.GetChild(7).gameObject.SetActive(false);
+            Canvas1.transform.GetChild(6).gameObject.SetActive(false);
             dieOk = false;
             isDie = false;
             Cursor.lockState = CursorLockMode.Locked;
