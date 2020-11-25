@@ -49,7 +49,14 @@ public class MapColor : MonoBehaviourPunCallbacks
     {
         for (int i = 0; i < Mapdata.Length; i++)
         {
-
+            for (int z = 0; z < Mapdata[i].obj.Length; z++)
+            {
+                if (Mapdata[i].obj[z].materials.Length != 1)
+                    Mapdata[i].obj[z].material = ChangeMt[1];
+            }
+        }
+       for (int i = 0; i < Mapdata.Length; i++)
+        {
             if (timer.Minute == Mapdata[i].Min && timer.Second == Mapdata[i].Second + 5)
             {
                 popUp.MoveXValue(890);
