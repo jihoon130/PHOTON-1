@@ -58,6 +58,12 @@ public class Timer : MonoBehaviourPunCallbacks
             StartCountUpdate();
             StartImageUpdate();
         }
+
+        if(PhotonNetwork.PlayerList.Length<=1)
+        {
+            Minute = 0;
+            Second = 0;
+        }
     }
     private void StartCountUpdate()
     {
@@ -114,8 +120,8 @@ public class Timer : MonoBehaviourPunCallbacks
             GameObject.Find("BGSound").GetComponent<AudioSource>().Play();
             isBGSound = true;
         }
-        if (!isTimer)
-            StartCoroutine("TimeCoroutine");
+        if (!isTimer&&PhotonNetwork.IsMasterClient)
+            PV.RPC("TimerRPC", RpcTarget.AllBuffered);
 
         Timer1();
 
@@ -123,6 +129,12 @@ public class Timer : MonoBehaviourPunCallbacks
         InGameUiObj.transform.localPosition = new Vector2(0, 0);
         isStart = true;
     }
+    [PunRPC]
+    void TimerRPC()
+    {
+        StartCoroutine("TimeCoroutine");
+    }
+
     private void GameObjChange(GameObject g, bool isCheck) => g.SetActive(isCheck);
     IEnumerator TimeCoroutine()
     {

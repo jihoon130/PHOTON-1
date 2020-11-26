@@ -53,7 +53,6 @@ public class MachinegunBullet : MonoBehaviourPunCallbacks, IPunObservable
 
 
             OFF();
-            HitEffect(transform.position);
             transform.SetParent(Parent.transform);
             this.gameObject.SetActive(false);
         }
@@ -68,7 +67,6 @@ public class MachinegunBullet : MonoBehaviourPunCallbacks, IPunObservable
                 Bullet.power,
                 _Move.PV.Owner.ToString());
             OFF();
-            HitEffect(transform.position);
             transform.SetParent(Parent.transform);
             _Move.StartCoroutine("AimOFF");
             this.gameObject.SetActive(false);
@@ -97,16 +95,11 @@ public class MachinegunBullet : MonoBehaviourPunCallbacks, IPunObservable
     }
 
 
-    public void HitEffect(Vector3 position)
-    {
-        hit.transform.position = position;
-        hit.GetComponent<ParticleSystem>().Play();
-    }
-
     [PunRPC]
     void ActiveOff()
     {
-        HitEffect(transform.position);
+        hit.transform.position = transform.position;
+        hit.GetComponent<ParticleSystem>().Play();
         transform.SetParent(Parent.transform);
         this.gameObject.SetActive(false);
     }

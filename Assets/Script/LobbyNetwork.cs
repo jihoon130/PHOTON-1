@@ -144,7 +144,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         
         PhotonNetwork.JoinOrCreateRoom(RoomName.text,  RO, TypedLobby.Default);
     }
-
+   
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
   
@@ -266,6 +266,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         Filed.SetActive(false);
     }
 
+
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         //통신을 보내는 
@@ -285,7 +286,6 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
         if (PhotonNetwork.PlayerList.Length <= 1)
             return;
 
-
         //if (!g && PhotonNetwork.IsMasterClient)
         //{
         //    PhotonNetwork.CurrentRoom.IsOpen = false;
@@ -295,7 +295,7 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
         GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
 
-        if (!g && taggedEnemys.Length >= PhotonNetwork.PlayerList.Length && PhotonNetwork.IsMasterClient)
+        if (!g && taggedEnemys.Length >= PhotonNetwork.PlayerList.Length-1 && PhotonNetwork.IsMasterClient)
         {
             g = true;
             PhotonNetwork.CurrentRoom.IsOpen = false;

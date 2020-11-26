@@ -43,12 +43,16 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
         if (pv.IsMine)
         {
             NickName.text = PhotonNetwork.NickName;
-            if (pv.Owner.IsMasterClient)
-            {
-                bt.onClick.RemoveListener(() => OKReady());
-            }
             if (Input.GetKeyDown(KeyCode.Y)) animator.SetInteger("Ani", 1);
             if (Input.GetKeyDown(KeyCode.Z)) animator.SetInteger("Ani", 2);
+
+            if(PhotonNetwork.IsMasterClient)
+            {
+                if(Rd.activeInHierarchy)
+                {
+                    pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
+                }
+            }
         }
         else
         {
@@ -72,12 +76,13 @@ public class LobbyPlayer : MonoBehaviourPunCallbacks, IPunObservable
 
     public void OKReady()
     {
-        if(pv.IsMine)
+        if(pv.IsMine && !pv.Owner.IsMasterClient)
          pv.RPC("ReadyRPC", RpcTarget.AllBuffered);
     }
 
     public void ChangeCharacter(int ChangeCount)
     {
+        animator.SetInteger("Ani", 0);
         pv.RPC("ChangeCharacterRPC", RpcTarget.AllBuffered, ChangeCount);
     }
 
