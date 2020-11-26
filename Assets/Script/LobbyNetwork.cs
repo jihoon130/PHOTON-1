@@ -282,25 +282,25 @@ public class LobbyNetwork : MonoBehaviourPunCallbacks, IPunObservable
 
     public void CheckReady()
     {
-        //if (PhotonNetwork.PlayerList.Length <= 1)
-        //    return;
+        if (PhotonNetwork.PlayerList.Length <= 1)
+            return;
 
 
-        if (!g && PhotonNetwork.IsMasterClient)
-        {
-            PhotonNetwork.CurrentRoom.IsOpen = false;
-            PhotonNetwork.LoadLevel("TaScene");
-            g = true;
-        }
-
-        //GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
-
-        //if (!g && taggedEnemys.Length >= PhotonNetwork.PlayerList.Length && PhotonNetwork.IsMasterClient)
+        //if (!g && PhotonNetwork.IsMasterClient)
         //{
-        //    g = true;
         //    PhotonNetwork.CurrentRoom.IsOpen = false;
         //    PhotonNetwork.LoadLevel("TaScene");
+        //    g = true;
         //}
+
+        GameObject[] taggedEnemys = GameObject.FindGameObjectsWithTag("Finish");
+
+        if (!g && taggedEnemys.Length >= PhotonNetwork.PlayerList.Length && PhotonNetwork.IsMasterClient)
+        {
+            g = true;
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            PhotonNetwork.LoadLevel("TaScene");
+        }
     }
 
     private void OnDisconnectedFromServer()

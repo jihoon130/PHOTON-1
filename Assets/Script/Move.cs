@@ -124,7 +124,7 @@ public class Move : MonoBehaviourPunCallbacks, IPunObservable
         if (PV.IsMine)
         {
             mini = GameObject.Find("Obj_2nd");
-            NickName = PlayerPrefs.GetString("NickName");
+            NickName = PhotonNetwork.NickName;
             Effects[1].GetComponent<ParticleSystem>().Stop();
             RSpawn = GameObject.Find("RSpawn");
             float baegung = PlayerPrefs.GetFloat("hyogwa");
